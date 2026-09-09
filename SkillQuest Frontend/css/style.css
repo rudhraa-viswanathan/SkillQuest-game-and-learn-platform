@@ -137,7 +137,6 @@ nav {
 }
 
 .cta-button:hover {
-    opacity: 0.9;
     transform: translateY(-2px);
     opacity: 0.9;
 }
@@ -563,3 +562,22 @@ footer > p {
         padding: 24px;
     }
 }
+
+.success-message {
+    color: var(--accent-color);
+}
+
+.error-message {
+    color: var(--secondary-color);
+}
+
+.course-card.selected {
+    transform: translateY(-5px);
+    border: 2px solid;
+}
+
+.game-card.selected {
+    transform: translateY(-5px);
+    border: 2px solid;
+}
+

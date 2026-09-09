@@ -18,10 +18,12 @@
                 <a href="#courses">Courses</a>
                 <a href="#contact">Contact</a>
                 <a href="pages/login.html"  class="nav-button login-button">Login</a>
-                <a href="pages/register.html"  class="nav-button register">Register</a>
+                <a href="pages/register.html"  class="nav-button register-button">Register</a>
             </div>
         </nav>
     </header>
+
+
 
     <section id="hero">
 
@@ -91,7 +93,7 @@
 
         <div class="courses-container">
 
-            <article>
+            <article class="course-card">
                 <h3>Java</h3>
                 <p>
                     Master Java through interactive quizzes,
@@ -101,7 +103,7 @@
                 <a href="pages/courses.html">View Quest</a>
             </article>
 
-            <article>
+            <article class="course-card">
                 <h3>SQL</h3>
                 <p>
                     Learn databases and SQL through practical
@@ -111,7 +113,7 @@
                 <a href="pages/courses.html">View Quest</a>
             </article>
 
-            <article>
+            <article class="course-card">
                 <h3>Web Development</h3>
                 <p>
                     Build your web development skills through
@@ -123,12 +125,13 @@
 
         </div>
 
-        <a href="pages/courses.html">Explore All Courses</a>
+       <p id="selectedCourse">No course selected</p>
+       <a href="pages/courses.html">Explore All Courses</a>
 
     </section>
 
     <section id="game-types">
-
+          
         <h2>Learn Through Games</h2>
 
         <p>
@@ -137,7 +140,7 @@
 
         <div class="games-container">
 
-            <article>
+            <article class="game-card">
                 <h3>Quiz</h3>
                 <p>
                     Test your knowledge with interactive questions
@@ -145,7 +148,7 @@
                 </p>
             </article>
 
-            <article>
+            <article class="game-card">
                 <h3>Puzzle</h3>
                 <p>
                     Solve logical and concept-based puzzles
@@ -153,7 +156,7 @@
                 </p>
             </article>
 
-            <article>
+            <article class="game-card">
                 <h3>Fill in the Blank</h3>
                 <p>
                     Complete missing information and reinforce
@@ -161,7 +164,7 @@
                 </p>
             </article>
 
-            <article>
+           <article class="game-card">
                 <h3>Matching</h3>
                 <p>
                     Match related concepts, terms, or answers
@@ -169,7 +172,7 @@
                 </p>
             </article>
 
-            <article>
+            <article class="game-card">
                 <h3>Memory</h3>
                 <p>
                     Improve your memory by matching and recalling
@@ -177,14 +180,15 @@
                 </p>
             </article>
 
-            <article>
+           <article class="game-card">
                 <h3>Code Challenge</h3>
                 <p>
                     Apply your programming knowledge through
                     coding-based challenges.
                 </p>
             </article>
-
+               <p id="selectedGame">No game selected</p>
+                <p id="questSelection">Choose a course and a game to begin your quest.</p>
         </div>
 
     </section>
@@ -261,7 +265,7 @@
             Let us know!
         </p>
 
-        <form>
+       <form id="feedback-form">
 
             <div>
                 <label for="name">Name</label>
@@ -282,7 +286,8 @@
                     placeholder="Share your feedback or suggestion">
                 </textarea>
             </div>
-
+            
+            <p id="form-message"></p>
             <button type="submit">Send Feedback</button>
 
         </form>
