@@ -1,0 +1,275 @@
+ /* ========================================
+   Dashboard Container
+======================================== */
+
+#dashboard {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 60px 24px;
+}
+
+
+/* ========================================
+   Welcome / Profile Section
+======================================== */
+
+#dashboard-welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.dashboard-greeting {
+    color: var(--muted-text-color);
+    margin-bottom: 8px;
+}
+
+#dashboard-welcome h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.welcome-content > p:last-child {
+    color: var(--muted-text-color);
+}
+
+.profile-summary {
+    background-color: var(--surface-color);
+    padding: 20px 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+    min-width: 140px;
+}
+
+.profile-summary p:first-child {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.profile-summary p:last-child {
+    color: var(--muted-text-color);
+}
+
+
+/* ========================================
+   XP + Energy Stats
+======================================== */
+
+.stats-section {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 16px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+    font-size: 35px;
+}
+
+.stat-content p {
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+
+.stat-content h2 {
+    margin: 0 0 5px;
+}
+
+.stat-content span {
+    font-size: 13px;
+}
+
+
+/* ========================================
+   Overall Progress
+======================================== */
+
+.overall-progress {
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 16px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progress-header p {
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+
+.progress-header h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.progress-header span {
+    font-size: 14px;
+}
+
+.overall-progress-bar {
+    width: 100%;
+    height: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: #e5e7eb;
+    overflow: hidden;
+}
+
+.overall-progress-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.progress-message {
+    margin: 12px 0 0;
+    font-size: 14px;
+}
+
+
+/* ========================================
+   Courses Section
+======================================== */
+
+.courses-section {
+    margin-top: 30px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+}
+
+.section-header a {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.course-card {
+    padding: 20px;
+    border-radius: 16px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.course-icon {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.course-content h3 {
+    margin: 0 0 8px;
+}
+
+.course-content p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+.course-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    border-radius: 10px;
+    background-color: #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.lesson-progress {
+    font-size: 12px;
+    margin: 8px 0 15px;
+}
+
+.continue-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+/* ========================================
+   Responsive Design
+======================================== */
+
+@media (max-width: 900px) {
+
+    .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    #dashboard {
+        padding: 40px 20px;
+    }
+
+    #dashboard-welcome {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #dashboard-welcome h1 {
+        font-size: 30px;
+    }
+
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

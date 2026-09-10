@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - SkillQuest</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">SkillQuest</a>
+
+            <div class="nav-links">
+                <a href="../index.html#how-it-works">How It Works</a>
+                <a href="../index.html#courses">Courses</a>
+                <a href="../index.html#contact">Contact</a>
+                <a href="dashboard.html">Dashboard</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <main id="dashboard">
+
+        <!-- Dashboard Welcome -->
+
+        <section id="dashboard-welcome">
+
+            <div class="welcome-content">
+
+                <p class="dashboard-greeting">Welcome back!</p>
+
+                <h1>Rudhraa</h1>
+
+                <p>
+                    Continue your learning journey and level up your skills.
+                </p>
+
+            </div>
+
+            <div class="profile-summary">
+
+                <p>Level 1</p>
+
+                <p>Beginner</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- XP and Energy -->
+
+        <section class="stats-section">
+
+            <div class="stat-card xp-card">
+
+                <div class="stat-icon">⭐</div>
+
+                <div class="stat-content">
+
+                    <p>Experience Points</p>
+
+                    <h2 id="xp-value">850 XP</h2>
+
+                    <span>+120 XP this week</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card energy-card">
+
+                <div class="stat-icon">⚡</div>
+
+                <div class="stat-content">
+
+                    <p>Energy</p>
+
+                    <h2 id="energy-value">80 / 100</h2>
+
+                    <span>Energy remaining</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Overall Progress -->
+
+        <section class="overall-progress">
+
+            <div class="progress-header">
+
+                <div>
+
+                    <p>Overall Learning Progress</p>
+
+                    <h2 id="overall-progress-value">65%</h2>
+
+                </div>
+
+                <span>Keep going! 🚀</span>
+
+            </div>
+
+
+            <div class="overall-progress-bar">
+
+                <div id="overall-progress-fill" class="overall-progress-fill"></div>
+
+            </div>
+
+
+            <p id="progress-message" class="progress-message">
+                You've completed 65% of your learning journey.
+            </p>
+
+        </section>
+
+
+        <!-- Courses -->
+
+        <section class="courses-section">
+
+            <div class="section-header">
+
+                <h2>My Courses</h2>
+
+                <a href="courses.html">View All</a>
+
+            </div>
+
+
+            <div class="course-grid">
+
+
+                <!-- Java Development -->
+
+                <div class="course-card" id="java-course">
+
+                    <div class="course-icon">☕</div>
+
+                    <div class="course-content">
+
+                        <h3>Java Development</h3>
+
+                        <p>
+                            Master Java programming from basics to advanced concepts.
+                        </p>
+
+                        <div class="course-info">
+
+                            <span id="java-xp">⭐ 850 XP</span>
+
+                            <span id="java-progress">72%</span>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div id="java-progress-fill" class="progress-fill"></div>
+
+                        </div>
+
+
+                        <p id="java-lessons" class="lesson-progress">
+                            18 / 25 lessons completed
+                        </p>
+
+
+                        <button id="java-continue-btn" class="continue-btn">
+                            Continue Learning
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Web Development -->
+
+                <div class="course-card" id="web-course">
+
+                    <div class="course-icon">🌐</div>
+
+                    <div class="course-content">
+
+                        <h3>Web Development</h3>
+
+                        <p>
+                            Learn HTML, CSS and JavaScript to build modern websites.
+                        </p>
+
+                        <div class="course-info">
+
+                            <span id="web-xp">⭐ 620 XP</span>
+
+                            <span id="web-progress">48%</span>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div id="web-progress-fill" class="progress-fill"></div>
+
+                        </div>
+
+
+                        <p id="web-lessons" class="lesson-progress">
+                            12 / 25 lessons completed
+                        </p>
+
+
+                        <button id="web-continue-btn" class="continue-btn">
+                            Continue Learning
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SQL and Database -->
+
+                <div class="course-card" id="sql-course">
+
+                    <div class="course-icon">🗄️</div>
+
+                    <div class="course-content">
+
+                        <h3>SQL & Database</h3>
+
+                        <p>
+                            Learn SQL and understand how databases work.
+                        </p>
+
+                        <div class="course-info">
+
+                            <span id="sql-xp">⭐ 430 XP</span>
+
+                            <span id="sql-progress">35%</span>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div id="sql-progress-fill" class="progress-fill"></div>
+
+                        </div>
+
+
+                        <p id="sql-lessons" class="lesson-progress">
+                            9 / 25 lessons completed
+                        </p>
+
+
+                        <button id="sql-continue-btn" class="continue-btn">
+                            Continue Learning
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            &copy; 2026 SkillQuest. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="../js/dashboard.js"></script>
+
+</body>
+
+</html>

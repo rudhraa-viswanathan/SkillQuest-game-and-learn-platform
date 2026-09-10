@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Web Development - SkillQuest</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/course.css">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">SkillQuest</a>
+
+            <div class="nav-links">
+                <a href="../index.html#how-it-works">How It Works</a>
+                <a href="../index.html#courses">Courses</a>
+                <a href="../index.html#contact">Contact</a>
+                <a href="dashboard.html">Dashboard</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+    <section class="course-page">
+
+        <div class="course-header">
+
+            <a href="dashboard.html" class="back-link">
+                ← Back to Dashboard
+            </a>
+
+            <h1>Web Development</h1>
+
+            <p>
+                Continue your Web Development learning journey with SkillQuest.
+            </p>
+        </div>
+
+
+        <div class="course-progress-card">
+
+            <div class="course-progress-header">
+
+                <h2>Course Progress</h2>
+
+                <span>48%</span>
+
+            </div>
+
+            <div class="course-progress-bar">
+
+                <div class="course-progress-fill"></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="course-topics">
+
+            <div class="topic-card">
+
+                <h3>HTML</h3>
+
+                <p>
+                    Learn the structure and foundation of web pages.
+                </p>
+                    <span>✓ Completed</span>
+                    <button class="topic-btn">Review Topic</button>
+            </div>
+
+
+            <div class="topic-card">
+
+                <h3>CSS</h3>
+
+                <p>
+                    Learn how to style and design modern websites.
+                </p>
+                    <span>✓ Completed</span>
+                    <button class="topic-btn">Review Topic</button>
+            </div>
+
+
+            <div class="topic-card">
+
+                <h3>JavaScript</h3>
+
+                <p>
+                    Learn how to make websites interactive and dynamic.
+                </p>
+                    <span>✓ Completed</span>
+                    <button class="topic-btn">Review Topic</button>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+    <footer>
+        <p>
+            &copy; 2026 SkillQuest. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+
+    const savedWebProgress =
+        localStorage.getItem("webProgress");
+
+    const webProgress =
+        savedWebProgress !== null
+            ? Number(savedWebProgress)
+            : 48;
+
+    document.querySelector(".course-progress-fill").style.width =
+        webProgress + "%";
+
+    document.querySelector(".course-progress-header span").textContent =
+        webProgress + "%";
+
+        const reviewButtons =
+    document.querySelectorAll(".topic-btn");
+
+reviewButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const topicName =
+            button.parentElement.querySelector("h3").textContent;
+
+        console.log(topicName + " selected");
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>
