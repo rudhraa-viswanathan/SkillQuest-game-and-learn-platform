@@ -211,3 +211,245 @@
     }
 
 }
+
+/* =================================
+   CODE OUTPUT GAME
+================================= */
+
+.code-box {
+    background: #111827;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.code-box code {
+    font-family: Consolas, monospace;
+    white-space: pre;
+}
+
+.code-output-options {
+    display: grid;
+    gap: 12px;
+}
+
+.code-output-option {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
+
+#code-output-feedback {
+    margin-top: 18px;
+    font-weight: 600;
+}
+
+#next-code-output-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* =================================
+   DEBUGGING GAME
+================================= */
+
+.debugging-options {
+    display: grid;
+    gap: 12px;
+}
+
+.debugging-option {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
+
+#debugging-feedback {
+    margin-top: 18px;
+    font-weight: 600;
+}
+
+#next-debugging-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* =================================
+   CODE ORDERING GAME
+================================= */
+
+#code-ordering-lines,
+#selected-code-order {
+    display: grid;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.code-order-line,
+.selected-order-line {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: Consolas, monospace;
+    text-align: left;
+}
+
+.code-order-line {
+    cursor: pointer;
+}
+
+.code-order-line:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.selected-order-line {
+    background: #111827;
+}
+
+#reset-code-order-btn,
+#check-code-order-btn,
+#next-code-order-btn {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#code-ordering-feedback {
+    margin-top: 18px;
+    font-weight: 600;
+}
+
+/* =================================
+   CODE CHALLENGE GAME
+================================= */
+
+#code-challenge-answer {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    border-radius: 8px;
+    font-family: Consolas, monospace;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+#check-code-challenge-btn,
+#next-code-challenge-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#code-challenge-feedback {
+    margin-top: 18px;
+    font-weight: 600;
+}
+
+/* =================================
+   FINAL RESPONSIVE FIXES
+================================= */
+
+@media (max-width: 768px) {
+
+    .activity-page {
+        padding: 20px 15px;
+    }
+
+    .activity-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .game-container {
+        padding: 18px;
+    }
+
+    #quiz-options,
+    .code-output-options,
+    .debugging-options,
+    #code-ordering-lines,
+    #selected-code-order {
+        width: 100%;
+    }
+
+    .code-output-option,
+    .debugging-option,
+    .code-order-line,
+    .selected-order-line {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .code-box {
+        overflow-x: auto;
+        font-size: 0.9rem;
+    }
+
+    #fill-blank-answer,
+    #code-challenge-answer {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #reset-code-order-btn,
+    #check-code-order-btn,
+    #next-code-order-btn,
+    #check-code-challenge-btn,
+    #next-code-challenge-btn,
+    #next-code-output-btn,
+    #next-debugging-btn,
+    #next-true-false-btn {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .activity-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .activity-actions button {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .activity-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .activity-header p {
+        font-size: 0.95rem;
+    }
+
+    .game-container {
+        padding: 15px;
+    }
+
+    .code-box {
+        font-size: 0.82rem;
+        padding: 14px;
+    }
+
+}

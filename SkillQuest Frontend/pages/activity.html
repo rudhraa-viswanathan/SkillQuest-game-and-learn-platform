@@ -15,7 +15,10 @@
 
 <body>
 
-    <!-- Header -->
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
     <header class="main-header">
 
         <div class="logo">
@@ -32,13 +35,19 @@
     </header>
 
 
-    <!-- Activity Content -->
+    <!-- =========================================
+         ACTIVITY PAGE
+    ========================================== -->
+
     <main class="activity-page">
+
+
+        <!-- Activity Header -->
 
         <section class="activity-header">
 
             <p id="activity-topic">
-                Java Fundamentals
+                Java Course
             </p>
 
             <h1 id="activity-title">
@@ -52,130 +61,323 @@
         </section>
 
 
-        <!-- Activity Area -->
-        <section class="activity-content">
+        <!-- =====================================
+             QUIZ GAME
+        ====================================== -->
 
-            <h2>Activity Content</h2>
+        <section
+            id="quiz-container"
+            class="game-container hidden"
+        >
 
-            <p>
-                Your learning activity will appear here.
-            </p>
+            <h2 id="quiz-question">
+                Question will appear here
+            </h2>
+
+            <div id="quiz-options"></div>
+
+            <p id="quiz-feedback"></p>
+
+            <button
+                id="next-question-btn"
+                type="button"
+                class="hidden"
+            >
+                Next Question
+            </button>
 
         </section>
 
 
-        <section id="quiz-container" class="game-container">
+        <!-- =====================================
+             FILL IN THE BLANK GAME
+        ====================================== -->
 
-    <h2 id="quiz-question">
-        Question will appear here
-    </h2>
+        <section
+            id="fill-blank-container"
+            class="game-container hidden"
+        >
 
-    <div id="quiz-options">
+            <h2 id="fill-blank-question">
+                Question will appear here
+            </h2>
 
-        <button class="quiz-option"></button>
-        <button class="quiz-option"></button>
-        <button class="quiz-option"></button>
-        <button class="quiz-option"></button>
+            <input
+                type="text"
+                id="fill-blank-answer"
+                placeholder="Type your answer"
+            >
 
-    </div>
+            <button
+                id="check-fill-blank-btn"
+                type="button"
+            >
+                Check Answer
+            </button>
 
-    <p id="quiz-feedback"></p>
+            <p id="fill-blank-feedback"></p>
 
-    <button id="next-question-btn" class="hidden">
-        Next Question
+        </section>
+
+
+        <!-- =====================================
+             MATCHING GAME
+        ====================================== -->
+
+        <section
+            id="matching-container"
+            class="game-container hidden"
+        >
+
+            <h2>
+                Match the Java Terms
+            </h2>
+
+            <div id="matching-game">
+
+                <div
+                    id="matching-left"
+                    class="matching-column"
+                >
+                </div>
+
+                <div
+                    id="matching-right"
+                    class="matching-column"
+                >
+                </div>
+
+            </div>
+
+            <p id="matching-feedback"></p>
+
+        </section>
+
+
+        <!-- =====================================
+             TRUE / FALSE GAME
+        ====================================== -->
+
+        <section
+            id="true-false-container"
+            class="game-container hidden"
+        >
+
+            <h2 id="true-false-question">
+                Question will appear here
+            </h2>
+
+            <div class="true-false-options">
+
+                <button
+                    id="true-btn"
+                    type="button"
+                    class="true-false-btn"
+                >
+                    True
+                </button>
+
+                <button
+                    id="false-btn"
+                    type="button"
+                    class="true-false-btn"
+                >
+                    False
+                </button>
+
+            </div>
+
+            <p id="true-false-feedback"></p>
+
+            <button
+                id="next-true-false-btn"
+                type="button"
+                class="hidden"
+            >
+                Next Question
+            </button>
+
+        </section>
+
+
+        <!-- =====================================
+             CODE OUTPUT GAME
+        ====================================== -->
+
+        <section
+            id="code-output-container"
+            class="game-container hidden"
+        >
+
+            <h2>
+                What is the Output?
+            </h2>
+
+            <pre class="code-box"><code id="code-output-code"></code></pre>
+
+            <div
+                id="code-output-options"
+                class="code-output-options"
+            >
+            </div>
+
+            <p id="code-output-feedback"></p>
+
+            <button
+                id="next-code-output-btn"
+                type="button"
+                class="hidden"
+            >
+                Next Question
+            </button>
+
+        </section>
+
+
+        <!-- =====================================
+             DEBUGGING GAME
+        ====================================== -->
+
+        <section
+            id="debugging-container"
+            class="game-container hidden"
+        >
+
+            <h2>
+                Find the Error
+            </h2>
+
+            <p>
+                Choose the option that correctly
+                identifies the problem.
+            </p>
+
+            <pre class="code-box"><code id="debugging-code"></code></pre>
+
+            <div
+                id="debugging-options"
+                class="debugging-options"
+            >
+            </div>
+
+            <p id="debugging-feedback"></p>
+
+            <button
+                id="next-debugging-btn"
+                type="button"
+                class="hidden"
+            >
+                Next Problem
+            </button>
+
+        </section>
+</section>
+
+<section id="code-ordering-container" class="game-container hidden">
+
+    <h2>Put the Code in the Correct Order</h2>
+
+    <p>
+        Click the code lines in the order they should appear.
+    </p>
+
+    <div id="code-ordering-lines"></div>
+
+    <h3>Your Order</h3>
+
+    <div id="selected-code-order"></div>
+
+    <button id="reset-code-order-btn" type="button">
+        Reset
+    </button>
+
+    <button id="check-code-order-btn" type="button">
+        Check Order
+    </button>
+
+    <p id="code-ordering-feedback"></p>
+
+    <button
+        id="next-code-order-btn"
+        type="button"
+        class="hidden">
+        Next Puzzle
     </button>
 
 </section>
 
-<section id="fill-blank-container" class="game-container hidden">
+<section id="code-challenge-container" class="game-container hidden">
 
-    <h2 id="fill-blank-question">
-        Question will appear here
-    </h2>
+    <h2>Java Code Challenge</h2>
 
-    <input
-        type="text"
-        id="fill-blank-answer"
-        placeholder="Type your answer"
-    >
+    <p id="code-challenge-question">
+        Challenge will appear here.
+    </p>
 
-    <button id="check-fill-blank-btn">
-        Check Answer
+    <pre class="code-box"><code id="code-challenge-starter"></code></pre>
+
+    <textarea
+        id="code-challenge-answer"
+        rows="5"
+        placeholder="Type your Java code here"></textarea>
+
+    <button
+        id="check-code-challenge-btn"
+        type="button">
+        Check Code
     </button>
 
-    <p id="fill-blank-feedback"></p>
+    <p id="code-challenge-feedback"></p>
+
+    <button
+        id="next-code-challenge-btn"
+        type="button"
+        class="hidden">
+        Next Challenge
+    </button>
 
 </section>
 
-<section id="matching-container" class="game-container hidden">
+        <!-- =====================================
+             ACTIVITY ACTIONS
+        ====================================== -->
 
-    <h2>Match the Java terms</h2>
-
-    <div id="matching-game">
-
-        <div class="matching-column">
-
-            <button class="match-term" data-id="1">
-                class
-            </button>
-
-            <button class="match-term" data-id="2">
-                extends
-            </button>
-
-            <button class="match-term" data-id="3">
-                main()
-            </button>
-
-        </div>
-
-
-        <div class="matching-column">
-
-            <button class="match-meaning" data-id="3">
-                Program entry point
-            </button>
-
-            <button class="match-meaning" data-id="1">
-                Used to define a class
-            </button>
-
-            <button class="match-meaning" data-id="2">
-                Used for inheritance
-            </button>
-
-        </div>
-
-    </div>
-
-    <p id="matching-feedback"></p>
-
-</section>
-
-        <!-- Complete Button -->
         <section class="activity-actions">
 
-    <button id="complete-activity-btn">
-        Complete Activity
-    </button>
+            <button
+                id="complete-activity"
+                type="button"
+                disabled
+            >
+                Complete Activity
+            </button>
 
-    <button id="back-to-course-btn">
-        Back to Course
-    </button>
+            <button
+                id="back-to-course"
+                type="button"
+            >
+                Back to Course
+            </button>
 
-</section>
+        </section>
+
 
     </main>
 
 
-    <!-- Footer -->
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
     <footer class="main-footer">
 
         <p>
             © 2026 SkillQuest. Learn. Play. Grow.
         </p>
 
-        <a href="#">Contact & Feedback</a>
+        <a href="#">
+            Contact & Feedback
+        </a>
 
     </footer>
 
