@@ -1,3 +1,16 @@
+const isLoggedIn =
+    localStorage.getItem(
+        "isLoggedIn"
+    );
+
+
+if (isLoggedIn !== "true") {
+
+    window.location.href =
+        "login.html";
+
+}
+
 // ========================================
 // SkillQuest Dashboard Data
 // ========================================
@@ -345,3 +358,55 @@ sqlContinueButton.addEventListener("click", function () {
     window.location.href = "sql-course.html";
 
 });
+
+const savedUser =
+    localStorage.getItem(
+        "skillQuestUser"
+    );
+
+
+if (savedUser) {
+
+    const user =
+        JSON.parse(savedUser);
+
+
+    const dashboardUserName =
+        document.getElementById(
+            "dashboard-user-name"
+        );
+
+
+    if (dashboardUserName) {
+
+        dashboardUserName.textContent =
+            user.name;
+
+    }
+
+}
+
+const logoutButton =
+    document.getElementById(
+        "logout-btn"
+    );
+
+
+if (logoutButton) {
+
+    logoutButton.addEventListener(
+        "click",
+        () => {
+
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+}
