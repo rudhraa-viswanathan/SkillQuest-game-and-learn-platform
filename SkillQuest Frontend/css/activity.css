@@ -73,3 +73,141 @@
     }
 
 }
+
+.game-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 12px;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#quiz-options {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.quiz-option {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
+
+#quiz-feedback {
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+#next-question-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+#fill-blank-answer {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #121212;
+    color: white;
+}
+
+#check-fill-blank-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#fill-blank-feedback {
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+#matching-game {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.matching-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.match-term,
+.match-meaning {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.selected-match {
+    outline: 2px solid white;
+}
+
+.matched {
+    opacity: 0.5;
+    cursor: default;
+}
+
+#matching-feedback {
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+
+    #matching-game {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .game-container {
+        margin: 20px 10px;
+        padding: 18px;
+    }
+
+    #quiz-options {
+        gap: 10px;
+    }
+
+    .quiz-option,
+    #check-fill-blank-btn,
+    #next-question-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #matching-game {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .match-term,
+    .match-meaning {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}

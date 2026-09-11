@@ -64,6 +64,94 @@
         </section>
 
 
+        <section id="quiz-container" class="game-container">
+
+    <h2 id="quiz-question">
+        Question will appear here
+    </h2>
+
+    <div id="quiz-options">
+
+        <button class="quiz-option"></button>
+        <button class="quiz-option"></button>
+        <button class="quiz-option"></button>
+        <button class="quiz-option"></button>
+
+    </div>
+
+    <p id="quiz-feedback"></p>
+
+    <button id="next-question-btn" class="hidden">
+        Next Question
+    </button>
+
+</section>
+
+<section id="fill-blank-container" class="game-container hidden">
+
+    <h2 id="fill-blank-question">
+        Question will appear here
+    </h2>
+
+    <input
+        type="text"
+        id="fill-blank-answer"
+        placeholder="Type your answer"
+    >
+
+    <button id="check-fill-blank-btn">
+        Check Answer
+    </button>
+
+    <p id="fill-blank-feedback"></p>
+
+</section>
+
+<section id="matching-container" class="game-container hidden">
+
+    <h2>Match the Java terms</h2>
+
+    <div id="matching-game">
+
+        <div class="matching-column">
+
+            <button class="match-term" data-id="1">
+                class
+            </button>
+
+            <button class="match-term" data-id="2">
+                extends
+            </button>
+
+            <button class="match-term" data-id="3">
+                main()
+            </button>
+
+        </div>
+
+
+        <div class="matching-column">
+
+            <button class="match-meaning" data-id="3">
+                Program entry point
+            </button>
+
+            <button class="match-meaning" data-id="1">
+                Used to define a class
+            </button>
+
+            <button class="match-meaning" data-id="2">
+                Used for inheritance
+            </button>
+
+        </div>
+
+    </div>
+
+    <p id="matching-feedback"></p>
+
+</section>
+
         <!-- Complete Button -->
         <section class="activity-actions">
 
