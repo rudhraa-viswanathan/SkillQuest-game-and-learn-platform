@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - SkillQuest</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+
+        <div class="logo">
+            SkillQuest
+        </div>
+
+        <nav>
+            <a href="Dashboard.html">Dashboard</a>
+            <a href="courses.html">Courses</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+
+    </header>
+
+
+    <!-- Admin Main Content -->
+    <main class="admin-page">
+
+        <section class="admin-header">
+
+            <h1>Admin Content Management</h1>
+
+            <p>
+                Manage courses, topics and learning activities.
+            </p>
+
+        </section>
+
+
+        <!-- Course Management -->
+        <section class="admin-section">
+
+    <div class="section-header">
+
+        <h2>Course Management</h2>
+
+        <button id="add-course-btn">
+            + Add Course
+        </button>
+
+    </div>
+
+    <div id="course-form-container" class="course-form-container hidden">
+
+    <input
+        type="text"
+        id="course-name-input"
+        placeholder="Course name"
+    >
+
+    <button id="save-course-btn">
+        Save Course
+    </button>
+
+    <button id="cancel-course-btn">
+        Cancel
+    </button>
+
+</div>
+
+    <div id="course-management">
+
+        <!-- Courses will appear here -->
+
+    </div>
+
+</section>
+
+
+        <!-- Topic Management -->
+        <section class="admin-section">
+
+    <div class="section-header">
+
+        <h2>Topic Management</h2>
+
+        <button id="add-topic-btn">
+            + Add Topic
+        </button>
+
+    </div>
+
+    <div id="topic-form-container" class="course-form-container hidden">
+
+        <select id="topic-course-select">
+            <option value="">
+                Select Course
+            </option>
+        </select>
+
+        <input
+            type="text"
+            id="topic-name-input"
+            placeholder="Topic name"
+        >
+
+        <button id="save-topic-btn">
+            Save Topic
+        </button>
+
+        <button id="cancel-topic-btn">
+            Cancel
+        </button>
+
+    </div>
+
+    <div id="topic-management">
+
+        <!-- Topics will appear here -->
+
+    </div>
+
+<section class="admin-section">
+
+    <div class="section-header">
+
+        <h2>Activity Management</h2>
+
+        <button id="add-activity-btn">
+            + Add Activity
+        </button>
+
+    </div>
+
+    <div
+        id="activity-form-container"
+        class="course-form-container hidden"
+    >
+
+        <select id="activity-course-select">
+            <option value="">
+                Select Course
+            </option>
+        </select>
+
+        <select id="activity-topic-select">
+            <option value="">
+                Select Topic
+            </option>
+        </select>
+
+        <input
+            type="text"
+            id="activity-name-input"
+            placeholder="Activity name"
+        >
+
+        <button id="save-activity-btn">
+            Save Activity
+        </button>
+
+        <button id="cancel-activity-btn">
+            Cancel
+        </button>
+
+    </div>
+
+    <div id="activity-management">
+
+        <!-- Activities will appear here -->
+
+    </div>
+
+</section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="main-footer">
+
+        <p>
+            © 2026 SkillQuest. Learn. Play. Grow.
+        </p>
+
+    </footer>
+
+
+    <script src="../js/admin.js"></script>
+
+</body>
+
+</html>
