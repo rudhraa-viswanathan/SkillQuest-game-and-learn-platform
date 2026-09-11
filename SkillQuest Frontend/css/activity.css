@@ -1,0 +1,75 @@
+.activity-page {
+    min-height: calc(100vh - 140px);
+    padding: 40px 20px;
+}
+
+.activity-header {
+    max-width: 900px;
+    margin: 0 auto 35px;
+    text-align: center;
+}
+
+.activity-header p {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.activity-header h1 {
+    margin: 10px 0;
+}
+
+.activity-content {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 30px;
+    border-radius: 12px;
+    background: var(--card-bg, #1e1e1e);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-content h2 {
+    margin-top: 0;
+}
+
+.activity-actions {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#complete-activity-btn,
+#back-to-course-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    margin: 5px;
+}
+
+#complete-activity-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+
+    .activity-page {
+        padding: 30px 15px;
+    }
+
+    .activity-content {
+        padding: 20px;
+    }
+
+    .activity-header h1 {
+        font-size: 26px;
+    }
+
+    #complete-activity-btn,
+    #back-to-course-btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+}

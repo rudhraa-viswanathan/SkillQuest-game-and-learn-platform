@@ -2,152 +2,101 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Java Development - SkillQuest</title>
 
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/course.css">
+    <link rel="stylesheet" href="../css/java-course.css">
+
 </head>
 
 <body>
 
-    <header>
-        <nav>
-            <a href="../index.html" class="logo">SkillQuest</a>
+    <!-- Header -->
+    <header class="main-header">
 
-            <div class="nav-links">
-                <a href="../index.html#how-it-works">How It Works</a>
-                <a href="../index.html#courses">Courses</a>
-                <a href="../index.html#contact">Contact</a>
-                <a href="dashboard.html">Dashboard</a>
-            </div>
+        <div class="logo">
+            SkillQuest
+        </div>
+
+        <nav>
+            <a href="Dashboard.html">Dashboard</a>
+            <a href="courses.html">Courses</a>
+            <a href="#">Leaderboard</a>
+            <a href="#">Profile</a>
         </nav>
+
     </header>
 
-    <main>
 
-        <section class="course-page">
-
-    <div class="course-header">
-
-        <a href="dashboard.html" class="back-link">
-            ← Back to Dashboard
+    <!-- Course Main Content -->
+    <main class="course-page">
+        <a href="courses.html" class="back-to-courses">
+        ← Back to Courses
         </a>
+        <!-- Course Header -->
+        <section class="course-header">
 
-        <h1>Java Development</h1>
-
-        <p>
-            Continue your Java learning journey with SkillQuest.
-        </p>
-
-    </div>
-
-
-    <div class="course-progress-card">
-
-        <div class="course-progress-header">
-
-            <h2>Course Progress</h2>
-
-            <span>72%</span>
-
-        </div>
-
-        <div class="course-progress-bar">
-
-            <div class="course-progress-fill"></div>
-
-        </div>
-
-    </div>
-
-
-    <div class="course-topics">
-
-        <div class="topic-card">
-
-            <h3>Java Fundamentals</h3>
+            <h1>Java Development</h1>
 
             <p>
-                Learn the basics of Java programming.
+                Learn Java from fundamentals to advanced concepts.
             </p>
-                <span>✓ Completed</span>
-                <button class="topic-btn">Review Topic</button>
-        </div>
+
+        </section>
 
 
-        <div class="topic-card">
-
-            <h3>Object-Oriented Programming</h3>
+        <!-- Course Progress -->
+        <section class="course-progress-section">
 
             <p>
-                Understand classes, objects, inheritance,
-                polymorphism and more.
+                Course Progress: <span id="course-progress">72%</span>
             </p>
-                <span>✓ Completed</span>
-                <button class="topic-btn">Review Topic</button>
-        </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progress-fill">
+                </div>
+
+            </div>
+
+        </section>
 
 
-        <div class="topic-card">
+        <!-- Topics -->
+        <section class="topics-section">
 
-            <h3>Advanced Java</h3>
+            <h2>Topics</h2>
 
-            <p>
-                Continue with advanced Java concepts and
-                programming techniques.
-            </p>
-                <span>✓ Completed</span>
-                <button class="topic-btn">Review Topic</button>
-        </div>
+            <div id="topics-container">
 
-    </div>
+                <!-- Topics will be added here -->
 
-</section>
+            </div>
+
+        </section>
 
     </main>
 
-    <footer>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+
         <p>
-            &copy; 2026 SkillQuest. All rights reserved.
+            © 2026 SkillQuest. Learn. Play. Grow.
         </p>
+
+        <a href="#">Contact & Feedback</a>
+
     </footer>
 
-    <script>
 
-    const savedJavaProgress =
-        localStorage.getItem("javaProgress");
-
-    const javaProgress =
-        savedJavaProgress !== null
-            ? Number(savedJavaProgress)
-            : 72;
-
-    document.querySelector(".course-progress-fill").style.width =
-        javaProgress + "%";
-
-    document.querySelector(".course-progress-header span").textContent =
-        javaProgress + "%";
-
-        const reviewButtons =
-    document.querySelectorAll(".topic-btn");
-
-reviewButtons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-        const topicName =
-            button.parentElement.querySelector("h3").textContent;
-
-        console.log(topicName + " selected");
-
-    });
-
-});
-
-</script>
+    <script src="../js/java-course.js"></script>
 
 </body>
 
