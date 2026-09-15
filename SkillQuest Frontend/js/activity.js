@@ -12,6 +12,9 @@ const params =
         window.location.search
     );
 
+const currentCourseName =
+    params.get("course") || "Java";
+
 const currentTopicName =
     params.get("topic");
 
@@ -52,7 +55,7 @@ if (activityTitle) {
 
     activityTitle.textContent =
         currentActivityName ||
-        "Java Activity";
+        currentCourseName + " Activity";
 
 }
 
@@ -60,7 +63,7 @@ if (topicTitle) {
 
     topicTitle.textContent =
         currentTopicName ||
-        "Java Course";
+        currentCourseName + " Course";
 
 }
 
@@ -151,9 +154,21 @@ if (completeButton) {
                 isCurrentActivityCompleted()
             ) {
 
-                window.location.assign(
-                    "java-course.html"
-                );
+                if (
+                    currentCourseName === "SQL"
+                ) {
+
+                    window.location.assign(
+                        "sql-course.html"
+                    );
+
+                } else {
+
+                    window.location.assign(
+                        "java-course.html"
+                    );
+
+                }
 
             }
 
@@ -175,9 +190,21 @@ if (backToCourseButton) {
         "click",
         function () {
 
-            window.location.assign(
-                "java-course.html"
-            );
+            if (
+                currentCourseName === "SQL"
+            ) {
+
+                window.location.assign(
+                    "sql-course.html"
+                );
+
+            } else {
+
+                window.location.assign(
+                    "java-course.html"
+                );
+
+            }
 
         }
     );
@@ -229,6 +256,54 @@ const activityTypeMap = {
     "Thread Lifecycle": "matching",
     "Synchronization": "code-output",
     "Multithreading Challenge": "code-challenge"
+};
+
+
+// =====================================================
+// SQL ACTIVITY TYPE MAP
+// =====================================================
+
+const sqlActivityTypeMap = {
+
+    // SQL FUNDAMENTALS
+    "Introduction to SQL": "quiz",
+    "Data Types": "matching",
+    "Constraints": "fill",
+    "SQL Fundamentals Challenge": "true-false",
+
+    // CRUD OPERATIONS
+    "INSERT": "fill",
+    "SELECT": "quiz",
+    "UPDATE": "code-output",
+    "DELETE & CRUD Challenge": "debugging",
+
+    // FILTERING & FUNCTIONS
+    "WHERE & Comparison Operators": "quiz",
+    "AND, OR & NOT": "code-output",
+    "LIKE, IN & BETWEEN": "fill",
+    "SQL Functions Challenge": "matching",
+
+    // JOINS
+    "INNER JOIN": "quiz",
+    "LEFT JOIN": "code-output",
+    "RIGHT JOIN": "matching",
+    "Multiple Table Joins": "code-ordering",
+    "Join Debugging Challenge": "debugging",
+
+    // SUBQUERIES & AGGREGATION
+    "Aggregate Functions": "matching",
+    "GROUP BY": "code-output",
+    "HAVING": "fill",
+    "Subqueries": "code-ordering",
+    "Aggregation Challenge": "debugging",
+
+    // ADVANCED SQL
+    "Primary & Foreign Keys": "quiz",
+    "Views": "true-false",
+    "Indexes": "matching",
+    "Window Functions": "code-output",
+    "Advanced SQL Challenge": "code-challenge"
+
 };
 
 
@@ -653,7 +728,410 @@ const quizData = {
             answer: "No"
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL QUIZ DATA
+// =====================================================
+
+"Introduction to SQL": [
+
+    {
+        question:
+            "What does SQL stand for?",
+
+        options: [
+            "Structured Query Language",
+            "Simple Query Language",
+            "System Query Logic",
+            "Structured Question Language"
+        ],
+
+        answer:
+            "Structured Query Language"
+    },
+
+    {
+        question:
+            "Which SQL command is mainly used to retrieve data from a table?",
+
+        options: [
+            "SELECT",
+            "INSERT",
+            "UPDATE",
+            "DELETE"
+        ],
+
+        answer:
+            "SELECT"
+    },
+
+    {
+        question:
+            "Which database object stores data in rows and columns?",
+
+        options: [
+            "Table",
+            "Query",
+            "Index",
+            "View"
+        ],
+
+        answer:
+            "Table"
+    },
+
+    {
+        question:
+            "Which clause specifies the table from which data should be retrieved?",
+
+        options: [
+            "FROM",
+            "WHERE",
+            "ORDER BY",
+            "VALUES"
+        ],
+
+        answer:
+            "FROM"
+    },
+
+    {
+        question:
+            "Which symbol is commonly used with SELECT to retrieve all columns?",
+
+        options: [
+            "*",
+            "#",
+            "%",
+            "&"
+        ],
+
+        answer:
+            "*"
+    }
+
+],
+
+
+"SELECT": [
+
+    {
+        question:
+            "Which query retrieves every column from the students table?",
+
+        options: [
+            "SELECT * FROM students;",
+            "SELECT ALL students;",
+            "GET * FROM students;",
+            "SHOW students ALL;"
+        ],
+
+        answer:
+            "SELECT * FROM students;"
+    },
+
+    {
+        question:
+            "Which query retrieves only the name column from employees?",
+
+        options: [
+            "SELECT name FROM employees;",
+            "SELECT employees FROM name;",
+            "GET name employees;",
+            "SHOW name IN employees;"
+        ],
+
+        answer:
+            "SELECT name FROM employees;"
+    },
+
+    {
+        question:
+            "Which keyword can remove duplicate rows from a SELECT result?",
+
+        options: [
+            "DISTINCT",
+            "UNIQUE",
+            "REMOVE",
+            "DIFFERENT"
+        ],
+
+        answer:
+            "DISTINCT"
+    },
+
+    {
+        question:
+            "Which query retrieves the name and salary columns from employees?",
+
+        options: [
+            "SELECT name, salary FROM employees;",
+            "SELECT name AND salary FROM employees;",
+            "GET name, salary FROM employees;",
+            "SELECT employees FROM name, salary;"
+        ],
+
+        answer:
+            "SELECT name, salary FROM employees;"
+    },
+
+    {
+        question:
+            "Which clause is used to sort the result of a SELECT query?",
+
+        options: [
+            "ORDER BY",
+            "SORT BY",
+            "GROUP BY",
+            "ARRANGE BY"
+        ],
+
+        answer:
+            "ORDER BY"
+    }
+
+],
+
+
+"WHERE & Comparison Operators": [
+
+    {
+        question:
+            "Which clause is used to filter rows in SQL?",
+
+        options: [
+            "WHERE",
+            "FROM",
+            "ORDER BY",
+            "VALUES"
+        ],
+
+        answer:
+            "WHERE"
+    },
+
+    {
+        question:
+            "Which operator means greater than or equal to?",
+
+        options: [
+            ">=",
+            "<=",
+            "<>",
+            "=="
+        ],
+
+        answer:
+            ">="
+    },
+
+    {
+        question:
+            "Which SQL operator means not equal to?",
+
+        options: [
+            "<>",
+            "=",
+            ">=",
+            "=>"
+        ],
+
+        answer:
+            "<>"
+    },
+
+    {
+        question:
+            "Which condition selects employees whose salary is greater than 50000?",
+
+        options: [
+            "WHERE salary > 50000",
+            "WHERE salary < 50000",
+            "WHERE salary =< 50000",
+            "WHERE salary <> 50000"
+        ],
+
+        answer:
+            "WHERE salary > 50000"
+    },
+
+    {
+        question:
+            "Which condition selects a student whose id is exactly 10?",
+
+        options: [
+            "WHERE id = 10",
+            "WHERE id == 10",
+            "WHERE id := 10",
+            "WHERE id IS 10"
+        ],
+
+        answer:
+            "WHERE id = 10"
+    }
+
+],
+
+
+"INNER JOIN": [
+
+    {
+        question:
+            "What does an INNER JOIN return?",
+
+        options: [
+            "Rows that have matching values in both tables",
+            "Every row from the left table only",
+            "Every row from both tables regardless of matches",
+            "Only rows containing NULL"
+        ],
+
+        answer:
+            "Rows that have matching values in both tables"
+    },
+
+    {
+        question:
+            "Which keyword is commonly used to specify a JOIN condition?",
+
+        options: [
+            "ON",
+            "WHERE",
+            "IN",
+            "BY"
+        ],
+
+        answer:
+            "ON"
+    },
+
+    {
+        question:
+            "Which syntax correctly joins employees and departments using department_id?",
+
+        options: [
+            "INNER JOIN departments ON employees.department_id = departments.department_id",
+            "INNER departments WITH employees.department_id",
+            "JOIN departments BY department_id",
+            "INNER JOIN departments WHERE department_id"
+        ],
+
+        answer:
+            "INNER JOIN departments ON employees.department_id = departments.department_id"
+    },
+
+    {
+        question:
+            "If a row has no matching row in the other table, what happens to it in an INNER JOIN?",
+
+        options: [
+            "It is not included in the result",
+            "It is always included",
+            "It is converted to zero",
+            "SQL automatically creates a matching row"
+        ],
+
+        answer:
+            "It is not included in the result"
+    },
+
+    {
+        question:
+            "Which columns are normally used to create relationships between joined tables?",
+
+        options: [
+            "Primary and foreign key columns",
+            "Only text columns",
+            "Only date columns",
+            "Random columns"
+        ],
+
+        answer:
+            "Primary and foreign key columns"
+    }
+
+],
+
+
+"Primary & Foreign Keys": [
+
+    {
+        question:
+            "What is the main purpose of a primary key?",
+
+        options: [
+            "To uniquely identify each row",
+            "To sort every table automatically",
+            "To store duplicate values",
+            "To delete related tables"
+        ],
+
+        answer:
+            "To uniquely identify each row"
+    },
+
+    {
+        question:
+            "Can a primary key contain NULL?",
+
+        options: [
+            "No",
+            "Yes",
+            "Only in MySQL",
+            "Only for text columns"
+        ],
+
+        answer:
+            "No"
+    },
+
+    {
+        question:
+            "What is the main purpose of a foreign key?",
+
+        options: [
+            "To create a relationship between tables",
+            "To automatically encrypt a column",
+            "To sort rows",
+            "To rename a table"
+        ],
+
+        answer:
+            "To create a relationship between tables"
+    },
+
+    {
+        question:
+            "A foreign key usually references which key in another table?",
+
+        options: [
+            "Primary key",
+            "Temporary key",
+            "Sort key",
+            "Search key"
+        ],
+
+        answer:
+            "Primary key"
+    },
+
+    {
+        question:
+            "Which constraint prevents duplicate primary-key values?",
+
+        options: [
+            "PRIMARY KEY",
+            "DEFAULT",
+            "CHECK",
+            "ORDER BY"
+        ],
+
+        answer:
+            "PRIMARY KEY"
+    }
+
+]
 
 };
 
@@ -1049,7 +1527,190 @@ const fillBlankQuestionBanks = {
             answer: "BufferedWriter"
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL FILL IN THE BLANK DATA
+// =====================================================
+
+"Constraints": [
+
+    {
+        question:
+            "The ______ constraint uniquely identifies each row in a table.",
+
+        answer:
+            "PRIMARY KEY"
+    },
+
+    {
+        question:
+            "The ______ constraint prevents a column from storing NULL values.",
+
+        answer:
+            "NOT NULL"
+    },
+
+    {
+        question:
+            "The ______ constraint prevents duplicate values in a column.",
+
+        answer:
+            "UNIQUE"
+    },
+
+    {
+        question:
+            "The ______ constraint creates a relationship with a key in another table.",
+
+        answer:
+            "FOREIGN KEY"
+    },
+
+    {
+        question:
+            "The ______ constraint can restrict values using a condition.",
+
+        answer:
+            "CHECK"
+    }
+
+],
+
+
+"INSERT": [
+
+    {
+        question:
+            "The SQL keyword used to add a new row to a table is ______.",
+
+        answer:
+            "INSERT"
+    },
+
+    {
+        question:
+            "Complete the command: INSERT ______ students (name) VALUES ('Ravi');",
+
+        answer:
+            "INTO"
+    },
+
+    {
+        question:
+            "Complete the query: INSERT INTO students (name) ______ ('Ravi');",
+
+        answer:
+            "VALUES"
+    },
+
+    {
+        question:
+            "In INSERT INTO students (name, age), the words name and age are ______ names.",
+
+        answer:
+            "COLUMN"
+    },
+
+    {
+        question:
+            "SQL text values such as Ravi are normally enclosed in single ______.",
+
+        answer:
+            "QUOTES"
+    }
+
+],
+
+
+"LIKE, IN & BETWEEN": [
+
+    {
+        question:
+            "The ______ operator is used for pattern matching in SQL.",
+
+        answer:
+            "LIKE"
+    },
+
+    {
+        question:
+            "In LIKE patterns, the ______ symbol represents zero or more characters.",
+
+        answer:
+            "%"
+    },
+
+    {
+        question:
+            "The ______ operator checks whether a value exists in a list of values.",
+
+        answer:
+            "IN"
+    },
+
+    {
+        question:
+            "The ______ operator selects values within an inclusive range.",
+
+        answer:
+            "BETWEEN"
+    },
+
+    {
+        question:
+            "Complete the condition: name ______ 'R%' to find names beginning with R.",
+
+        answer:
+            "LIKE"
+    }
+
+],
+
+
+"HAVING": [
+
+    {
+        question:
+            "The ______ clause is commonly used to filter grouped results.",
+
+        answer:
+            "HAVING"
+    },
+
+    {
+        question:
+            "HAVING is commonly used together with the ______ BY clause.",
+
+        answer:
+            "GROUP"
+    },
+
+    {
+        question:
+            "Complete: GROUP BY department HAVING ______(*) > 5;",
+
+        answer:
+            "COUNT"
+    },
+
+    {
+        question:
+            "WHERE filters rows before grouping, while ______ filters groups after aggregation.",
+
+        answer:
+            "HAVING"
+    },
+
+    {
+        question:
+            "Complete: HAVING AVG(salary) ______ 50000 to select groups with an average salary greater than 50000.",
+
+        answer:
+            ">"
+    }
+
+]
 
 };
 
@@ -1412,7 +2073,185 @@ const matchingData = {
                 "Execution finished"
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL MATCHING DATA
+// =====================================================
+
+"Data Types": [
+
+    {
+        left: "INT",
+        right:
+            "Stores whole numbers"
+    },
+
+    {
+        left: "VARCHAR",
+        right:
+            "Stores variable-length text"
+    },
+
+    {
+        left: "DATE",
+        right:
+            "Stores date values"
+    },
+
+    {
+        left: "DECIMAL",
+        right:
+            "Stores exact decimal numbers"
+    },
+
+    {
+        left: "BOOLEAN",
+        right:
+            "Stores true or false values"
+    }
+
+],
+
+
+"SQL Functions Challenge": [
+
+    {
+        left: "UPPER()",
+        right:
+            "Converts text to uppercase"
+    },
+
+    {
+        left: "LOWER()",
+        right:
+            "Converts text to lowercase"
+    },
+
+    {
+        left: "LENGTH()",
+        right:
+            "Returns the length of a string"
+    },
+
+    {
+        left: "COUNT()",
+        right:
+            "Counts rows or values"
+    },
+
+    {
+        left: "AVG()",
+        right:
+            "Calculates an average"
+    }
+
+],
+
+
+"RIGHT JOIN": [
+
+    {
+        left: "RIGHT JOIN",
+        right:
+            "Keeps all rows from the right table"
+    },
+
+    {
+        left: "ON",
+        right:
+            "Defines the join condition"
+    },
+
+    {
+        left: "Matched row",
+        right:
+            "Has related data in both tables"
+    },
+
+    {
+        left: "Unmatched left row",
+        right:
+            "May be excluded from a RIGHT JOIN result"
+    },
+
+    {
+        left: "Unmatched right row",
+        right:
+            "Still appears in a RIGHT JOIN result"
+    }
+
+],
+
+
+"Aggregate Functions": [
+
+    {
+        left: "COUNT()",
+        right:
+            "Counts rows or non-NULL values"
+    },
+
+    {
+        left: "SUM()",
+        right:
+            "Calculates a total"
+    },
+
+    {
+        left: "AVG()",
+        right:
+            "Calculates an average"
+    },
+
+    {
+        left: "MIN()",
+        right:
+            "Returns the smallest value"
+    },
+
+    {
+        left: "MAX()",
+        right:
+            "Returns the largest value"
+    }
+
+],
+
+
+"Indexes": [
+
+    {
+        left: "Index",
+        right:
+            "Helps speed up data retrieval"
+    },
+
+    {
+        left: "CREATE INDEX",
+        right:
+            "Creates an index"
+    },
+
+    {
+        left: "DROP INDEX",
+        right:
+            "Removes an index"
+    },
+
+    {
+        left: "Indexed column",
+        right:
+            "Column included in an index"
+    },
+
+    {
+        left: "Query performance",
+        right:
+            "Can improve when useful indexes are available"
+    }
+
+]
 
 };
 
@@ -1794,7 +2633,80 @@ const trueFalseData = {
             answer: true
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL TRUE / FALSE DATA
+// =====================================================
+
+"SQL Fundamentals Challenge": [
+
+    {
+        question:
+            "SQL stands for Structured Query Language.",
+        answer: true
+    },
+
+    {
+        question:
+            "SELECT is used to retrieve data from a database table.",
+        answer: true
+    },
+
+    {
+        question:
+            "INSERT is used to delete rows from a table.",
+        answer: false
+    },
+
+    {
+        question:
+            "A relational database can organize data using tables.",
+        answer: true
+    },
+
+    {
+        question:
+            "A table can contain rows and columns.",
+        answer: true
+    }
+
+],
+
+
+"Views": [
+
+    {
+        question:
+            "A view is based on the result of a SQL query.",
+        answer: true
+    },
+
+    {
+        question:
+            "CREATE VIEW can be used to create a view.",
+        answer: true
+    },
+
+    {
+        question:
+            "A view must always store a separate physical copy of all result data.",
+        answer: false
+    },
+
+    {
+        question:
+            "A view can present selected columns from a table.",
+        answer: true
+    },
+
+    {
+        question:
+            "Views can be used to simplify access to complex queries.",
+        answer: true
+    }
+
+]
 
 };
 
@@ -2531,7 +3443,550 @@ System.out.print("B");`,
             answer: "AB"
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL CODE OUTPUT DATA
+// =====================================================
+
+"UPDATE": [
+
+    {
+        code: `Before:
+id | name | salary
+1  | Ravi | 30000
+
+UPDATE employees
+SET salary = 40000
+WHERE id = 1;
+
+SELECT salary
+FROM employees
+WHERE id = 1;`,
+        options: [
+            "30000",
+            "40000",
+            "1",
+            "NULL"
+        ],
+        answer: "40000"
+    },
+
+    {
+        code: `Before:
+id | name
+1  | Ravi
+2  | Priya
+
+UPDATE students
+SET name = 'Arun'
+WHERE id = 2;
+
+SELECT name
+FROM students
+WHERE id = 2;`,
+        options: [
+            "Ravi",
+            "Priya",
+            "Arun",
+            "NULL"
+        ],
+        answer: "Arun"
+    },
+
+    {
+        code: `Before:
+id | status
+1  | Active
+2  | Active
+
+UPDATE users
+SET status = 'Inactive';
+
+SELECT status
+FROM users
+WHERE id = 1;`,
+        options: [
+            "Active",
+            "Inactive",
+            "NULL",
+            "Deleted"
+        ],
+        answer: "Inactive"
+    },
+
+    {
+        code: `Before:
+id | marks
+1  | 60
+2  | 80
+
+UPDATE students
+SET marks = marks + 10
+WHERE id = 1;
+
+SELECT marks
+FROM students
+WHERE id = 1;`,
+        options: [
+            "60",
+            "70",
+            "80",
+            "90"
+        ],
+        answer: "70"
+    },
+
+    {
+        code: `Before:
+id | city
+1  | Salem
+2  | Chennai
+
+UPDATE students
+SET city = 'Bangalore'
+WHERE id = 3;
+
+SELECT city
+FROM students
+WHERE id = 1;`,
+        options: [
+            "Salem",
+            "Chennai",
+            "Bangalore",
+            "NULL"
+        ],
+        answer: "Salem"
+    }
+
+],
+
+
+"AND, OR & NOT": [
+
+    {
+        code: `students:
+name  | marks | city
+Ravi  | 85    | Salem
+Priya | 90    | Chennai
+Arun  | 70    | Salem
+
+SELECT name
+FROM students
+WHERE marks > 80
+AND city = 'Salem';`,
+        options: [
+            "Ravi",
+            "Priya",
+            "Arun",
+            "Ravi and Priya"
+        ],
+        answer: "Ravi"
+    },
+
+    {
+        code: `students:
+name  | city
+Ravi  | Salem
+Priya | Chennai
+Arun  | Madurai
+
+SELECT name
+FROM students
+WHERE city = 'Salem'
+OR city = 'Chennai';`,
+        options: [
+            "Ravi only",
+            "Priya only",
+            "Ravi and Priya",
+            "All three"
+        ],
+        answer: "Ravi and Priya"
+    },
+
+    {
+        code: `users:
+name  | active
+Ravi  | 1
+Priya | 0
+
+SELECT name
+FROM users
+WHERE NOT active = 1;`,
+        options: [
+            "Ravi",
+            "Priya",
+            "Ravi and Priya",
+            "No rows"
+        ],
+        answer: "Priya"
+    },
+
+    {
+        code: `products:
+name   | price | stock
+Phone  | 20000 | 5
+Mouse  | 500   | 0
+Laptop | 60000 | 3
+
+SELECT name
+FROM products
+WHERE price > 10000
+AND stock > 0;`,
+        options: [
+            "Phone only",
+            "Laptop only",
+            "Phone and Laptop",
+            "Mouse and Laptop"
+        ],
+        answer: "Phone and Laptop"
+    },
+
+    {
+        code: `employees:
+name  | department
+Ravi  | IT
+Priya | HR
+Arun  | Sales
+
+SELECT name
+FROM employees
+WHERE NOT department = 'HR';`,
+        options: [
+            "Priya",
+            "Ravi and Arun",
+            "Ravi only",
+            "All employees"
+        ],
+        answer: "Ravi and Arun"
+    }
+
+],
+
+
+"LEFT JOIN": [
+
+    {
+        code: `customers:
+id | name
+1  | Ravi
+2  | Priya
+
+orders:
+customer_id | product
+1           | Laptop
+
+SELECT customers.name, orders.product
+FROM customers
+LEFT JOIN orders
+ON customers.id = orders.customer_id;`,
+        options: [
+            "Ravi-Laptop only",
+            "Ravi-Laptop and Priya-NULL",
+            "Priya-NULL only",
+            "No rows"
+        ],
+        answer: "Ravi-Laptop and Priya-NULL"
+    },
+
+    {
+        code: `departments:
+id | name
+1  | IT
+2  | HR
+
+employees:
+name | department_id
+Ravi | 1
+
+SELECT departments.name, employees.name
+FROM departments
+LEFT JOIN employees
+ON departments.id = employees.department_id;`,
+        options: [
+            "IT-Ravi only",
+            "HR-NULL only",
+            "IT-Ravi and HR-NULL",
+            "No rows"
+        ],
+        answer: "IT-Ravi and HR-NULL"
+    },
+
+    {
+        code: `A:
+id
+1
+2
+3
+
+B:
+id
+1
+3
+
+SELECT A.id
+FROM A
+LEFT JOIN B
+ON A.id = B.id;`,
+        options: [
+            "1, 3",
+            "1, 2, 3",
+            "2 only",
+            "1 only"
+        ],
+        answer: "1, 2, 3"
+    },
+
+    {
+        code: `students:
+id | name
+1  | Ravi
+2  | Priya
+
+courses:
+student_id | course
+1          | Java
+
+SELECT students.name
+FROM students
+LEFT JOIN courses
+ON students.id = courses.student_id
+WHERE courses.student_id IS NULL;`,
+        options: [
+            "Ravi",
+            "Priya",
+            "Ravi and Priya",
+            "No rows"
+        ],
+        answer: "Priya"
+    },
+
+    {
+        code: `products:
+id | name
+1  | Phone
+2  | Mouse
+
+sales:
+product_id | quantity
+1          | 3
+
+SELECT products.name, sales.quantity
+FROM products
+LEFT JOIN sales
+ON products.id = sales.product_id;`,
+        options: [
+            "Phone-3 only",
+            "Mouse-NULL only",
+            "Phone-3 and Mouse-NULL",
+            "No rows"
+        ],
+        answer: "Phone-3 and Mouse-NULL"
+    }
+
+],
+
+
+"GROUP BY": [
+
+    {
+        code: `employees:
+department
+IT
+IT
+HR
+
+SELECT department, COUNT(*)
+FROM employees
+GROUP BY department;`,
+        options: [
+            "IT-2, HR-1",
+            "IT-1, HR-2",
+            "IT-3",
+            "HR-3"
+        ],
+        answer: "IT-2, HR-1"
+    },
+
+    {
+        code: `sales:
+category | amount
+A        | 100
+A        | 200
+B        | 50
+
+SELECT category, SUM(amount)
+FROM sales
+GROUP BY category;`,
+        options: [
+            "A-300, B-50",
+            "A-100, B-250",
+            "A-200, B-150",
+            "A-350"
+        ],
+        answer: "A-300, B-50"
+    },
+
+    {
+        code: `students:
+class | marks
+A     | 80
+A     | 100
+B     | 70
+
+SELECT class, AVG(marks)
+FROM students
+GROUP BY class;`,
+        options: [
+            "A-90, B-70",
+            "A-80, B-100",
+            "A-100, B-70",
+            "A-70, B-90"
+        ],
+        answer: "A-90, B-70"
+    },
+
+    {
+        code: `orders:
+status
+Paid
+Paid
+Pending
+Pending
+Pending
+
+SELECT status, COUNT(*)
+FROM orders
+GROUP BY status;`,
+        options: [
+            "Paid-2, Pending-3",
+            "Paid-3, Pending-2",
+            "Paid-5",
+            "Pending-5"
+        ],
+        answer: "Paid-2, Pending-3"
+    },
+
+    {
+        code: `products:
+category | price
+A        | 10
+A        | 30
+B        | 20
+
+SELECT category, MAX(price)
+FROM products
+GROUP BY category;`,
+        options: [
+            "A-10, B-20",
+            "A-30, B-20",
+            "A-30, B-30",
+            "A-20, B-30"
+        ],
+        answer: "A-30, B-20"
+    }
+
+],
+
+
+"Window Functions": [
+
+    {
+        code: `employees:
+name  | salary
+Ravi  | 30000
+Priya | 50000
+Arun  | 40000
+
+SELECT name,
+ROW_NUMBER() OVER (ORDER BY salary DESC) AS rn
+FROM employees;`,
+        options: [
+            "Priya-1, Arun-2, Ravi-3",
+            "Ravi-1, Arun-2, Priya-3",
+            "Arun-1, Priya-2, Ravi-3",
+            "All rows get 1"
+        ],
+        answer: "Priya-1, Arun-2, Ravi-3"
+    },
+
+    {
+        code: `scores:
+name  | marks
+Ravi  | 90
+Priya | 90
+Arun  | 80
+
+SELECT name,
+RANK() OVER (ORDER BY marks DESC) AS r
+FROM scores;`,
+        options: [
+            "Ravi-1, Priya-2, Arun-3",
+            "Ravi-1, Priya-1, Arun-3",
+            "Ravi-1, Priya-1, Arun-2",
+            "All rows get 1"
+        ],
+        answer: "Ravi-1, Priya-1, Arun-3"
+    },
+
+    {
+        code: `scores:
+name  | marks
+Ravi  | 90
+Priya | 90
+Arun  | 80
+
+SELECT name,
+DENSE_RANK() OVER (ORDER BY marks DESC) AS r
+FROM scores;`,
+        options: [
+            "Ravi-1, Priya-1, Arun-2",
+            "Ravi-1, Priya-1, Arun-3",
+            "Ravi-1, Priya-2, Arun-3",
+            "All rows get 2"
+        ],
+        answer: "Ravi-1, Priya-1, Arun-2"
+    },
+
+    {
+        code: `sales:
+month | amount
+Jan   | 100
+Feb   | 200
+Mar   | 300
+
+SELECT month,
+SUM(amount) OVER (ORDER BY month) AS total
+FROM sales;`,
+        options: [
+            "Jan-100, Feb-300, Mar-600",
+            "Jan-100, Feb-200, Mar-300",
+            "Jan-600, Feb-600, Mar-600",
+            "Jan-300, Feb-500, Mar-600"
+        ],
+        answer: "Jan-100, Feb-300, Mar-600"
+    },
+
+    {
+        code: `employees:
+name  | dept | salary
+Ravi  | IT   | 30000
+Priya | IT   | 50000
+Arun  | HR   | 40000
+
+SELECT name,
+AVG(salary) OVER (PARTITION BY dept) AS avg_salary
+FROM employees;`,
+        options: [
+            "Ravi-40000, Priya-40000, Arun-40000",
+            "Ravi-30000, Priya-50000, Arun-40000",
+            "Ravi-45000, Priya-45000, Arun-40000",
+            "All employees-30000"
+        ],
+        answer: "Ravi-40000, Priya-40000, Arun-40000"
+    }
+
+]
 
 };
 
@@ -3034,7 +4489,249 @@ System.out.println(file.length);`,
                 "length is a method and should be called as length()"
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL DEBUGGING DATA
+// =====================================================
+
+"DELETE & CRUD Challenge": [
+
+    {
+        code: `DELETE students
+WHERE id = 5;`,
+        options: [
+            "FROM is missing after DELETE",
+            "WHERE cannot be used with DELETE",
+            "DELETE must be SELECT",
+            "id cannot be used in DELETE"
+        ],
+        answer:
+            "FROM is missing after DELETE"
+    },
+
+    {
+        code: `UPDATE employees
+salary = 50000
+WHERE id = 1;`,
+        options: [
+            "SET is missing before salary",
+            "UPDATE cannot use WHERE",
+            "salary must be a String",
+            "employees must be deleted first"
+        ],
+        answer:
+            "SET is missing before salary"
+    },
+
+    {
+        code: `INSERT students (name)
+VALUES ('Ravi');`,
+        options: [
+            "INTO is missing after INSERT",
+            "VALUES cannot contain text",
+            "INSERT cannot specify columns",
+            "The table must use SELECT"
+        ],
+        answer:
+            "INTO is missing after INSERT"
+    },
+
+    {
+        code: `SELECT name
+FORM students;`,
+        options: [
+            "FORM should be FROM",
+            "SELECT should be INSERT",
+            "name cannot be selected",
+            "students must be quoted"
+        ],
+        answer:
+            "FORM should be FROM"
+    },
+
+    {
+        code: `DELETE FROM students
+WHERE id == 10;`,
+        options: [
+            "Use = instead of == for SQL equality",
+            "DELETE cannot use an id",
+            "WHERE must appear before FROM",
+            "10 must always be quoted"
+        ],
+        answer:
+            "Use = instead of == for SQL equality"
+    }
+
+],
+
+
+"Join Debugging Challenge": [
+
+    {
+        code: `SELECT employees.name,
+departments.name
+FROM employees
+INNER JOIN departments
+employees.department_id =
+departments.id;`,
+        options: [
+            "ON is missing before the join condition",
+            "INNER JOIN cannot join departments",
+            "SELECT cannot contain two columns",
+            "FROM must come after ON"
+        ],
+        answer:
+            "ON is missing before the join condition"
+    },
+
+    {
+        code: `SELECT *
+FROM customers
+LEFT customers_orders
+ON customers.id =
+customers_orders.customer_id;`,
+        options: [
+            "JOIN is missing after LEFT",
+            "LEFT is not a SQL keyword",
+            "ON cannot be used here",
+            "SELECT * cannot be used with joins"
+        ],
+        answer:
+            "JOIN is missing after LEFT"
+    },
+
+    {
+        code: `SELECT *
+FROM employees
+INNER JOIN departments
+ON employees.department_id;`,
+        options: [
+            "The ON clause needs a complete comparison condition",
+            "INNER JOIN cannot use ON",
+            "department_id must be deleted",
+            "SELECT * requires GROUP BY"
+        ],
+        answer:
+            "The ON clause needs a complete comparison condition"
+    },
+
+    {
+        code: `SELECT *
+FROM employees
+JOIN departments
+WHERE employees.department_id =
+departments.id;`,
+        options: [
+            "The join relationship should be specified with ON",
+            "JOIN cannot be used with employees",
+            "WHERE must come before FROM",
+            "departments cannot have an id"
+        ],
+        answer:
+            "The join relationship should be specified with ON"
+    },
+
+    {
+        code: `SELECT *
+FROM employees
+INNER departments
+ON employees.department_id =
+departments.id;`,
+        options: [
+            "JOIN is missing after INNER",
+            "INNER should be WHERE",
+            "ON must be removed",
+            "SELECT cannot use *"
+        ],
+        answer:
+            "JOIN is missing after INNER"
+    }
+
+],
+
+
+"Aggregation Challenge": [
+
+    {
+        code: `SELECT department,
+COUNT(*)
+FROM employees
+GROUP department;`,
+        options: [
+            "BY is missing after GROUP",
+            "COUNT cannot use *",
+            "department cannot be grouped",
+            "FROM must come after GROUP"
+        ],
+        answer:
+            "BY is missing after GROUP"
+    },
+
+    {
+        code: `SELECT department,
+COUNT(*)
+FROM employees
+WHERE COUNT(*) > 5
+GROUP BY department;`,
+        options: [
+            "Aggregate group filtering should use HAVING instead of WHERE",
+            "COUNT cannot be used in SQL",
+            "GROUP BY must be removed",
+            "department must be numeric"
+        ],
+        answer:
+            "Aggregate group filtering should use HAVING instead of WHERE"
+    },
+
+    {
+        code: `SELECT department,
+SUM salary
+FROM employees
+GROUP BY department;`,
+        options: [
+            "SUM requires parentheses around salary",
+            "SUM cannot work with salary",
+            "GROUP BY cannot use department",
+            "SELECT must be DELETE"
+        ],
+        answer:
+            "SUM requires parentheses around salary"
+    },
+
+    {
+        code: `SELECT department,
+AVG(salary)
+FROM employees
+GROUP department
+HAVING AVG(salary) > 50000;`,
+        options: [
+            "GROUP should be GROUP BY",
+            "AVG cannot be used with HAVING",
+            "HAVING must be before SELECT",
+            "salary cannot be averaged"
+        ],
+        answer:
+            "GROUP should be GROUP BY"
+    },
+
+    {
+        code: `SELECT department,
+COUNT(*)
+FROM employees
+GROUP BY department
+HAVING COUNT(*) >;`,
+        options: [
+            "The comparison is missing a value after >",
+            "HAVING cannot use COUNT",
+            "COUNT(*) must be COUNT(1) only",
+            "GROUP BY cannot appear before HAVING"
+        ],
+        answer:
+            "The comparison is missing a value after >"
+    }
+
+]
 
 };
 
@@ -3403,7 +5100,130 @@ const codeOrderingData = {
             ]
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL CODE ORDERING DATA
+// =====================================================
+
+"Multiple Table Joins": [
+
+    {
+        lines: [
+            "SELECT employees.name, departments.name",
+            "FROM employees",
+            "INNER JOIN departments",
+            "ON employees.department_id = departments.id;"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT students.name, courses.course_name",
+            "FROM students",
+            "INNER JOIN enrollments",
+            "ON students.id = enrollments.student_id",
+            "INNER JOIN courses",
+            "ON enrollments.course_id = courses.id;"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT orders.id, customers.name, products.name",
+            "FROM orders",
+            "INNER JOIN customers",
+            "ON orders.customer_id = customers.id",
+            "INNER JOIN products",
+            "ON orders.product_id = products.id;"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT employees.name, departments.name, locations.city",
+            "FROM employees",
+            "INNER JOIN departments",
+            "ON employees.department_id = departments.id",
+            "INNER JOIN locations",
+            "ON departments.location_id = locations.id;"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT students.name, courses.course_name, teachers.name",
+            "FROM students",
+            "INNER JOIN courses",
+            "ON students.course_id = courses.id",
+            "INNER JOIN teachers",
+            "ON courses.teacher_id = teachers.id;"
+        ]
+    }
+
+],
+
+
+"Subqueries": [
+
+    {
+        lines: [
+            "SELECT name",
+            "FROM employees",
+            "WHERE salary > (",
+            "SELECT AVG(salary)",
+            "FROM employees",
+            ");"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT name",
+            "FROM students",
+            "WHERE marks = (",
+            "SELECT MAX(marks)",
+            "FROM students",
+            ");"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT name",
+            "FROM products",
+            "WHERE price < (",
+            "SELECT AVG(price)",
+            "FROM products",
+            ");"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT name",
+            "FROM employees",
+            "WHERE department_id IN (",
+            "SELECT id",
+            "FROM departments",
+            "WHERE location = 'Chennai'",
+            ");"
+        ]
+    },
+
+    {
+        lines: [
+            "SELECT name",
+            "FROM customers",
+            "WHERE id IN (",
+            "SELECT customer_id",
+            "FROM orders",
+            "WHERE amount > 5000",
+            ");"
+        ]
+    }
+
+]
 
 };
 
@@ -3819,8 +5639,7 @@ const codeChallengeData = {
 
             answers: [
                 "synchronized void display()",
-                "public synchronized void display()",
-                "void synchronized display()"
+                "public synchronized void display()"
             ]
         },
 
@@ -3858,7 +5677,120 @@ t.start();
             ]
         }
 
-    ]
+    ],
+
+    // =====================================================
+// SQL CODE CHALLENGE DATA
+// =====================================================
+
+"Advanced SQL Challenge": [
+
+    {
+        question:
+            "Write a query to retrieve all employees whose salary is greater than 50000.",
+
+        starter:
+`Table: employees
+
+Columns:
+id
+name
+salary
+
+Write your SQL query below:`,
+
+        answers: [
+            "SELECT * FROM employees WHERE salary > 50000;",
+            "SELECT * FROM employees WHERE salary > 50000"
+        ]
+    },
+
+    {
+        question:
+            "Write a query to count the total number of employees.",
+
+        starter:
+`Table: employees
+
+Columns:
+id
+name
+salary
+
+Write your SQL query below:`,
+
+        answers: [
+            "SELECT COUNT(*) FROM employees;",
+            "SELECT COUNT(*) FROM employees"
+        ]
+    },
+
+    {
+        question:
+            "Write a query to find the average salary of all employees.",
+
+        starter:
+`Table: employees
+
+Columns:
+id
+name
+salary
+
+Write your SQL query below:`,
+
+        answers: [
+            "SELECT AVG(salary) FROM employees;",
+            "SELECT AVG(salary) FROM employees"
+        ]
+    },
+
+    {
+        question:
+            "Write a query to display each department and the number of employees in that department.",
+
+        starter:
+`Table: employees
+
+Columns:
+id
+name
+salary
+department
+
+Write your SQL query below:`,
+
+        answers: [
+            "SELECT department, COUNT(*) FROM employees GROUP BY department;",
+            "SELECT department, COUNT(*) FROM employees GROUP BY department"
+        ]
+    },
+
+    {
+        question:
+            "Write a query to retrieve employee names together with their department names using an INNER JOIN.",
+
+        starter:
+`Table: employees
+Columns:
+id
+name
+department_id
+
+Table: departments
+Columns:
+id
+name
+
+Write your SQL query below:`,
+
+        answers: [
+            "SELECT employees.name, departments.name FROM employees INNER JOIN departments ON employees.department_id = departments.id;",
+            "SELECT employees.name, departments.name FROM employees INNER JOIN departments ON employees.department_id = departments.id"
+        ]
+    }
+
+]
 
 };
 
@@ -3986,7 +5918,9 @@ if (checkCodeChallengeButton) {
             ) {
 
                 codeChallengeFeedback.textContent =
-                    "Please enter your Java code.";
+    currentCourseName === "SQL"
+        ? "Please enter your SQL query."
+        : "Please enter your Java code.";
 
                 return;
             }
@@ -4134,10 +6068,16 @@ function finishCodeChallenge() {
 
 function loadActivityGame() {
 
-    const activityType =
-        activityTypeMap[
-            currentActivityName
-        ];
+    const selectedActivityTypeMap =
+    currentCourseName === "SQL"
+        ? sqlActivityTypeMap
+        : activityTypeMap;
+
+
+const activityType =
+    selectedActivityTypeMap[
+        currentActivityName
+    ];
 
 
     if (quizContainer) {
