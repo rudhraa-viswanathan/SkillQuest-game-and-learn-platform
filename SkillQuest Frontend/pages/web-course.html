@@ -2,149 +2,173 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Web Development - SkillQuest</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/course.css">
+    <title>
+        Web Development - SkillQuest
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/java-course.css"
+    >
+
 </head>
+
 
 <body>
 
-    <header>
+
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
+
+    <header class="main-header">
+
+        <div class="logo">
+            SkillQuest
+        </div>
+
         <nav>
-            <a href="../index.html" class="logo">SkillQuest</a>
 
-            <div class="nav-links">
-                <a href="../index.html#how-it-works">How It Works</a>
-                <a href="../index.html#courses">Courses</a>
-                <a href="../index.html#contact">Contact</a>
-                <a href="dashboard.html">Dashboard</a>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-
-    <section class="course-page">
-
-        <div class="course-header">
-
-            <a href="dashboard.html" class="back-link">
-                ← Back to Dashboard
+            <a href="Dashboard.html">
+                Dashboard
             </a>
 
-            <h1>Web Development</h1>
+            <a href="courses.html">
+                Courses
+            </a>
+
+            <a href="#">
+                Leaderboard
+            </a>
+
+            <a href="#">
+                Profile
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================================= -->
+    <!-- COURSE MAIN CONTENT -->
+    <!-- ================================= -->
+
+    <main class="course-page">
+
+
+        <!-- Back Navigation -->
+
+        <a
+            href="courses.html"
+            class="back-to-courses"
+        >
+            ← Back to Courses
+        </a>
+
+
+        <!-- ================================= -->
+        <!-- COURSE HEADER -->
+        <!-- ================================= -->
+
+        <section class="course-header">
+
+            <h1>
+                Web Development
+            </h1>
 
             <p>
-                Continue your Web Development learning journey with SkillQuest.
+                Learn HTML, CSS and JavaScript
+                through interactive activities
+                and challenges.
             </p>
-        </div>
+
+        </section>
 
 
-        <div class="course-progress-card">
+        <!-- ================================= -->
+        <!-- COURSE PROGRESS -->
+        <!-- ================================= -->
 
-            <div class="course-progress-header">
+        <section class="course-progress-section">
 
-                <h2>Course Progress</h2>
+            <p>
+                Course Progress:
+                <span id="course-progress-text">
+                    0%
+                </span>
+            </p>
 
-                <span>48%</span>
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="course-progress-fill"
+                >
+                </div>
 
             </div>
 
-            <div class="course-progress-bar">
+        </section>
 
-                <div class="course-progress-fill"></div>
+
+        <!-- ================================= -->
+        <!-- WEB TOPICS -->
+        <!-- ================================= -->
+
+        <section class="topics-section">
+
+            <h2>
+                Topics
+            </h2>
+
+            <div id="topics-container">
 
             </div>
 
-        </div>
+        </section>
 
 
-        <div class="course-topics">
-
-            <div class="topic-card">
-
-                <h3>HTML</h3>
-
-                <p>
-                    Learn the structure and foundation of web pages.
-                </p>
-                    <span>✓ Completed</span>
-                    <button class="topic-btn">Review Topic</button>
-            </div>
+    </main>
 
 
-            <div class="topic-card">
+    <!-- ================================= -->
+    <!-- FOOTER -->
+    <!-- ================================= -->
 
-                <h3>CSS</h3>
+    <footer class="main-footer">
 
-                <p>
-                    Learn how to style and design modern websites.
-                </p>
-                    <span>✓ Completed</span>
-                    <button class="topic-btn">Review Topic</button>
-            </div>
-
-
-            <div class="topic-card">
-
-                <h3>JavaScript</h3>
-
-                <p>
-                    Learn how to make websites interactive and dynamic.
-                </p>
-                    <span>✓ Completed</span>
-                    <button class="topic-btn">Review Topic</button>
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-    <footer>
         <p>
-            &copy; 2026 SkillQuest. All rights reserved.
+            © 2026 SkillQuest.
+            Learn. Play. Grow.
         </p>
+
+        <a href="#">
+            Contact & Feedback
+        </a>
+
     </footer>
 
-    <script>
 
-    const savedWebProgress =
-        localStorage.getItem("webProgress");
+    <!-- ================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ================================= -->
 
-    const webProgress =
-        savedWebProgress !== null
-            ? Number(savedWebProgress)
-            : 48;
+    <script src="../js/web-course.js"></script>
 
-    document.querySelector(".course-progress-fill").style.width =
-        webProgress + "%";
-
-    document.querySelector(".course-progress-header span").textContent =
-        webProgress + "%";
-
-        const reviewButtons =
-    document.querySelectorAll(".topic-btn");
-
-reviewButtons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-        const topicName =
-            button.parentElement.querySelector("h3").textContent;
-
-        console.log(topicName + " selected");
-
-    });
-
-});
-
-</script>
 
 </body>
 

@@ -155,20 +155,29 @@ if (completeButton) {
             ) {
 
                 if (
-                    currentCourseName === "SQL"
-                ) {
+    currentCourseName === "SQL"
+) {
 
-                    window.location.assign(
-                        "sql-course.html"
-                    );
+    window.location.assign(
+        "sql-course.html"
+    );
 
-                } else {
+} else if (
+    currentCourseName ===
+    "Web Development"
+) {
 
-                    window.location.assign(
-                        "java-course.html"
-                    );
+    window.location.assign(
+        "web-course.html"
+    );
 
-                }
+} else {
+
+    window.location.assign(
+        "java-course.html"
+    );
+
+}
 
             }
 
@@ -198,6 +207,15 @@ if (backToCourseButton) {
                     "sql-course.html"
                 );
 
+            } else if (
+                currentCourseName ===
+                "Web Development"
+            ) {
+
+                window.location.assign(
+                    "web-course.html"
+                );
+
             } else {
 
                 window.location.assign(
@@ -210,7 +228,6 @@ if (backToCourseButton) {
     );
 
 }
-
 
 // =====================================================
 // 7. GAME TYPE MAPPING
@@ -303,6 +320,50 @@ const sqlActivityTypeMap = {
     "Indexes": "matching",
     "Window Functions": "code-output",
     "Advanced SQL Challenge": "code-challenge"
+
+};
+
+
+const webActivityTypeMap = {
+
+    // HTML FUNDAMENTALS
+    "HTML Structure": "quiz",
+    "Text & Headings": "fill",
+    "Links & Images": "code-output",
+    "HTML Fundamentals Challenge": "true-false",
+
+    // HTML FORMS & SEMANTIC HTML
+    "Lists & Tables": "code-ordering",
+    "Forms & Inputs": "matching",
+    "Semantic HTML": "quiz",
+    "HTML Debugging Challenge": "debugging",
+
+    // CSS FUNDAMENTALS
+    "CSS Selectors": "quiz",
+    "Colors & Typography": "matching",
+    "Box Model": "fill",
+    "CSS Fundamentals Challenge": "true-false",
+
+    // CSS LAYOUT & RESPONSIVE DESIGN
+    "Flexbox": "matching",
+    "CSS Grid": "code-output",
+    "Positioning": "quiz",
+    "Media Queries": "fill",
+    "Responsive CSS Challenge": "debugging",
+
+    // JAVASCRIPT FUNDAMENTALS
+    "JavaScript Variables & Data Types": "quiz",
+    "Operators & Conditions": "code-output",
+    "Loops": "code-ordering",
+    "Functions": "fill",
+    "JavaScript Fundamentals Challenge": "debugging",
+
+    // DOM & EVENTS
+    "DOM Selection": "quiz",
+    "Changing DOM Content": "code-output",
+    "Event Listeners": "code-ordering",
+    "Creating Elements": "matching",
+    "DOM Challenge": "code-challenge"
 
 };
 
@@ -1131,6 +1192,444 @@ const quizData = {
             "PRIMARY KEY"
     }
 
+],
+
+// =====================================================
+// WEB DEVELOPMENT - QUIZ DATA
+// =====================================================
+
+"HTML Structure": [
+
+    {
+        question:
+            "Which declaration tells the browser that the document uses HTML5?",
+        options: [
+            "<!DOCTYPE html>",
+            "<html5>",
+            "<doctype>",
+            "<document html>"
+        ],
+        answer:
+            "<!DOCTYPE html>"
+    },
+
+    {
+        question:
+            "Which HTML element is the root element of an HTML document?",
+        options: [
+            "<html>",
+            "<body>",
+            "<head>",
+            "<main>"
+        ],
+        answer:
+            "<html>"
+    },
+
+    {
+        question:
+            "Which section contains metadata, the page title and links to stylesheets?",
+        options: [
+            "<head>",
+            "<body>",
+            "<footer>",
+            "<section>"
+        ],
+        answer:
+            "<head>"
+    },
+
+    {
+        question:
+            "Which HTML element contains the content normally displayed on the webpage?",
+        options: [
+            "<body>",
+            "<head>",
+            "<title>",
+            "<meta>"
+        ],
+        answer:
+            "<body>"
+    },
+
+    {
+        question:
+            "Which element is used to define the title shown on the browser tab?",
+        options: [
+            "<title>",
+            "<header>",
+            "<h1>",
+            "<meta>"
+        ],
+        answer:
+            "<title>"
+    }
+
+],
+
+
+"Semantic HTML": [
+
+    {
+        question:
+            "Which semantic element is commonly used for the main navigation links?",
+        options: [
+            "<nav>",
+            "<div>",
+            "<span>",
+            "<link>"
+        ],
+        answer:
+            "<nav>"
+    },
+
+    {
+        question:
+            "Which semantic element represents the main content of a document?",
+        options: [
+            "<main>",
+            "<body>",
+            "<content>",
+            "<section-main>"
+        ],
+        answer:
+            "<main>"
+    },
+
+    {
+        question:
+            "Which semantic element is commonly used for introductory content at the top of a page or section?",
+        options: [
+            "<header>",
+            "<top>",
+            "<head>",
+            "<intro>"
+        ],
+        answer:
+            "<header>"
+    },
+
+    {
+        question:
+            "Which semantic element is appropriate for self-contained content such as a blog post?",
+        options: [
+            "<article>",
+            "<div>",
+            "<span>",
+            "<aside-content>"
+        ],
+        answer:
+            "<article>"
+    },
+
+    {
+        question:
+            "Which semantic element is commonly used for information at the bottom of a page?",
+        options: [
+            "<footer>",
+            "<bottom>",
+            "<end>",
+            "<aside>"
+        ],
+        answer:
+            "<footer>"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CSS QUIZ DATA
+// =====================================================
+
+"CSS Selectors": [
+
+    {
+        question:
+            "Which CSS selector targets all <p> elements?",
+        options: [
+            "p",
+            ".p",
+            "#p",
+            "*p"
+        ],
+        answer:
+            "p"
+    },
+
+    {
+        question:
+            "Which symbol is used to select an element by its class?",
+        options: [
+            ".",
+            "#",
+            "*",
+            "@"
+        ],
+        answer:
+            "."
+    },
+
+    {
+        question:
+            "Which symbol is used to select an element by its id?",
+        options: [
+            "#",
+            ".",
+            "@",
+            "&"
+        ],
+        answer:
+            "#"
+    },
+
+    {
+        question:
+            "Which selector targets every element on the page?",
+        options: [
+            "*",
+            "all",
+            "#",
+            "."
+        ],
+        answer:
+            "*"
+    },
+
+    {
+        question:
+            "Which selector targets all <p> elements inside a <div>?",
+        options: [
+            "div p",
+            "div.p",
+            "div + p",
+            "#div p"
+        ],
+        answer:
+            "div p"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CSS POSITIONING QUIZ DATA
+// =====================================================
+
+"Positioning": [
+
+    {
+        question:
+            "Which CSS position value keeps an element in the normal document flow?",
+        options: [
+            "static",
+            "absolute",
+            "fixed",
+            "sticky"
+        ],
+        answer:
+            "static"
+    },
+
+    {
+        question:
+            "Which position value allows an element to be moved relative to its normal position?",
+        options: [
+            "relative",
+            "fixed",
+            "static",
+            "absolute"
+        ],
+        answer:
+            "relative"
+    },
+
+    {
+        question:
+            "An absolutely positioned element is normally positioned relative to what?",
+        options: [
+            "Its nearest positioned ancestor",
+            "The mouse pointer",
+            "The footer",
+            "The previous paragraph"
+        ],
+        answer:
+            "Its nearest positioned ancestor"
+    },
+
+    {
+        question:
+            "Which position value keeps an element in the same place even when the page is scrolled?",
+        options: [
+            "fixed",
+            "relative",
+            "static",
+            "inherit"
+        ],
+        answer:
+            "fixed"
+    },
+
+    {
+        question:
+            "Which CSS property controls which positioned element appears in front when elements overlap?",
+        options: [
+            "z-index",
+            "display",
+            "overflow",
+            "opacity"
+        ],
+        answer:
+            "z-index"
+    }
+
+],
+
+// =====================================================
+// WEB DEVELOPMENT - JAVASCRIPT QUIZ DATA
+// =====================================================
+
+"JavaScript Variables & Data Types": [
+
+    {
+        question:
+            "Which keyword creates a block-scoped variable whose value can be reassigned?",
+        options: [
+            "let",
+            "const",
+            "static",
+            "define"
+        ],
+        answer:
+            "let"
+    },
+
+    {
+        question:
+            "Which keyword creates a variable that cannot be reassigned after initialization?",
+        options: [
+            "const",
+            "let",
+            "var",
+            "change"
+        ],
+        answer:
+            "const"
+    },
+
+    {
+        question:
+            "Which JavaScript data type represents true or false values?",
+        options: [
+            "Boolean",
+            "String",
+            "Number",
+            "Object"
+        ],
+        answer:
+            "Boolean"
+    },
+
+    {
+        question:
+            "What is the data type of the value \"SkillQuest\" in JavaScript?",
+        options: [
+            "String",
+            "Number",
+            "Boolean",
+            "Undefined"
+        ],
+        answer:
+            "String"
+    },
+
+    {
+        question:
+            "Which value represents a variable that has been declared but has not yet been assigned a value?",
+        options: [
+            "undefined",
+            "true",
+            "0",
+            "empty"
+        ],
+        answer:
+            "undefined"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - DOM SELECTION QUIZ
+// =====================================================
+
+"DOM Selection": [
+
+    {
+        question:
+            "Which method selects an HTML element using its id?",
+        options: [
+            "document.getElementById()",
+            "document.getElementsByClassName()",
+            "document.querySelectorAll()",
+            "document.createElement()"
+        ],
+        answer:
+            "document.getElementById()"
+    },
+
+    {
+        question:
+            "Which method returns the first element that matches a CSS selector?",
+        options: [
+            "document.querySelector()",
+            "document.querySelectorAll()",
+            "document.getElementById()",
+            "document.createElement()"
+        ],
+        answer:
+            "document.querySelector()"
+    },
+
+    {
+        question:
+            "Which method returns all elements that match a CSS selector?",
+        options: [
+            "document.querySelectorAll()",
+            "document.querySelector()",
+            "document.getElementById()",
+            "document.appendChild()"
+        ],
+        answer:
+            "document.querySelectorAll()"
+    },
+
+    {
+        question:
+            "Which method selects elements using their class name?",
+        options: [
+            "document.getElementsByClassName()",
+            "document.getElementById()",
+            "document.createElement()",
+            "document.addEventListener()"
+        ],
+        answer:
+            "document.getElementsByClassName()"
+    },
+
+    {
+        question:
+            "Which selector should be passed to querySelector() to select an element with id=\"title\"?",
+        options: [
+            "#title",
+            ".title",
+            "title#",
+            "*title"
+        ],
+        answer:
+            "#title"
+    }
+
 ]
 
 };
@@ -1710,6 +2209,180 @@ const fillBlankQuestionBanks = {
             ">"
     }
 
+],
+
+// =====================================================
+// WEB DEVELOPMENT - FILL IN THE BLANK DATA
+// =====================================================
+
+"Text & Headings": [
+
+    {
+        question:
+            "The largest HTML heading element is ______.",
+        answer:
+            "<h1>"
+    },
+
+    {
+        question:
+            "The HTML element used to create a paragraph is ______.",
+        answer:
+            "<p>"
+    },
+
+    {
+        question:
+            "The HTML element used to create a line break is ______.",
+        answer:
+            "<br>"
+    },
+
+    {
+        question:
+            "The HTML element commonly used to make text strongly important is ______.",
+        answer:
+            "<strong>"
+    },
+
+    {
+        question:
+            "The smallest HTML heading element is ______.",
+        answer:
+            "<h6>"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CSS FILL IN THE BLANK DATA
+// =====================================================
+
+"Box Model": [
+
+    {
+        question:
+            "The space between an element's content and its border is called ______.",
+        answer:
+            "padding"
+    },
+
+    {
+        question:
+            "The space outside an element's border is called ______.",
+        answer:
+            "margin"
+    },
+
+    {
+        question:
+            "The CSS property used to define the line surrounding an element is ______.",
+        answer:
+            "border"
+    },
+
+    {
+        question:
+            "The CSS property used to control the horizontal size of an element is ______.",
+        answer:
+            "width"
+    },
+
+    {
+        question:
+            "The CSS value that makes width and height include content, padding and border is box-sizing: ______.",
+        answer:
+            "border-box"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - MEDIA QUERIES DATA
+// =====================================================
+
+"Media Queries": [
+
+    {
+        question:
+            "The CSS rule used to apply styles based on device or screen conditions is ______.",
+        answer:
+            "@media"
+    },
+
+    {
+        question:
+            "In @media (max-width: 768px), the maximum viewport width is ______.",
+        answer:
+            "768px"
+    },
+
+    {
+        question:
+            "The media feature used to apply styles when the viewport is at least a certain width is ______.",
+        answer:
+            "min-width"
+    },
+
+    {
+        question:
+            "The media feature used to detect portrait or landscape mode is ______.",
+        answer:
+            "orientation"
+    },
+
+    {
+        question:
+            "Adapting a webpage to work well on different screen sizes is called ______ design.",
+        answer:
+            "responsive"
+    }
+
+],
+
+// =====================================================
+// WEB DEVELOPMENT - JAVASCRIPT FUNCTIONS
+// =====================================================
+
+"Functions": [
+
+    {
+        question:
+            "The keyword used to declare a traditional JavaScript function is ______.",
+        answer:
+            "function"
+    },
+
+    {
+        question:
+            "The keyword used to send a value back from a function is ______.",
+        answer:
+            "return"
+    },
+
+    {
+        question:
+            "In function greet(name), the variable name inside the parentheses is called a ______.",
+        answer:
+            "parameter"
+    },
+
+    {
+        question:
+            "To execute a function named greet, we write greet______.",
+        answer:
+            "()"
+    },
+
+    {
+        question:
+            "The ES6 syntax const add = (a, b) => a + b; creates an ______ function.",
+        answer:
+            "arrow"
+    }
+
 ]
 
 };
@@ -2251,6 +2924,341 @@ const matchingData = {
             "Can improve when useful indexes are available"
     }
 
+],
+
+// =====================================================
+// WEB DEVELOPMENT - MATCHING DATA
+// =====================================================
+
+"Forms & Inputs": [
+
+    {
+        left: [
+            "<form>",
+            "<input>",
+            "<label>",
+            "<button>"
+        ],
+        right: [
+            "Creates a form",
+            "Creates an input field",
+            "Provides a label for a form control",
+            "Creates a clickable button"
+        ]
+    },
+
+    {
+        left: [
+            "type=\"text\"",
+            "type=\"password\"",
+            "type=\"email\"",
+            "type=\"number\""
+        ],
+        right: [
+            "Text input",
+            "Password input",
+            "Email input",
+            "Number input"
+        ]
+    },
+
+    {
+        left: [
+            "type=\"radio\"",
+            "type=\"checkbox\"",
+            "type=\"submit\"",
+            "type=\"date\""
+        ],
+        right: [
+            "Single-choice option",
+            "Multiple-choice option",
+            "Submits the form",
+            "Date input"
+        ]
+    },
+
+    {
+        left: [
+            "action",
+            "method",
+            "name",
+            "placeholder"
+        ],
+        right: [
+            "Specifies where form data is sent",
+            "Specifies how form data is sent",
+            "Identifies a form control",
+            "Displays temporary hint text"
+        ]
+    },
+
+    {
+        left: [
+            "<textarea>",
+            "<select>",
+            "<option>",
+            "<fieldset>"
+        ],
+        right: [
+            "Multi-line text input",
+            "Creates a drop-down list",
+            "Defines a drop-down choice",
+            "Groups related form controls"
+        ]
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CSS MATCHING DATA
+// =====================================================
+
+"Colors & Typography": [
+
+    {
+        left: [
+            "color",
+            "background-color",
+            "font-size",
+            "font-family"
+        ],
+        right: [
+            "Changes text color",
+            "Changes background color",
+            "Changes text size",
+            "Changes the typeface"
+        ]
+    },
+
+    {
+        left: [
+            "font-weight",
+            "font-style",
+            "text-align",
+            "text-decoration"
+        ],
+        right: [
+            "Controls text thickness",
+            "Controls normal or italic text",
+            "Controls horizontal text alignment",
+            "Adds decoration such as underline"
+        ]
+    },
+
+    {
+        left: [
+            "#ff0000",
+            "#00ff00",
+            "#0000ff",
+            "#ffffff"
+        ],
+        right: [
+            "Red",
+            "Green",
+            "Blue",
+            "White"
+        ]
+    },
+
+    {
+        left: [
+            "16px",
+            "2rem",
+            "50%",
+            "1.5em"
+        ],
+        right: [
+            "16 pixels",
+            "Twice the root font size",
+            "Fifty percent",
+            "1.5 times the parent/current font size"
+        ]
+    },
+
+    {
+        left: [
+            "left",
+            "center",
+            "right",
+            "justify"
+        ],
+        right: [
+            "Aligns text to the left",
+            "Centers text",
+            "Aligns text to the right",
+            "Spreads text across the available width"
+        ]
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - FLEXBOX MATCHING DATA
+// =====================================================
+
+"Flexbox": [
+
+    {
+        left: [
+            "display: flex",
+            "flex-direction",
+            "justify-content",
+            "align-items"
+        ],
+        right: [
+            "Creates a flex container",
+            "Controls the direction of flex items",
+            "Aligns items along the main axis",
+            "Aligns items along the cross axis"
+        ]
+    },
+
+    {
+        left: [
+            "row",
+            "column",
+            "row-reverse",
+            "column-reverse"
+        ],
+        right: [
+            "Items arranged horizontally",
+            "Items arranged vertically",
+            "Horizontal arrangement in reverse",
+            "Vertical arrangement in reverse"
+        ]
+    },
+
+    {
+        left: [
+            "justify-content: center",
+            "justify-content: flex-start",
+            "justify-content: flex-end",
+            "justify-content: space-between"
+        ],
+        right: [
+            "Centers items on the main axis",
+            "Places items at the start",
+            "Places items at the end",
+            "Adds space between items"
+        ]
+    },
+
+    {
+        left: [
+            "align-items: center",
+            "align-items: flex-start",
+            "align-items: flex-end",
+            "align-items: stretch"
+        ],
+        right: [
+            "Centers items on the cross axis",
+            "Places items at the cross-axis start",
+            "Places items at the cross-axis end",
+            "Stretches items across the cross axis"
+        ]
+    },
+
+    {
+        left: [
+            "flex-wrap: wrap",
+            "gap",
+            "flex-grow",
+            "flex-shrink"
+        ],
+        right: [
+            "Allows items to move onto another line",
+            "Adds spacing between flex items",
+            "Controls how an item can grow",
+            "Controls how an item can shrink"
+        ]
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CREATING ELEMENTS
+// =====================================================
+
+"Creating Elements": [
+
+    {
+        left: [
+            "document.createElement()",
+            "appendChild()",
+            "textContent",
+            "remove()"
+        ],
+        right: [
+            "Creates a new HTML element",
+            "Adds a child element",
+            "Sets the text inside an element",
+            "Removes an element"
+        ]
+    },
+
+    {
+        left: [
+            `document.createElement("p")`,
+            `document.createElement("button")`,
+            `document.createElement("img")`,
+            `document.createElement("div")`
+        ],
+        right: [
+            "Creates a paragraph",
+            "Creates a button",
+            "Creates an image element",
+            "Creates a div"
+        ]
+    },
+
+    {
+        left: [
+            "classList.add()",
+            "classList.remove()",
+            "setAttribute()",
+            "append()"
+        ],
+        right: [
+            "Adds a CSS class",
+            "Removes a CSS class",
+            "Sets an HTML attribute",
+            "Adds content to an element"
+        ]
+    },
+
+    {
+        left: [
+            `element.id = "card"`,
+            `element.textContent = "Hello"`,
+            `element.classList.add("active")`,
+            `element.remove()`
+        ],
+        right: [
+            "Sets the element id",
+            "Adds text to the element",
+            "Adds the active class",
+            "Deletes the element"
+        ]
+    },
+
+    {
+        left: [
+            "createElement",
+            "textContent",
+            "appendChild",
+            "addEventListener"
+        ],
+        right: [
+            "Create an element",
+            "Give it text",
+            "Insert it into the page",
+            "Make it interactive"
+        ]
+    }
+
 ]
 
 };
@@ -2704,6 +3712,94 @@ const trueFalseData = {
         question:
             "Views can be used to simplify access to complex queries.",
         answer: true
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - TRUE / FALSE DATA
+// =====================================================
+
+"HTML Fundamentals Challenge": [
+
+    {
+        question:
+            "The <body> element contains the main visible content of an HTML page.",
+        answer:
+            true
+    },
+
+    {
+        question:
+            "The <h1> element represents a smaller heading than <h6>.",
+        answer:
+            false
+    },
+
+    {
+        question:
+            "The href attribute is commonly used to specify the destination of a link.",
+        answer:
+            true
+    },
+
+    {
+        question:
+            "The src attribute can be used to specify the source of an image.",
+        answer:
+            true
+    },
+
+    {
+        question:
+            "The <p> element is used to create an image.",
+        answer:
+            false
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CSS TRUE / FALSE DATA
+// =====================================================
+
+"CSS Fundamentals Challenge": [
+
+    {
+        question:
+            "The # symbol is used to select an element by its id in CSS.",
+        answer:
+            true
+    },
+
+    {
+        question:
+            "Padding creates space outside an element's border.",
+        answer:
+            false
+    },
+
+    {
+        question:
+            "The color property is used to change the text color of an element.",
+        answer:
+            true
+    },
+
+    {
+        question:
+            "The margin property controls the space outside an element's border.",
+        answer:
+            true
+    },
+
+    {
+        question:
+            "The font-size property is used to change the background color of an element.",
+        answer:
+            false
     }
 
 ]
@@ -3986,6 +5082,377 @@ FROM employees;`,
         answer: "Ravi-40000, Priya-40000, Arun-40000"
     }
 
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CODE OUTPUT DATA
+// =====================================================
+
+"Links & Images": [
+
+    {
+        code:
+            `<a href="https://example.com">Visit</a>`,
+        question:
+            "What clickable text will be displayed?",
+        options: [
+            "Visit",
+            "https://example.com",
+            "example.com",
+            "href"
+        ],
+        answer:
+            "Visit"
+    },
+
+    {
+        code:
+            `<img src="cat.jpg" alt="Cat">`,
+        question:
+            "What is the value of the src attribute?",
+        options: [
+            "cat.jpg",
+            "Cat",
+            "img",
+            "src"
+        ],
+        answer:
+            "cat.jpg"
+    },
+
+    {
+        code:
+            `<a href="about.html">About Us</a>`,
+        question:
+            "Which page will this link open?",
+        options: [
+            "about.html",
+            "index.html",
+            "contact.html",
+            "home.html"
+        ],
+        answer:
+            "about.html"
+    },
+
+    {
+        code:
+            `<img src="logo.png" alt="SkillQuest Logo">`,
+        question:
+            "What alternative text is provided for the image?",
+        options: [
+            "SkillQuest Logo",
+            "logo.png",
+            "SkillQuest",
+            "Image"
+        ],
+        answer:
+            "SkillQuest Logo"
+    },
+
+    {
+        code:
+            `<a href="https://example.com" target="_blank">Open Site</a>`,
+        question:
+            "What does target=\"_blank\" normally do?",
+        options: [
+            "Opens the link in a new tab or window",
+            "Deletes the link",
+            "Closes the browser",
+            "Downloads the page"
+        ],
+        answer:
+            "Opens the link in a new tab or window"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - CSS GRID CODE OUTPUT DATA
+// =====================================================
+
+"CSS Grid": [
+
+    {
+        code:
+            `.container {
+    display: grid;
+}`,
+        question:
+            "Which CSS layout system is applied to .container?",
+        options: [
+            "Grid",
+            "Flexbox",
+            "Block",
+            "Inline"
+        ],
+        answer:
+            "Grid"
+    },
+
+    {
+        code:
+            `.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}`,
+        question:
+            "How many equal-width columns are created?",
+        options: [
+            "2",
+            "1",
+            "3",
+            "4"
+        ],
+        answer:
+            "2"
+    },
+
+    {
+        code:
+            `.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}`,
+        question:
+            "How many columns are created?",
+        options: [
+            "3",
+            "1",
+            "2",
+            "4"
+        ],
+        answer:
+            "3"
+    },
+
+    {
+        code:
+            `.container {
+    display: grid;
+    gap: 20px;
+}`,
+        question:
+            "What spacing is added between the grid items?",
+        options: [
+            "20px",
+            "10px",
+            "0px",
+            "40px"
+        ],
+        answer:
+            "20px"
+    },
+
+    {
+        code:
+            `.item {
+    grid-column: 1 / 3;
+}`,
+        question:
+            "From which grid line to which grid line does the item span?",
+        options: [
+            "1 to 3",
+            "1 to 2",
+            "2 to 3",
+            "3 to 4"
+        ],
+        answer:
+            "1 to 3"
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - JAVASCRIPT OPERATORS & CONDITIONS
+// =====================================================
+
+"Operators & Conditions": [
+
+    {
+        code:
+            `let a = 10;
+let b = 5;
+console.log(a + b);`,
+        question:
+            "What will be printed?",
+        options: [
+            "15",
+            "105",
+            "5",
+            "10"
+        ],
+        answer:
+            "15"
+    },
+
+    {
+        code:
+            `let age = 20;
+
+if (age >= 18) {
+    console.log("Adult");
+} else {
+    console.log("Minor");
+}`,
+        question:
+            "What will be printed?",
+        options: [
+            "Adult",
+            "Minor",
+            "20",
+            "undefined"
+        ],
+        answer:
+            "Adult"
+    },
+
+    {
+        code:
+            `let x = 7;
+console.log(x % 2);`,
+        question:
+            "What will be printed?",
+        options: [
+            "1",
+            "0",
+            "2",
+            "7"
+        ],
+        answer:
+            "1"
+    },
+
+    {
+        code:
+            `let score = 40;
+
+if (score > 50) {
+    console.log("Pass");
+} else {
+    console.log("Try Again");
+}`,
+        question:
+            "What will be printed?",
+        options: [
+            "Try Again",
+            "Pass",
+            "40",
+            "50"
+        ],
+        answer:
+            "Try Again"
+    },
+
+    {
+        code:
+            `let a = true;
+let b = false;
+
+console.log(a && b);`,
+        question:
+            "What will be printed?",
+        options: [
+            "false",
+            "true",
+            "undefined",
+            "0"
+        ],
+        answer:
+            "false"
+    }
+
+],
+
+// =====================================================
+// WEB DEVELOPMENT - CHANGING DOM CONTENT
+// =====================================================
+
+"Changing DOM Content": [
+
+    {
+        code:
+            `const title = document.getElementById("title");
+title.textContent = "Welcome";`,
+        question:
+            "What text will the element with id=\"title\" display?",
+        options: [
+            "Welcome",
+            "title",
+            "textContent",
+            "undefined"
+        ],
+        answer:
+            "Welcome"
+    },
+
+    {
+        code:
+            `const message = document.querySelector(".message");
+message.innerHTML = "<strong>Hello</strong>";`,
+        question:
+            "What text will appear in bold on the page?",
+        options: [
+            "Hello",
+            "strong",
+            "message",
+            "innerHTML"
+        ],
+        answer:
+            "Hello"
+    },
+
+    {
+        code:
+            `const button = document.getElementById("btn");
+button.textContent = "Start Game";`,
+        question:
+            "What text will appear on the button?",
+        options: [
+            "Start Game",
+            "btn",
+            "button",
+            "Game"
+        ],
+        answer:
+            "Start Game"
+    },
+
+    {
+        code:
+            `const heading = document.querySelector("h1");
+heading.style.color = "red";`,
+        question:
+            "What color will the h1 text become?",
+        options: [
+            "Red",
+            "Blue",
+            "Black",
+            "White"
+        ],
+        answer:
+            "Red"
+    },
+
+    {
+        code:
+            `const box = document.getElementById("box");
+box.classList.add("active");`,
+        question:
+            "Which CSS class is added to the element?",
+        options: [
+            "active",
+            "box",
+            "classList",
+            "add"
+        ],
+        answer:
+            "active"
+    }
+
 ]
 
 };
@@ -4731,7 +6198,445 @@ HAVING COUNT(*) >;`,
             "The comparison is missing a value after >"
     }
 
-]
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - DEBUGGING DATA
+// =====================================================
+
+"HTML Debugging Challenge": [
+
+    {
+        question:
+            "Fix the incorrect closing tag.",
+
+        code:
+            `<h1>Welcome</h2>`,
+
+        options: [
+            `<h1>Welcome</h1>`,
+            `<h2>Welcome</h2>`,
+            `<h1>Welcome</h2>`,
+            `<h1>Welcome</p>`
+        ],
+
+        answer:
+            `<h1>Welcome</h1>`
+    },
+
+    {
+        question:
+            "Fix the paragraph closing tag.",
+
+        code:
+            `<p>Learn Web Development</div>`,
+
+        options: [
+            `<p>Learn Web Development</p>`,
+            `<div>Learn Web Development</div>`,
+            `<p>Learn Web Development</span>`,
+            `<p>Learn Web Development</div>`
+        ],
+
+        answer:
+            `<p>Learn Web Development</p>`
+    },
+
+    {
+        question:
+            "Fix the incorrect image attribute.",
+
+        code:
+            `<img source="photo.jpg" alt="Photo">`,
+
+        options: [
+            `<img src="photo.jpg" alt="Photo">`,
+            `<img href="photo.jpg" alt="Photo">`,
+            `<img link="photo.jpg" alt="Photo">`,
+            `<img source="photo.jpg" alt="Photo">`
+        ],
+
+        answer:
+            `<img src="photo.jpg" alt="Photo">`
+    },
+
+    {
+        question:
+            "Fix the incorrect link attribute.",
+
+        code:
+            `<a src="https://example.com">Visit</a>`,
+
+        options: [
+            `<a href="https://example.com">Visit</a>`,
+            `<a link="https://example.com">Visit</a>`,
+            `<a url="https://example.com">Visit</a>`,
+            `<a src="https://example.com">Visit</a>`
+        ],
+
+        answer:
+            `<a href="https://example.com">Visit</a>`
+    },
+
+    {
+        question:
+            "Fix the incorrect unordered list closing tag.",
+
+        code:
+`<ul>
+    <li>Java</li>
+    <li>SQL</li>
+</ol>`,
+
+        options: [
+`<ul>
+    <li>Java</li>
+    <li>SQL</li>
+</ul>`,
+
+`<ol>
+    <li>Java</li>
+    <li>SQL</li>
+</ol>`,
+
+`<ul>
+    <li>Java</li>
+    <li>SQL</li>
+</div>`,
+
+`<ul>
+    <li>Java</li>
+    <li>SQL</li>
+</ol>`
+        ],
+
+        answer:
+`<ul>
+    <li>Java</li>
+    <li>SQL</li>
+</ul>`
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - RESPONSIVE CSS DEBUGGING DATA
+// =====================================================
+
+"Responsive CSS Challenge": [
+
+    {
+        question:
+            "Fix the incorrect media query keyword.",
+
+        code:
+`@screen (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}`,
+
+        options: [
+`@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}`,
+`@screen (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}`,
+`@responsive (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}`,
+`@query (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}`
+        ],
+
+        answer:
+`@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect max-width syntax.",
+
+        code:
+`@media (max-width = 600px) {
+    body {
+        font-size: 14px;
+    }
+}`,
+
+        options: [
+`@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+}`,
+`@media (max-width = 600px) {
+    body {
+        font-size: 14px;
+    }
+}`,
+`@media (max-width 600px) {
+    body {
+        font-size: 14px;
+    }
+}`,
+`@media max-width: 600px {
+    body {
+        font-size: 14px;
+    }
+}`
+        ],
+
+        answer:
+`@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect CSS width property.",
+
+        code:
+`.container {
+    size: 100%;
+}`,
+
+        options: [
+`.container {
+    width: 100%;
+}`,
+`.container {
+    size: 100%;
+}`,
+`.container {
+    length: 100%;
+}`,
+`.container {
+    horizontal: 100%;
+}`
+        ],
+
+        answer:
+`.container {
+    width: 100%;
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect Flexbox property.",
+
+        code:
+`.container {
+    display: flexible;
+}`,
+
+        options: [
+`.container {
+    display: flex;
+}`,
+`.container {
+    display: flexible;
+}`,
+`.container {
+    flex: display;
+}`,
+`.container {
+    layout: flex;
+}`
+        ],
+
+        answer:
+`.container {
+    display: flex;
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect CSS Grid declaration.",
+
+        code:
+`.container {
+    display: grids;
+}`,
+
+        options: [
+`.container {
+    display: grid;
+}`,
+`.container {
+    display: grids;
+}`,
+`.container {
+    grid: display;
+}`,
+`.container {
+    layout: grid;
+}`
+        ],
+
+        answer:
+`.container {
+    display: grid;
+}`
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - JAVASCRIPT DEBUGGING
+// =====================================================
+
+"JavaScript Fundamentals Challenge": [
+
+    {
+        question:
+            "Fix the incorrect variable declaration.",
+
+        code:
+`let age = ;`,
+
+        options: [
+            `let age = 25;`,
+            `let = age 25;`,
+            `age let = 25;`,
+            `let age 25;`
+        ],
+
+        answer:
+            `let age = 25;`
+    },
+
+    {
+        question:
+            "Fix the incorrect comparison operator.",
+
+        code:
+`if (age = 18) {
+    console.log("Adult");
+}`,
+
+        options: [
+`if (age === 18) {
+    console.log("Adult");
+}`,
+`if (age = 18) {
+    console.log("Adult");
+}`,
+`if (age => 18) {
+    console.log("Adult");
+}`,
+`if (age := 18) {
+    console.log("Adult");
+}`
+        ],
+
+        answer:
+`if (age === 18) {
+    console.log("Adult");
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect for loop condition.",
+
+        code:
+`for (let i = 0; i < 5; i--) {
+    console.log(i);
+}`,
+
+        options: [
+`for (let i = 0; i < 5; i++) {
+    console.log(i);
+}`,
+`for (let i = 0; i < 5; i--) {
+    console.log(i);
+}`,
+`for (let i = 0; i > 5; i++) {
+    console.log(i);
+}`,
+`for (let i = 0; i < 5; i = 0) {
+    console.log(i);
+}`
+        ],
+
+        answer:
+`for (let i = 0; i < 5; i++) {
+    console.log(i);
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect function declaration.",
+
+        code:
+`function greet {
+    console.log("Hello");
+}`,
+
+        options: [
+`function greet() {
+    console.log("Hello");
+}`,
+`function greet {
+    console.log("Hello");
+}`,
+`greet function() {
+    console.log("Hello");
+}`,
+`function() greet {
+    console.log("Hello");
+}`
+        ],
+
+        answer:
+`function greet() {
+    console.log("Hello");
+}`
+    },
+
+    {
+        question:
+            "Fix the incorrect console method.",
+
+        code:
+`console.print("SkillQuest");`,
+
+        options: [
+            `console.log("SkillQuest");`,
+            `console.print("SkillQuest");`,
+            `console.write("SkillQuest");`,
+            `console.display("SkillQuest");`
+        ],
+
+        answer:
+            `console.log("SkillQuest");`
+    }
+
+],
 
 };
 
@@ -5220,6 +7125,203 @@ const codeOrderingData = {
             "FROM orders",
             "WHERE amount > 5000",
             ");"
+        ]
+    }
+
+],
+
+// =====================================================
+// WEB DEVELOPMENT - CODE ORDERING DATA
+// =====================================================
+
+"Lists & Tables": [
+
+    {
+        question:
+            "Arrange the code to create an unordered list with two items.",
+        lines: [
+            "<ul>",
+            "    <li>Java</li>",
+            "    <li>SQL</li>",
+            "</ul>"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to create an ordered list with two items.",
+        lines: [
+            "<ol>",
+            "    <li>HTML</li>",
+            "    <li>CSS</li>",
+            "</ol>"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to create a basic table.",
+        lines: [
+            "<table>",
+            "    <tr>",
+            "        <td>Java</td>",
+            "    </tr>",
+            "</table>"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to create a table row with two cells.",
+        lines: [
+            "<tr>",
+            "    <td>Rudhraa</td>",
+            "    <td>Developer</td>",
+            "</tr>"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to create a table with a heading.",
+        lines: [
+            "<table>",
+            "    <tr>",
+            "        <th>Course</th>",
+            "    </tr>",
+            "    <tr>",
+            "        <td>Java</td>",
+            "    </tr>",
+            "</table>"
+        ]
+    }
+
+],
+
+
+// =====================================================
+// WEB DEVELOPMENT - JAVASCRIPT LOOPS
+// =====================================================
+
+"Loops": [
+
+    {
+        question:
+            "Arrange the code to print numbers from 1 to 3.",
+        lines: [
+            "for (let i = 1; i <= 3; i++) {",
+            "    console.log(i);",
+            "}"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to create a while loop that prints 1 to 3.",
+        lines: [
+            "let i = 1;",
+            "while (i <= 3) {",
+            "    console.log(i);",
+            "    i++;",
+            "}"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to loop through an array using for...of.",
+        lines: [
+            "const courses = [\"Java\", \"SQL\", \"Web\"];",
+            "for (const course of courses) {",
+            "    console.log(course);",
+            "}"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to print even numbers from 2 to 6.",
+        lines: [
+            "for (let i = 2; i <= 6; i += 2) {",
+            "    console.log(i);",
+            "}"
+        ]
+    },
+
+    {
+        question:
+            "Arrange the do...while loop correctly.",
+        lines: [
+            "let count = 1;",
+            "do {",
+            "    console.log(count);",
+            "    count++;",
+            "} while (count <= 3);"
+        ]
+    }
+
+],
+
+// =====================================================
+// WEB DEVELOPMENT - EVENT LISTENERS
+// =====================================================
+
+"Event Listeners": [
+
+    {
+        question:
+            "Arrange the code to add a click event listener to a button.",
+        lines: [
+            `const button = document.getElementById("btn");`,
+            `button.addEventListener("click", function () {`,
+            `    console.log("Button clicked");`,
+            `});`
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to change a heading when a button is clicked.",
+        lines: [
+            `const heading = document.getElementById("title");`,
+            `const button = document.getElementById("btn");`,
+            `button.addEventListener("click", function () {`,
+            `    heading.textContent = "Welcome";`,
+            `});`
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to listen for a mouseover event.",
+        lines: [
+            `const box = document.getElementById("box");`,
+            `box.addEventListener("mouseover", function () {`,
+            `    console.log("Mouse entered");`,
+            `});`
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to listen for an input event.",
+        lines: [
+            `const input = document.getElementById("username");`,
+            `input.addEventListener("input", function () {`,
+            `    console.log(input.value);`,
+            `});`
+        ]
+    },
+
+    {
+        question:
+            "Arrange the code to prevent a form from submitting normally.",
+        lines: [
+            `const form = document.getElementById("login-form");`,
+            `form.addEventListener("submit", function (event) {`,
+            `    event.preventDefault();`,
+            `    console.log("Form submitted");`,
+            `});`
         ]
     }
 
@@ -5790,7 +7892,90 @@ Write your SQL query below:`,
         ]
     }
 
-]
+],
+
+    // =====================================================
+    // WEB DEVELOPMENT - DOM CODE CHALLENGE
+    // =====================================================
+
+    "DOM Challenge": [
+
+        {
+            question:
+                "Select the element with id title and store it in a variable named title.",
+
+            starter:
+`// Write one line below:`,
+
+            answers: [
+                `const title = document.getElementById("title");`,
+                `let title = document.getElementById("title");`
+            ]
+        },
+
+        {
+            question:
+                "Change the text of the title element to Welcome.",
+
+            starter:
+`const title = document.getElementById("title");
+
+// Write one line below:`,
+
+            answers: [
+                `title.textContent = "Welcome";`,
+                `title.textContent = 'Welcome';`
+            ]
+        },
+
+        {
+            question:
+                "Create a new paragraph element and store it in a variable named paragraph.",
+
+            starter:
+`// Write one line below:`,
+
+            answers: [
+                `const paragraph = document.createElement("p");`,
+                `let paragraph = document.createElement("p");`
+            ]
+        },
+
+        {
+            question:
+                "Add the CSS class active to the element named button.",
+
+            starter:
+`const button = document.getElementById("btn");
+
+// Write one line below:`,
+
+            answers: [
+                `button.classList.add("active");`,
+                `button.classList.add('active');`
+            ]
+        },
+
+        {
+            question:
+                "Add a click event listener to button that calls the function startGame.",
+
+            starter:
+`const button = document.getElementById("btn");
+
+function startGame() {
+    console.log("Game Started");
+}
+
+// Write one line below:`,
+
+            answers: [
+                `button.addEventListener("click", startGame);`,
+                `button.addEventListener('click', startGame);`
+            ]
+        }
+
+    ]
 
 };
 
@@ -6071,7 +8256,9 @@ function loadActivityGame() {
     const selectedActivityTypeMap =
     currentCourseName === "SQL"
         ? sqlActivityTypeMap
-        : activityTypeMap;
+        : currentCourseName === "Web Development"
+            ? webActivityTypeMap
+            : activityTypeMap;
 
 
 const activityType =
