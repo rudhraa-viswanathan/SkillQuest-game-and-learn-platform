@@ -347,13 +347,13 @@ function createActivityCard(
     activityIndex
 ) {
 
-    const activityCard =
+    const activityItem =
         document.createElement(
             "div"
         );
 
-    activityCard.classList.add(
-        "activity-card"
+    activityItem.classList.add(
+        "activity-item"
     );
 
 
@@ -364,101 +364,51 @@ function createActivityCard(
         );
 
 
-    if (activity.completed) {
+    if (unlocked || activity.completed) {
 
-        activityCard.classList.add(
-            "completed"
-        );
-
-    } else if (!unlocked) {
-
-        activityCard.classList.add(
-            "locked"
+        activityItem.classList.add(
+            "activity-unlocked"
         );
 
     } else {
 
-        activityCard.classList.add(
-            "unlocked"
+        activityItem.classList.add(
+            "activity-locked"
         );
 
     }
 
 
-    const activityInfo =
-        document.createElement(
-            "div"
-        );
-
-    activityInfo.classList.add(
-        "activity-info"
-    );
-
-
-    const activityTitle =
-        document.createElement(
-            "h4"
-        );
-
-    activityTitle.textContent =
-        activity.name;
-
-
-    const activityType =
-        document.createElement(
-            "p"
-        );
-
-    activityType.textContent =
-        formatActivityType(
-            activity.type
-        );
-
-
-    activityInfo.appendChild(
-        activityTitle
-    );
-
-    activityInfo.appendChild(
-        activityType
-    );
-
-
-    const activityStatus =
-        document.createElement(
-            "span"
-        );
-
-    activityStatus.classList.add(
-        "activity-status"
-    );
+    let activityStatus;
 
 
     if (activity.completed) {
 
-        activityStatus.textContent =
-            "✓ Completed";
+        activityStatus = "✅";
 
-    } else if (!unlocked) {
+    } else if (unlocked) {
 
-        activityStatus.textContent =
-            "🔒 Locked";
+        activityStatus = "🔓";
 
     } else {
 
-        activityStatus.textContent =
-            "▶ Start";
+        activityStatus = "🔒";
 
     }
 
 
-    activityCard.appendChild(
-        activityInfo
-    );
+    activityItem.innerHTML = `
 
-    activityCard.appendChild(
-        activityStatus
-    );
+        <span>
+            ${activityIndex + 1}.
+            ${activity.name}
+        </span>
+
+        <span class="activity-status">
+            ${activityStatus}
+        </span>
+
+    `;
 
 
     if (
@@ -466,7 +416,7 @@ function createActivityCard(
         activity.completed
     ) {
 
-        activityCard.addEventListener(
+        activityItem.addEventListener(
             "click",
             () => {
 
@@ -481,7 +431,7 @@ function createActivityCard(
     }
 
 
-    return activityCard;
+    return activityItem;
 
 }
 
@@ -559,87 +509,63 @@ function createTopicCard(
     }
 
 
-    const topicHeader =
-        document.createElement(
-            "div"
-        );
-
-    topicHeader.classList.add(
-        "topic-header"
-    );
-
-
-    const topicTitleArea =
-        document.createElement(
-            "div"
-        );
-
-
-    const topicTitle =
-        document.createElement(
-            "h3"
-        );
-
-    topicTitle.textContent =
-        topic.title;
-
-
-    const topicDescription =
-        document.createElement(
-            "p"
-        );
-
-    topicDescription.textContent =
-        topic.description;
-
-
-    topicTitleArea.appendChild(
-        topicTitle
-    );
-
-    topicTitleArea.appendChild(
-        topicDescription
-    );
-
-
     const completedCount =
         getCompletedActivityCount(
             topic
         );
 
 
-    const topicProgress =
-        document.createElement(
-            "span"
-        );
-
-    topicProgress.textContent =
-        `${completedCount} / ${topic.activities.length} complete`;
+    const topicCompleted =
+        completedCount ===
+        topic.activities.length;
 
 
-    topicHeader.appendChild(
-        topicTitleArea
-    );
+    topicCard.innerHTML = `
 
-    topicHeader.appendChild(
-        topicProgress
-    );
+        <h3>
+            ${topic.title}
+        </h3>
+
+        <p>
+            ${topic.activities.length}
+            activities
+            •
+            ${completedCount}
+            completed
+        </p>
+
+        ${
+            topicCompleted
+
+                ? `
+                    <p class="topic-completed">
+                        Topic Completed ✅
+                    </p>
+                `
+
+                : `
+                    <p class="topic-in-progress">
+                        Topic In Progress
+                    </p>
+                `
+        }
+
+        <div class="activities-container">
+        </div>
+
+    `;
 
 
     const activitiesContainer =
-        document.createElement(
-            "div"
+        topicCard.querySelector(
+            ".activities-container"
         );
-
-    activitiesContainer.classList.add(
-        "activities-container"
-    );
 
 
     topic.activities.forEach(
         (activity, activityIndex) => {
 
-            const activityCard =
+            const activityItem =
                 createActivityCard(
                     topic,
                     topicIndex,
@@ -648,19 +574,10 @@ function createTopicCard(
                 );
 
             activitiesContainer.appendChild(
-                activityCard
+                activityItem
             );
 
         }
-    );
-
-
-    topicCard.appendChild(
-        topicHeader
-    );
-
-    topicCard.appendChild(
-        activitiesContainer
     );
 
 

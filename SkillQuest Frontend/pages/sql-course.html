@@ -2,102 +2,178 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SQL Course - SkillQuest</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/java-course.css">
+    <title>
+        SQL & Database - SkillQuest
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/java-course.css"
+    >
+
 </head>
+
 
 <body>
 
-<header class="main-header">
 
-    <div class="logo">
-        SkillQuest
-    </div>
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
 
-    <nav>
-        <a href="Dashboard.html">Dashboard</a>
-        <a href="courses.html">Courses</a>
-        <a href="#">Leaderboard</a>
-        <a href="#">Profile</a>
-    </nav>
+    <header class="main-header">
 
-</header>
+        <div class="logo">
+            SkillQuest
+        </div>
+
+        <nav>
+
+            <a href="Dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="courses.html">
+                Courses
+            </a>
+
+            <a href="#">
+                Leaderboard
+            </a>
+
+            <a href="#">
+                Profile
+            </a>
+
+        </nav>
+
+    </header>
 
 
-<main class="course-page">
+    <!-- ================================= -->
+    <!-- COURSE MAIN CONTENT -->
+    <!-- ================================= -->
 
-    <section class="course-header">
+    <main class="course-page">
 
-        <a href="courses.html" class="back-link">
+
+        <!-- Back Navigation -->
+
+        <a
+            href="courses.html"
+            class="back-to-courses"
+        >
             ← Back to Courses
         </a>
 
-        <h1>
-            SQL & Database
-        </h1>
 
-        <p>
-            Learn SQL step by step through interactive activities and challenges.
-        </p>
+        <!-- ================================= -->
+        <!-- COURSE HEADER -->
+        <!-- ================================= -->
 
-    </section>
+        <section class="course-header">
+
+            <h1>
+                SQL & Database
+            </h1>
+
+            <p>
+                Learn SQL from fundamentals
+                to advanced database concepts.
+            </p>
+
+        </section>
 
 
-    <section class="course-progress-card">
+        <!-- ================================= -->
+        <!-- COURSE PROGRESS -->
+        <!-- ================================= -->
 
-        <div class="course-progress-header">
+        <section class="course-progress-section">
 
-            <h2>Course Progress</h2>
+            <p>
+                Course Progress:
+                <span id="course-progress-text">
+                    0%
+                </span>
+            </p>
 
-            <span id="course-progress-text">
-                0%
-            </span>
+            <div class="progress-bar">
 
-        </div>
+                <div
+                    class="progress-fill"
+                    id="course-progress-fill"
+                >
+                </div>
 
-        <div class="course-progress-bar">
-
-            <div
-                id="course-progress-fill"
-                class="course-progress-fill">
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <section class="course-topics">
+        <!-- ================================= -->
+        <!-- SQL TOPICS -->
+        <!-- ================================= -->
 
-        <h2>SQL Learning Path</h2>
+        <section class="topics-section">
 
-        <div id="topics-container">
-        </div>
+            <h2>
+                Topics
+            </h2>
 
-    </section>
+            <!--
+                JavaScript will dynamically
+                generate all SQL topics
+                and activities here.
+            -->
 
-</main>
+            <div id="topics-container">
 
+            </div>
 
-<footer class="main-footer">
-
-    <p>
-        © 2026 SkillQuest. Learn. Play. Grow.
-    </p>
-
-    <a href="#">
-        Contact & Feedback
-    </a>
-
-</footer>
+        </section>
 
 
-<script src="../js/sql-course.js"></script>
+    </main>
+
+
+    <!-- ================================= -->
+    <!-- FOOTER -->
+    <!-- ================================= -->
+
+    <footer class="main-footer">
+
+        <p>
+            © 2026 SkillQuest.
+            Learn. Play. Grow.
+        </p>
+
+        <a href="#">
+            Contact & Feedback
+        </a>
+
+    </footer>
+
+
+    <!-- ================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ================================= -->
+
+    <script src="../js/sql-course.js"></script>
+
 
 </body>
 
