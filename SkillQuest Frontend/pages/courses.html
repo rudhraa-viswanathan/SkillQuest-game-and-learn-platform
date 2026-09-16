@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
             <a href="courses.html" class="active">Courses</a>
             <a href="profile.html">Profile</a>
             <a href="leaderboard.html">Leaderboard</a>
-            
+
         </nav>
 
     </header>
@@ -48,14 +49,11 @@
         <section class="courses-section">
 
             <div class="course-search">
-                <input
-                    type="text"
-                    id="course-search"
-                    placeholder="Search courses...">
+                <input type="text" id="course-search" placeholder="Search courses...">
             </div>
 
             <div class="courses-container" id="courses-container">
-            
+
                 <!-- Course cards will be added here -->
 
             </div>
@@ -80,8 +78,22 @@
 
     </footer>
 
+    <script>
+        if (
+            localStorage.getItem("isLoggedIn") !== "true"
+        ) {
+
+            alert(
+                "Please login to access SkillQuest courses."
+            );
+
+            window.location.href =
+                "login.html";
+        }
+    </script>
 
     <script src="../js/courses.js"></script>
 
 </body>
+
 </html>

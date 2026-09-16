@@ -1,20 +1,248 @@
+/* ========================================
+   REGISTER PAGE
+======================================== */
+
+.auth-page {
+    min-height: calc(100vh - 90px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px 20px;
+}
+
+
+/* ========================================
+   AUTH CARD
+======================================== */
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
+
+    background: #171717;
+
+    border: 1px solid #2d2d2d;
+    border-radius: 16px;
+
+    padding: 38px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+.auth-card h1 {
+    margin-bottom: 10px;
+
+    text-align: center;
+
+    font-size: 32px;
+}
+
+
+.auth-card > p {
+    margin-bottom: 30px;
+
+    text-align: center;
+
+    color: #b8b8b8;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   REGISTER FORM
+======================================== */
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+#register-form label {
+    margin-top: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #eeeeee;
+}
+
+
+#register-form input[type="text"],
+#register-form input[type="email"],
+#register-form input[type="password"] {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background: #222222;
+    color: #ffffff;
+
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+#register-form input::placeholder {
+    color: #888888;
+}
+
+
+#register-form input:focus {
+    border-color: #7c5cff;
+    background: #262626;
+}
+
+
+/* ========================================
+   SHOW PASSWORD
+======================================== */
+
+#register-form .show-password {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 8px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    color: #cccccc;
+}
+
+
+#register-form .show-password input {
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    cursor: pointer;
+}
+
+
+/* ========================================
+   REGISTER BUTTON
+======================================== */
+
+#register-form button {
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #7c5cff;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+#register-form button:hover {
+    background: #6d4df0;
+
+    transform: translateY(-2px);
+}
+
+
+#register-form button:active {
+    transform: translateY(0);
+}
+
+
+/* ========================================
+   LOGIN LINK
+======================================== */
+
+.auth-card .auth-link {
+    margin-top: 24px;
+    margin-bottom: 0;
+
+    text-align: center;
+
+    color: #b8b8b8;
+
+    font-size: 14px;
+}
+
+
+.auth-link a {
+    color: #8f73ff;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
 @media (max-width: 600px) {
 
     .auth-page {
-        padding: 20px 15px;
+        padding: 30px 15px;
+
+        align-items: flex-start;
     }
 
+
     .auth-card {
-        padding: 22px;
+        padding: 25px 20px;
     }
+
 
     .auth-card h1 {
         font-size: 26px;
     }
 
-    .auth-card input,
-    .auth-card button {
+
+    .auth-card > p {
+        margin-bottom: 24px;
+    }
+
+
+    #register-form input,
+    #register-form button {
         width: 100%;
+
         box-sizing: border-box;
     }
 
