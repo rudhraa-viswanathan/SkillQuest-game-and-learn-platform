@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Leaderboard - SkillQuest</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/leaderboard.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <nav>
+
+            <a href="Dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="courses.html">
+                Courses
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+            <a href="leaderboard.html">
+                Leaderboard
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= LEADERBOARD ================= -->
+
+    <main id="leaderboard">
+
+        <section class="leaderboard-header">
+
+            <h1>
+                🏆 Leaderboard
+            </h1>
+
+            <p>
+                See how learners are progressing across SkillQuest.
+            </p>
+
+        </section>
+
+
+        <!-- COURSE FILTER -->
+
+        <section class="leaderboard-section">
+
+            <div class="leaderboard-filters">
+
+                <button
+                    type="button"
+                    class="leaderboard-filter active"
+                    data-course="Java">
+                    Java
+                </button>
+
+                <button
+                    type="button"
+                    class="leaderboard-filter"
+                    data-course="SQL">
+                    SQL
+                </button>
+
+                <button
+                    type="button"
+                    class="leaderboard-filter"
+                    data-course="Web Development">
+                    Web Development
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- LEADERBOARD TABLE -->
+
+        <section class="leaderboard-section">
+
+            <p
+    class="current-rank"
+    id="current-rank">
+    Your Rank: -
+</p>
+
+            <div class="leaderboard-table-wrapper">
+
+                <table class="leaderboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Rank</th>
+
+                            <th>Learner</th>
+
+                            <th>XP</th>
+
+                            <th>Progress</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="leaderboard-body">
+
+                        <tr>
+
+                            <td>1</td>
+
+                            <td>Sample Learner</td>
+
+                            <td>1000 XP</td>
+
+                            <td>80%</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            &copy; 2026 SkillQuest. Learn. Play. Level Up.
+        </p>
+
+    </footer>
+
+<script src="../js/leaderboard.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+/* ========================================
+   LEADERBOARD PAGE
+======================================== */
+
+#leaderboard {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.leaderboard-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.leaderboard-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.leaderboard-header p {
+    color: #b8b8b8;
+}
+
+
+/* ========================================
+   SECTION
+======================================== */
+
+.leaderboard-section {
+    margin-bottom: 25px;
+}
+
+
+/* ========================================
+   COURSE FILTER
+======================================== */
+
+.leaderboard-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.leaderboard-filter {
+    padding: 10px 22px;
+    border: 1px solid #3a3a3a;
+    border-radius: 20px;
+    background: #1d1d1d;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: 0.2s ease;
+}
+
+.leaderboard-filter:hover {
+    background: #2c2c2c;
+}
+
+.leaderboard-filter.active {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* ========================================
+   TABLE
+======================================== */
+
+.leaderboard-table-wrapper {
+    overflow-x: auto;
+    background: #171717;
+    border: 1px solid #2d2d2d;
+    border-radius: 14px;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 18px 20px;
+    text-align: left;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.leaderboard-table th {
+    color: #bdbdbd;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.leaderboard-table td {
+    color: #eeeeee;
+}
+
+.leaderboard-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.leaderboard-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+    background: #202020;
+}
+
+/* ========================================
+   CURRENT USER
+======================================== */
+
+.leaderboard-table .current-user-row {
+    background: #292929;
+}
+
+.leaderboard-table .current-user-row td {
+    font-weight: bold;
+}
+
+.leaderboard-table .current-user-row:hover {
+    background: #323232;
+}
+
+/* ========================================
+   CURRENT RANK
+======================================== */
+
+.current-rank {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: right;
+    color: #d8d8d8;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 768px) {
+
+    #leaderboard {
+        padding: 40px 15px;
+    }
+
+    .leaderboard-header h1 {
+        font-size: 2rem;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 14px 12px;
+    }
+
+}
