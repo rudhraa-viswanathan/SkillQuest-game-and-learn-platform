@@ -1,5 +1,5 @@
 package com.rudhraa.skillquest.entity;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,6 +19,7 @@ public class Activity {
     @Column(nullable = false)
     private ActivityType type;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
