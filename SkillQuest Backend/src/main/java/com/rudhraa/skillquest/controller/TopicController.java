@@ -3,6 +3,8 @@ package com.rudhraa.skillquest.controller;
 import com.rudhraa.skillquest.entity.Topic;
 import com.rudhraa.skillquest.service.TopicService;
 import org.springframework.web.bind.annotation.*;
+import com.rudhraa.skillquest.dto.TopicRequestDTO;
+import com.rudhraa.skillquest.dto.TopicResponseDTO;
 
 import java.util.List;
 
@@ -17,29 +19,28 @@ public class TopicController {
     }
 
     @PostMapping("/course/{courseId}")
-    public Topic createTopic(
+    public TopicResponseDTO createTopic(
             @PathVariable Long courseId,
-            @RequestBody Topic topic) {
+            @RequestBody TopicRequestDTO topicRequestDTO) {
 
-        return topicService.saveTopic(courseId, topic);
+        return topicService.saveTopic(courseId, topicRequestDTO);
     }
 
     @GetMapping
-    public List<Topic> getAllTopics() {
+    public List<TopicResponseDTO> getAllTopics() {
         return topicService.getAllTopics();
     }
 
     @GetMapping("/{id}")
-    public Topic getTopicById(@PathVariable Long id) {
+    public TopicResponseDTO getTopicById(@PathVariable Long id) {
         return topicService.getTopicById(id).orElse(null);
     }
-
     @PutMapping("/{id}")
-    public Topic updateTopic(
+    public TopicResponseDTO updateTopic(
             @PathVariable Long id,
-            @RequestBody Topic topic) {
+            @RequestBody TopicRequestDTO topicRequestDTO) {
 
-        return topicService.updateTopic(id, topic);
+        return topicService.updateTopic(id, topicRequestDTO);
     }
 
     @DeleteMapping("/{id}")

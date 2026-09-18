@@ -1,35 +1,30 @@
-package com.rudhraa.skillquest.entity;
+package com.rudhraa.skillquest.dto;
 
-import jakarta.persistence.*;
+import com.rudhraa.skillquest.entity.ActivityType;
 
-@Entity
-@Table(name = "activities")
-public class Activity {
+public class ActivityResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String title;
-
     private String description;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ActivityType type;
+    private Long topicId;
 
-
-    @ManyToOne
-    @JoinColumn(name = "topic_id", nullable = false)
-    private Topic topic;
-
-    public Activity() {
+    public ActivityResponseDTO() {
     }
 
-    public Activity(String title, String description) {
+    public ActivityResponseDTO(
+            Long id,
+            String title,
+            String description,
+            ActivityType type,
+            Long topicId) {
+
+        this.id = id;
         this.title = title;
         this.description = description;
+        this.type = type;
+        this.topicId = topicId;
     }
 
     public Long getId() {
@@ -56,19 +51,19 @@ public class Activity {
         this.description = description;
     }
 
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-    }
-
     public ActivityType getType() {
         return type;
     }
 
     public void setType(ActivityType type) {
         this.type = type;
+    }
+
+    public Long getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(Long topicId) {
+        this.topicId = topicId;
     }
 }

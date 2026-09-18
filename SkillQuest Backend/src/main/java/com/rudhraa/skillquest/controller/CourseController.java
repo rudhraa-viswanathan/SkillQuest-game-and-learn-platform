@@ -3,7 +3,8 @@ package com.rudhraa.skillquest.controller;
 import com.rudhraa.skillquest.entity.Course;
 import com.rudhraa.skillquest.service.CourseService;
 import org.springframework.web.bind.annotation.*;
-
+import com.rudhraa.skillquest.dto.CourseRequestDTO;
+import com.rudhraa.skillquest.dto.CourseResponseDTO;
 import java.util.List;
 
 @RestController
@@ -17,26 +18,28 @@ public class CourseController {
     }
 
     @PostMapping
-    public Course createCourse(@RequestBody Course course) {
-        return courseService.saveCourse(course);
+    public CourseResponseDTO createCourse(
+            @RequestBody CourseRequestDTO courseRequestDTO) {
+
+        return courseService.saveCourse(courseRequestDTO);
     }
 
     @GetMapping
-    public List<Course> getAllCourses() {
+    public List<CourseResponseDTO> getAllCourses() {
         return courseService.getAllCourses();
     }
 
     @GetMapping("/{id}")
-    public Course getCourseById(@PathVariable Long id) {
+    public CourseResponseDTO getCourseById(@PathVariable Long id) {
         return courseService.getCourseById(id).orElse(null);
     }
 
     @PutMapping("/{id}")
-    public Course updateCourse(
+    public CourseResponseDTO updateCourse(
             @PathVariable Long id,
-            @RequestBody Course course) {
+            @RequestBody CourseRequestDTO courseRequestDTO) {
 
-        return courseService.updateCourse(id, course);
+        return courseService.updateCourse(id, courseRequestDTO);
     }
 
     @DeleteMapping("/{id}")

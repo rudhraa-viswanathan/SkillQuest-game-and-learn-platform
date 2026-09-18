@@ -5,6 +5,8 @@ import com.rudhraa.skillquest.repository.TopicRepository;
 import org.springframework.stereotype.Service;
 import com.rudhraa.skillquest.entity.Course;
 import com.rudhraa.skillquest.repository.CourseRepository;
+import com.rudhraa.skillquest.dto.TopicRequestDTO;
+import com.rudhraa.skillquest.dto.TopicResponseDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,44 +21,81 @@ public class TopicService {
         this.courseRepository = courseRepository;
     }
 
-    public Topic saveTopic(Long courseId, Topic topic) {
+    public TopicResponseDTO saveTopic(
+            Long courseId,
+            TopicRequestDTO topicRequestDTO) {
 
-        Course course = courseRepository.findById(courseId)
-                .orElse(null);
+        Course course = courseRepository.findById(courseId).orElse(null);
 
         if (course == null) {
             return null;
         }
 
+        Topic topic = mapToEntity(topicRequestDTO);
         topic.setCourse(course);
 
-        return topicRepository.save(topic);
+        Topic savedTopic = topicRepository.save(topic);
+
+        return mapToResponseDTO(savedTopic);
     }
 
-    public List<Topic> getAllTopics() {
-        return topicRepository.findAll();
+    public List<TopicResponseDTO> getAllTopics() {
+
+        return topicRepository.findAll()
+                .stream()
+                .map(this::mapToResponseDTO)
+                .toList();
+    }
+    public Optional<TopicResponseDTO> getTopicById(Long id) {
+
+        return topicRepository.findById(id)
+                .map(this::mapToResponseDTO);
     }
 
-    public Optional<Topic> getTopicById(Long id) {
-        return topicRepository.findById(id);
-    }
+    public TopicResponseDTO updateTopic(
+            Long id,
+            TopicRequestDTO topicRequestDTO) {
 
-    public Topic updateTopic(Long id, Topic updatedTopic) {
-
-        Topic existingTopic = topicRepository.findById(id)
-                .orElse(null);
+        Topic existingTopic = topicRepository.findById(id).orElse(null);
 
         if (existingTopic == null) {
             return null;
         }
 
-        existingTopic.setName(updatedTopic.getName());
-        existingTopic.setDescription(updatedTopic.getDescription());
+        existingTopic.setName(topicRequestDTO.getName());
+        existingTopic.setDescription(topicRequestDTO.getDescription());
 
-        return topicRepository.save(existingTopic);
+        Topic updatedTopic = topicRepository.save(existingTopic);
+
+        return mapToResponseDTO(updatedTopic);
     }
 
     public void deleteTopic(Long id) {
         topicRepository.deleteById(id);
+    }
+
+    private Topic mapToEntity(TopicRequestDTO topicRequestDTO) {
+
+        Topic topic = new Topic();
+
+        topic.setName(topicRequestDTO.getName());
+        topic.setDescription(topicRequestDTO.getDescription());
+
+        return topic;
+    }
+
+    private TopicResponseDTO mapToResponseDTO(Topic topic) {
+
+        TopicResponseDTO topicResponseDTO = new TopicResponseDTO();
+
+        topicResponseDTO.setId(topic.getId());
+        topicResponseDTO.setName(topic.getName());
+        topicResponseDTO.setDescription(topic.getDescription());
+
+        if (topic.getCourse() != null) {
+            topicResponseDTO.setCourseId(topic.getCourse().getId());
+        }
+
+        return topicResponseDTO;
     }
 }

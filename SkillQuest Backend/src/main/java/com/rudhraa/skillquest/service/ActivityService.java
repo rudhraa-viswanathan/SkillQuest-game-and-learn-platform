@@ -4,6 +4,8 @@ import com.rudhraa.skillquest.repository.TopicRepository;
 import com.rudhraa.skillquest.entity.Activity;
 import com.rudhraa.skillquest.repository.ActivityRepository;
 import org.springframework.stereotype.Service;
+import com.rudhraa.skillquest.dto.ActivityRequestDTO;
+import com.rudhraa.skillquest.dto.ActivityResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,45 +24,89 @@ public class ActivityService {
         this.topicRepository = topicRepository;
     }
 
-    public Activity saveActivity(Long topicId, Activity activity) {
+    public ActivityResponseDTO saveActivity(
+            Long topicId,
+            ActivityRequestDTO activityRequestDTO) {
 
-        Topic topic = topicRepository.findById(topicId)
-                .orElse(null);
+        Topic topic = topicRepository.findById(topicId).orElse(null);
 
         if (topic == null) {
             return null;
         }
 
+        Activity activity = mapToEntity(activityRequestDTO);
         activity.setTopic(topic);
 
-        return activityRepository.save(activity);
+        Activity savedActivity = activityRepository.save(activity);
+
+        return mapToResponseDTO(savedActivity);
     }
 
-    public List<Activity> getAllActivities() {
-        return activityRepository.findAll();
+    public List<ActivityResponseDTO> getAllActivities() {
+
+        return activityRepository.findAll()
+                .stream()
+                .map(this::mapToResponseDTO)
+                .toList();
     }
 
-    public Optional<Activity> getActivityById(Long id) {
-        return activityRepository.findById(id);
+    public Optional<ActivityResponseDTO> getActivityById(Long id) {
+
+        return activityRepository.findById(id)
+                .map(this::mapToResponseDTO);
     }
 
-    public Activity updateActivity(Long id, Activity updatedActivity) {
+    public ActivityResponseDTO updateActivity(
+            Long id,
+            ActivityRequestDTO activityRequestDTO) {
 
-        Activity existingActivity = activityRepository.findById(id)
-                .orElse(null);
+        Activity existingActivity =
+                activityRepository.findById(id).orElse(null);
 
         if (existingActivity == null) {
             return null;
         }
 
-        existingActivity.setTitle(updatedActivity.getTitle());
-        existingActivity.setDescription(updatedActivity.getDescription());
-        existingActivity.setType(updatedActivity.getType());
+        existingActivity.setTitle(activityRequestDTO.getTitle());
+        existingActivity.setDescription(activityRequestDTO.getDescription());
+        existingActivity.setType(activityRequestDTO.getType());
 
-        return activityRepository.save(existingActivity);
+        Activity updatedActivity =
+                activityRepository.save(existingActivity);
+
+        return mapToResponseDTO(updatedActivity);
     }
 
     public void deleteActivity(Long id) {
         activityRepository.deleteById(id);
     }
+
+    private Activity mapToEntity(ActivityRequestDTO activityRequestDTO) {
+
+        Activity activity = new Activity();
+
+        activity.setTitle(activityRequestDTO.getTitle());
+        activity.setDescription(activityRequestDTO.getDescription());
+        activity.setType(activityRequestDTO.getType());
+
+        return activity;
+    }
+
+    private ActivityResponseDTO mapToResponseDTO(Activity activity) {
+
+        ActivityResponseDTO activityResponseDTO =
+                new ActivityResponseDTO();
+
+        activityResponseDTO.setId(activity.getId());
+        activityResponseDTO.setTitle(activity.getTitle());
+        activityResponseDTO.setDescription(activity.getDescription());
+        activityResponseDTO.setType(activity.getType());
+
+        if (activity.getTopic() != null) {
+            activityResponseDTO.setTopicId(activity.getTopic().getId());
+        }
+
+        return activityResponseDTO;
+    }
+
 }

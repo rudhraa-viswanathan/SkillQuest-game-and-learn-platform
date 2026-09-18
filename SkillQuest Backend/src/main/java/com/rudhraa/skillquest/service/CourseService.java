@@ -3,6 +3,8 @@ package com.rudhraa.skillquest.service;
 import com.rudhraa.skillquest.entity.Course;
 import com.rudhraa.skillquest.repository.CourseRepository;
 import org.springframework.stereotype.Service;
+import com.rudhraa.skillquest.dto.CourseRequestDTO;
+import com.rudhraa.skillquest.dto.CourseResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,34 +18,67 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public Course saveCourse(Course course) {
-        return courseRepository.save(course);
+    public CourseResponseDTO saveCourse(CourseRequestDTO courseRequestDTO) {
+
+        Course course = mapToEntity(courseRequestDTO);
+
+        Course savedCourse = courseRepository.save(course);
+
+        return mapToResponseDTO(savedCourse);
     }
+    public List<CourseResponseDTO> getAllCourses() {
 
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+        return courseRepository.findAll()
+                .stream()
+                .map(this::mapToResponseDTO)
+                .toList();
     }
+    public Optional<CourseResponseDTO> getCourseById(Long id) {
 
-    public Optional<Course> getCourseById(Long id) {
-        return courseRepository.findById(id);
+        return courseRepository.findById(id)
+                .map(this::mapToResponseDTO);
     }
+    public CourseResponseDTO updateCourse(
+            Long id,
+            CourseRequestDTO courseRequestDTO) {
 
-    public Course updateCourse(Long id, Course updatedCourse) {
-
-        Course existingCourse = courseRepository.findById(id)
-                .orElse(null);
+        Course existingCourse = courseRepository.findById(id).orElse(null);
 
         if (existingCourse == null) {
             return null;
         }
 
-        existingCourse.setName(updatedCourse.getName());
-        existingCourse.setDescription(updatedCourse.getDescription());
+        existingCourse.setName(courseRequestDTO.getName());
+        existingCourse.setDescription(courseRequestDTO.getDescription());
 
-        return courseRepository.save(existingCourse);
+        Course updatedCourse = courseRepository.save(existingCourse);
+
+        return mapToResponseDTO(updatedCourse);
     }
 
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }
+
+    private Course mapToEntity(CourseRequestDTO courseRequestDTO) {
+
+        Course course = new Course();
+
+        course.setName(courseRequestDTO.getName());
+        course.setDescription(courseRequestDTO.getDescription());
+
+        return course;
+    }
+
+    private CourseResponseDTO mapToResponseDTO(Course course) {
+
+        CourseResponseDTO courseResponseDTO = new CourseResponseDTO();
+
+        courseResponseDTO.setId(course.getId());
+        courseResponseDTO.setName(course.getName());
+        courseResponseDTO.setDescription(course.getDescription());
+
+        return courseResponseDTO;
+    }
+
 }

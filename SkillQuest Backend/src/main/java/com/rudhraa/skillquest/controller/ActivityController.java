@@ -3,6 +3,8 @@ package com.rudhraa.skillquest.controller;
 import com.rudhraa.skillquest.entity.Activity;
 import com.rudhraa.skillquest.service.ActivityService;
 import org.springframework.web.bind.annotation.*;
+import com.rudhraa.skillquest.dto.ActivityRequestDTO;
+import com.rudhraa.skillquest.dto.ActivityResponseDTO;
 
 import java.util.List;
 
@@ -17,29 +19,29 @@ public class ActivityController {
     }
 
     @PostMapping("/topic/{topicId}")
-    public Activity createActivity(
+    public ActivityResponseDTO createActivity(
             @PathVariable Long topicId,
-            @RequestBody Activity activity) {
+            @RequestBody ActivityRequestDTO activityRequestDTO) {
 
-        return activityService.saveActivity(topicId, activity);
+        return activityService.saveActivity(topicId, activityRequestDTO);
     }
 
     @GetMapping
-    public List<Activity> getAllActivities() {
+    public List<ActivityResponseDTO> getAllActivities() {
         return activityService.getAllActivities();
     }
 
     @GetMapping("/{id}")
-    public Activity getActivityById(@PathVariable Long id) {
+    public ActivityResponseDTO getActivityById(@PathVariable Long id) {
         return activityService.getActivityById(id).orElse(null);
     }
 
     @PutMapping("/{id}")
-    public Activity updateActivity(
+    public ActivityResponseDTO updateActivity(
             @PathVariable Long id,
-            @RequestBody Activity activity) {
+            @RequestBody ActivityRequestDTO activityRequestDTO) {
 
-        return activityService.updateActivity(id, activity);
+        return activityService.updateActivity(id, activityRequestDTO);
     }
 
     @DeleteMapping("/{id}")
