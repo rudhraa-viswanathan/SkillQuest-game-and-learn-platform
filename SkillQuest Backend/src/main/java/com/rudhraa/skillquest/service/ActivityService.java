@@ -6,6 +6,7 @@ import com.rudhraa.skillquest.repository.ActivityRepository;
 import org.springframework.stereotype.Service;
 import com.rudhraa.skillquest.dto.ActivityRequestDTO;
 import com.rudhraa.skillquest.dto.ActivityResponseDTO;
+import com.rudhraa.skillquest.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +29,12 @@ public class ActivityService {
             Long topicId,
             ActivityRequestDTO activityRequestDTO) {
 
-        Topic topic = topicRepository.findById(topicId).orElse(null);
-
-        if (topic == null) {
-            return null;
-        }
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Topic not found with id: " + topicId
+                        )
+                );
 
         Activity activity = mapToEntity(activityRequestDTO);
         activity.setTopic(topic);
@@ -50,22 +52,28 @@ public class ActivityService {
                 .toList();
     }
 
-    public Optional<ActivityResponseDTO> getActivityById(Long id) {
+    public ActivityResponseDTO getActivityById(Long id) {
 
-        return activityRepository.findById(id)
-                .map(this::mapToResponseDTO);
+        Activity activity = activityRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Activity not found with id: " + id
+                        )
+                );
+
+        return mapToResponseDTO(activity);
     }
 
     public ActivityResponseDTO updateActivity(
             Long id,
             ActivityRequestDTO activityRequestDTO) {
 
-        Activity existingActivity =
-                activityRepository.findById(id).orElse(null);
-
-        if (existingActivity == null) {
-            return null;
-        }
+        Activity existingActivity = activityRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Activity not found with id: " + id
+                        )
+                );
 
         existingActivity.setTitle(activityRequestDTO.getTitle());
         existingActivity.setDescription(activityRequestDTO.getDescription());

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.rudhraa.skillquest.dto.CourseRequestDTO;
 import com.rudhraa.skillquest.dto.CourseResponseDTO;
 import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -19,7 +20,7 @@ public class CourseController {
 
     @PostMapping
     public CourseResponseDTO createCourse(
-            @RequestBody CourseRequestDTO courseRequestDTO) {
+            @Valid @RequestBody CourseRequestDTO courseRequestDTO) {
 
         return courseService.saveCourse(courseRequestDTO);
     }
@@ -31,13 +32,13 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public CourseResponseDTO getCourseById(@PathVariable Long id) {
-        return courseService.getCourseById(id).orElse(null);
+        return courseService.getCourseById(id);
     }
 
     @PutMapping("/{id}")
     public CourseResponseDTO updateCourse(
             @PathVariable Long id,
-            @RequestBody CourseRequestDTO courseRequestDTO) {
+           @Valid @RequestBody CourseRequestDTO courseRequestDTO) {
 
         return courseService.updateCourse(id, courseRequestDTO);
     }

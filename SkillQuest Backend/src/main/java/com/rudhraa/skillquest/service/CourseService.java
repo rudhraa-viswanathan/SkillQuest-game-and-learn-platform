@@ -1,5 +1,5 @@
 package com.rudhraa.skillquest.service;
-
+import com.rudhraa.skillquest.exception.ResourceNotFoundException;
 import com.rudhraa.skillquest.entity.Course;
 import com.rudhraa.skillquest.repository.CourseRepository;
 import org.springframework.stereotype.Service;
@@ -33,20 +33,27 @@ public class CourseService {
                 .map(this::mapToResponseDTO)
                 .toList();
     }
-    public Optional<CourseResponseDTO> getCourseById(Long id) {
+    public CourseResponseDTO getCourseById(Long id) {
 
-        return courseRepository.findById(id)
-                .map(this::mapToResponseDTO);
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Course not found with id: " + id
+                        )
+                );
+
+        return mapToResponseDTO(course);
     }
     public CourseResponseDTO updateCourse(
             Long id,
             CourseRequestDTO courseRequestDTO) {
 
-        Course existingCourse = courseRepository.findById(id).orElse(null);
-
-        if (existingCourse == null) {
-            return null;
-        }
+        Course existingCourse = courseRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Course not found with id: " + id
+                        )
+                );
 
         existingCourse.setName(courseRequestDTO.getName());
         existingCourse.setDescription(courseRequestDTO.getDescription());

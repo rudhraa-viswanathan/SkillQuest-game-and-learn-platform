@@ -1,5 +1,5 @@
 package com.rudhraa.skillquest.service;
-
+import com.rudhraa.skillquest.exception.ResourceNotFoundException;
 import com.rudhraa.skillquest.entity.Topic;
 import com.rudhraa.skillquest.repository.TopicRepository;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,12 @@ public class TopicService {
             Long courseId,
             TopicRequestDTO topicRequestDTO) {
 
-        Course course = courseRepository.findById(courseId).orElse(null);
-
-        if (course == null) {
-            return null;
-        }
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Course not found with id: " + courseId
+                        )
+                );
 
         Topic topic = mapToEntity(topicRequestDTO);
         topic.setCourse(course);
@@ -46,21 +47,28 @@ public class TopicService {
                 .map(this::mapToResponseDTO)
                 .toList();
     }
-    public Optional<TopicResponseDTO> getTopicById(Long id) {
+    public TopicResponseDTO getTopicById(Long id) {
 
-        return topicRepository.findById(id)
-                .map(this::mapToResponseDTO);
+        Topic topic = topicRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Topic not found with id: " + id
+                        )
+                );
+
+        return mapToResponseDTO(topic);
     }
 
     public TopicResponseDTO updateTopic(
             Long id,
             TopicRequestDTO topicRequestDTO) {
 
-        Topic existingTopic = topicRepository.findById(id).orElse(null);
-
-        if (existingTopic == null) {
-            return null;
-        }
+        Topic existingTopic = topicRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Topic not found with id: " + id
+                        )
+                );
 
         existingTopic.setName(topicRequestDTO.getName());
         existingTopic.setDescription(topicRequestDTO.getDescription());

@@ -1,5 +1,5 @@
 package com.rudhraa.skillquest.controller;
-
+import jakarta.validation.Valid;
 import com.rudhraa.skillquest.entity.Topic;
 import com.rudhraa.skillquest.service.TopicService;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class TopicController {
     @PostMapping("/course/{courseId}")
     public TopicResponseDTO createTopic(
             @PathVariable Long courseId,
-            @RequestBody TopicRequestDTO topicRequestDTO) {
+            @Valid @RequestBody TopicRequestDTO topicRequestDTO) {
 
         return topicService.saveTopic(courseId, topicRequestDTO);
     }
@@ -33,12 +33,13 @@ public class TopicController {
 
     @GetMapping("/{id}")
     public TopicResponseDTO getTopicById(@PathVariable Long id) {
-        return topicService.getTopicById(id).orElse(null);
+        return topicService.getTopicById(id);
     }
+
     @PutMapping("/{id}")
     public TopicResponseDTO updateTopic(
             @PathVariable Long id,
-            @RequestBody TopicRequestDTO topicRequestDTO) {
+           @Valid @RequestBody TopicRequestDTO topicRequestDTO) {
 
         return topicService.updateTopic(id, topicRequestDTO);
     }

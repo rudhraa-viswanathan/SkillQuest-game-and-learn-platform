@@ -1,5 +1,5 @@
 package com.rudhraa.skillquest.controller;
-
+import jakarta.validation.Valid;
 import com.rudhraa.skillquest.entity.Activity;
 import com.rudhraa.skillquest.service.ActivityService;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class ActivityController {
     @PostMapping("/topic/{topicId}")
     public ActivityResponseDTO createActivity(
             @PathVariable Long topicId,
-            @RequestBody ActivityRequestDTO activityRequestDTO) {
+            @Valid @RequestBody ActivityRequestDTO activityRequestDTO) {
 
         return activityService.saveActivity(topicId, activityRequestDTO);
     }
@@ -33,13 +33,13 @@ public class ActivityController {
 
     @GetMapping("/{id}")
     public ActivityResponseDTO getActivityById(@PathVariable Long id) {
-        return activityService.getActivityById(id).orElse(null);
+        return activityService.getActivityById(id);
     }
 
     @PutMapping("/{id}")
     public ActivityResponseDTO updateActivity(
             @PathVariable Long id,
-            @RequestBody ActivityRequestDTO activityRequestDTO) {
+            @Valid @RequestBody ActivityRequestDTO activityRequestDTO) {
 
         return activityService.updateActivity(id, activityRequestDTO);
     }

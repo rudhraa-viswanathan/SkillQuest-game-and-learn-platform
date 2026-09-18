@@ -1,11 +1,20 @@
 package com.rudhraa.skillquest.dto;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import com.rudhraa.skillquest.entity.ActivityType;
 
 public class ActivityRequestDTO {
 
+    @NotBlank(message = "Activity title is required")
+    @Size(min = 2, max = 150, message = "Activity title must be between 2 and 150 characters")
     private String title;
+
+    @NotBlank(message = "Activity description is required")
+    @Size(min = 5, max = 500, message = "Activity description must be between 5 and 500 characters")
     private String description;
+
+    @NotNull(message = "Activity type is required")
     private ActivityType type;
 
     public ActivityRequestDTO() {
