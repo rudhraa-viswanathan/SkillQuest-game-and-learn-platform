@@ -7,14 +7,21 @@ import com.rudhraa.skillquest.entity.User;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.rudhraa.skillquest.exception.ResourceNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
+
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private User mapToEntity(UserRequestDTO userRequestDTO) {
@@ -23,7 +30,9 @@ public class UserService {
 
         user.setUsername(userRequestDTO.getUsername());
         user.setEmail(userRequestDTO.getEmail());
-        user.setPassword(userRequestDTO.getPassword());
+        user.setPassword(
+                passwordEncoder.encode(userRequestDTO.getPassword())
+        );
 
         user.setRole(Role.USER);
 
