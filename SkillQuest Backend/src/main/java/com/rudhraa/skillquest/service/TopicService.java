@@ -72,7 +72,9 @@ public class TopicService {
 
         existingTopic.setName(topicRequestDTO.getName());
         existingTopic.setDescription(topicRequestDTO.getDescription());
-
+        existingTopic.setName(topicRequestDTO.getName());
+        existingTopic.setDescription(topicRequestDTO.getDescription());
+        existingTopic.setOrderIndex(topicRequestDTO.getOrderIndex());
         Topic updatedTopic = topicRepository.save(existingTopic);
 
         return mapToResponseDTO(updatedTopic);
@@ -88,7 +90,7 @@ public class TopicService {
 
         topic.setName(topicRequestDTO.getName());
         topic.setDescription(topicRequestDTO.getDescription());
-
+        topic.setOrderIndex(topicRequestDTO.getOrderIndex());
         return topic;
     }
 
@@ -99,7 +101,7 @@ public class TopicService {
         topicResponseDTO.setId(topic.getId());
         topicResponseDTO.setName(topic.getName());
         topicResponseDTO.setDescription(topic.getDescription());
-
+        topicResponseDTO.setOrderIndex(topic.getOrderIndex());
         if (topic.getCourse() != null) {
             topicResponseDTO.setCourseId(topic.getCourse().getId());
         }

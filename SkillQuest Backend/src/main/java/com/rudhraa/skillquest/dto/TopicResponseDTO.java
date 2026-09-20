@@ -6,6 +6,7 @@ public class TopicResponseDTO {
     private String name;
     private String description;
     private Long courseId;
+    private int orderIndex;
 
     public TopicResponseDTO() {
     }
@@ -14,12 +15,14 @@ public class TopicResponseDTO {
             Long id,
             String name,
             String description,
-            Long courseId) {
+            Long courseId,
+            int orderIndex) {
 
         this.id = id;
         this.name = name;
         this.description = description;
         this.courseId = courseId;
+        this.orderIndex = orderIndex;
     }
 
     public Long getId() {
@@ -52,5 +55,13 @@ public class TopicResponseDTO {
 
     public void setCourseId(Long courseId) {
         this.courseId = courseId;
+    }
+
+    public int getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
     }
 }

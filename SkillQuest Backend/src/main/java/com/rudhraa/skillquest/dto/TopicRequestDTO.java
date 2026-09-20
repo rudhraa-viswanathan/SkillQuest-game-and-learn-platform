@@ -1,5 +1,7 @@
 package com.rudhraa.skillquest.dto;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class TopicRequestDTO {
@@ -11,6 +13,10 @@ public class TopicRequestDTO {
     @NotBlank(message = "Topic description is required")
     @Size(min = 5, max = 500, message = "Topic description must be between 5 and 500 characters")
     private String description;
+
+    @NotNull(message = "Topic order is required")
+    @Min(value = 1, message = "Topic order must be at least 1")
+    private Integer orderIndex;
 
     public TopicRequestDTO() {
     }
@@ -34,5 +40,13 @@ public class TopicRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(Integer orderIndex) {
+        this.orderIndex = orderIndex;
     }
 }

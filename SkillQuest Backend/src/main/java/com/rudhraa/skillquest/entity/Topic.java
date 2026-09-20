@@ -18,6 +18,8 @@ public class Topic {
 
     private String description;
 
+    @Column(nullable = false)
+    private int orderIndex;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
@@ -73,5 +75,13 @@ public class Topic {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
+    }
+
+    public int getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
     }
 }
