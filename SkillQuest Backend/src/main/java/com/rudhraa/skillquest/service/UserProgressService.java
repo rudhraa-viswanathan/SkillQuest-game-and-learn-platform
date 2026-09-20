@@ -30,13 +30,14 @@ public class UserProgressService {
     private final CourseRepository courseRepository;
     private final ActivityRepository activityRepository;
     private final TopicRepository topicRepository;
+    private final BadgeService badgeService;
 
     public UserProgressService(
             UserProgressRepository userProgressRepository,
             ActivityProgressRepository activityProgressRepository,
             UserRepository userRepository,
             CourseRepository courseRepository,
-            ActivityRepository activityRepository, TopicRepository topicRepository) {
+            ActivityRepository activityRepository, TopicRepository topicRepository, BadgeService badgeService) {
 
         this.userProgressRepository = userProgressRepository;
         this.activityProgressRepository = activityProgressRepository;
@@ -44,6 +45,7 @@ public class UserProgressService {
         this.courseRepository = courseRepository;
         this.activityRepository = activityRepository;
         this.topicRepository = topicRepository;
+        this.badgeService = badgeService;
     }
 
     private User getCurrentUser() {
@@ -100,7 +102,16 @@ public class UserProgressService {
                 progressPercentage
         );
 
-        return userProgressRepository.save(userProgress);
+        UserProgress savedProgress =
+                userProgressRepository.save(userProgress);
+
+        badgeService.checkAndAwardMilestones(
+                user,
+                course,
+                savedProgress.getProgressPercentage()
+        );
+
+        return savedProgress;
     }
 
     public UserProgressResponseDTO getCourseProgress(Long courseId) {
