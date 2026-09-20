@@ -1,19 +1,20 @@
 package com.rudhraa.skillquest.config;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.rudhraa.skillquest.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import com.rudhraa.skillquest.security.JwtAuthenticationFilter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
-
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -24,30 +25,106 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
 
+        http
+                .csrf(csrf -> csrf.disable())
 
-                http.csrf(csrf -> csrf.disable())
-                    .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers(
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
+                )
+
+                .authorizeHttpRequests(auth -> auth
+
+                        // Public endpoints
+                        .requestMatchers(
                                 "/api/users/register",
-                                    "/api/auth/login",
+                                "/api/auth/login",
                                 "/api/test"
                         ).permitAll()
-                            .anyRequest().authenticated()
-                    )
-                        .addFilterBefore(
-                                jwtAuthenticationFilter,
-                                UsernamePasswordAuthenticationFilter.class
-                        );
+
+                        // User management - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/users",
+                                "/api/users/**"
+                        ).hasRole("ADMIN")
+
+                        // Course creation - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/courses",
+                                "/api/courses/**"
+                        ).hasRole("ADMIN")
+
+                        // Course update - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/courses/**"
+                        ).hasRole("ADMIN")
+
+                        // Course deletion - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/courses/**"
+                        ).hasRole("ADMIN")
+
+                        // Topic creation - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/topics",
+                                "/api/topics/**"
+                        ).hasRole("ADMIN")
+
+                        // Topic update - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/topics/**"
+                        ).hasRole("ADMIN")
+
+                        // Topic deletion - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/topics/**"
+                        ).hasRole("ADMIN")
+
+                        // Activity creation - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/activities",
+                                "/api/activities/**"
+                        ).hasRole("ADMIN")
+
+                        // Activity update - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/activities/**"
+                        ).hasRole("ADMIN")
+
+                        // Activity deletion - ADMIN only
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/activities/**"
+                        ).hasRole("ADMIN")
+
+                        // All remaining APIs require login
+                        .anyRequest().authenticated()
+                )
+
+                .addFilterBefore(
+                        jwtAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
