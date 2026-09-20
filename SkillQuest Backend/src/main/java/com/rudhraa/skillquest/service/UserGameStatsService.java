@@ -1,7 +1,6 @@
 package com.rudhraa.skillquest.service;
 
-import com.rudhraa.skillquest.entity.User;
-import com.rudhraa.skillquest.entity.UserGameStats;
+import com.rudhraa.skillquest.entity.*;
 import com.rudhraa.skillquest.exception.ResourceNotFoundException;
 import com.rudhraa.skillquest.repository.UserGameStatsRepository;
 import com.rudhraa.skillquest.repository.UserRepository;
@@ -12,10 +11,9 @@ import com.rudhraa.skillquest.dto.UserGameStatsResponseDTO;
 import java.time.LocalDateTime;
 import com.rudhraa.skillquest.dto.ActivityProgressResponseDTO;
 import com.rudhraa.skillquest.dto.ActivityResultDTO;
-import com.rudhraa.skillquest.entity.Activity;
-import com.rudhraa.skillquest.entity.ActivityProgress;
 import com.rudhraa.skillquest.repository.ActivityProgressRepository;
 import com.rudhraa.skillquest.repository.ActivityRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserGameStatsService {
@@ -32,17 +30,18 @@ public class UserGameStatsService {
     private final ActivityRepository activityRepository;
     private final ActivityProgressRepository activityProgressRepository;
     private final UserProgressService userProgressService;
-
+    private final CourseUserStatsService courseUserStatsService;
 
     public UserGameStatsService(
             UserGameStatsRepository userGameStatsRepository,
-            UserRepository userRepository, ActivityRepository activityRepository, ActivityProgressRepository activityProgressRepository, UserProgressService userProgressService) {
+            UserRepository userRepository, ActivityRepository activityRepository, ActivityProgressRepository activityProgressRepository, UserProgressService userProgressService, CourseUserStatsService courseUserStatsService) {
 
         this.userGameStatsRepository = userGameStatsRepository;
         this.userRepository = userRepository;
         this.activityRepository = activityRepository;
         this.activityProgressRepository = activityProgressRepository;
         this.userProgressService = userProgressService;
+        this.courseUserStatsService = courseUserStatsService;
     }
 
     private int calculateXp(int rewardPoints) {
@@ -211,6 +210,7 @@ public class UserGameStatsService {
         return userGameStatsRepository.save(gameStats);
     }
 
+    @Transactional
     public ActivityProgressResponseDTO processActivityResult(
             ActivityResultDTO resultDTO) {
 
@@ -224,6 +224,8 @@ public class UserGameStatsService {
                                         + resultDTO.getActivityId()
                         )
                 );
+
+        Course course = activity.getTopic().getCourse();
 
         UserGameStats gameStats =
                 getOrCreateGameStats(user);
@@ -249,18 +251,40 @@ public class UserGameStatsService {
 
             if (scorePercentage >= PASS_SCORE) {
 
+                int rewardPoints =
+                        calculateSuccessfulReward(scorePercentage);
+
                 applySuccessfulReward(
                         gameStats,
                         scorePercentage
+                );
+
+                int earnedXp = calculateXp(rewardPoints);
+
+                courseUserStatsService.addCourseXp(
+                        user,
+                        course,
+                        earnedXp
                 );
 
                 activityProgress.setRewardGranted(true);
 
             } else if (scorePercentage >= HALF_REWARD_MIN_SCORE) {
 
+                int rewardPoints =
+                        calculateFailedReward(scorePercentage);
+
                 applyFailedReward(
                         gameStats,
                         scorePercentage
+                );
+
+                int earnedXp = calculateXp(rewardPoints);
+
+                courseUserStatsService.addCourseXp(
+                        user,
+                        course,
+                        earnedXp
                 );
 
                 activityProgress.setRewardGranted(true);
