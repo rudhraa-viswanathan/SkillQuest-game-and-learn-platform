@@ -21,6 +21,9 @@ public class ActivityProgress {
     @Column(nullable = false)
     private boolean completed = false;
 
+    @Column(nullable = false)
+    private boolean rewardGranted = false;
+
     private LocalDateTime completedAt;
 
     public ActivityProgress() {
@@ -56,6 +59,14 @@ public class ActivityProgress {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public boolean isRewardGranted() {
+        return rewardGranted;
+    }
+
+    public void setRewardGranted(boolean rewardGranted) {
+        this.rewardGranted = rewardGranted;
     }
 
     public LocalDateTime getCompletedAt() {
