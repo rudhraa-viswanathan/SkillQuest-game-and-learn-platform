@@ -1,13 +1,7 @@
-if (
-    localStorage.getItem(
-        "isLoggedIn"
-    ) === "true"
-) {
-
-    window.location.href =
-        "Dashboard.html";
-
+if (localStorage.getItem("jwtToken")) {
+    window.location.href = "Dashboard.html";
 }
+
 
 const loginForm =
     document.getElementById("login-form");
@@ -15,14 +9,14 @@ const loginForm =
 
 loginForm.addEventListener(
     "submit",
-    (event) => {
+    async (event) => {
 
         event.preventDefault();
 
 
-        const email =
+        const username =
             document
-                .getElementById("login-email")
+                .getElementById("login-username")
                 .value
                 .trim();
 
@@ -34,42 +28,80 @@ loginForm.addEventListener(
 
 
         if (
-            email === "" ||
+            username === "" ||
             password === ""
         ) {
 
-            alert(
-                "Please fill in all fields."
-            );
-
+            alert("Please fill in all fields.");
             return;
         }
 
 
-        const savedUser =
-            localStorage.getItem(
-                "skillQuestUser"
+        const loginData = {
+            username: username,
+            password: password
+        };
+
+
+        try {
+
+            const response = await fetch(
+                `${API_BASE_URL}/auth/login`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(loginData)
+                }
             );
 
 
-        if (!savedUser) {
+            if (!response.ok) {
 
-            alert(
-                "No registered user found. Please register first."
+                let errorMessage =
+                    "Invalid username or password.";
+
+                try {
+
+                    const errorData =
+                        await response.json();
+
+                    if (errorData.message) {
+                        errorMessage =
+                            errorData.message;
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Could not read login error:",
+                        error
+                    );
+                }
+
+
+                alert(errorMessage);
+                return;
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+    "Login response:",
+    data
+);
+
+            localStorage.setItem(
+                "jwtToken",
+                data.token
             );
 
-            return;
-        }
-
-
-        const user =
-            JSON.parse(savedUser);
-
-
-        if (
-            email === user.email &&
-            password === user.password
-        ) {
 
             localStorage.setItem(
                 "isLoggedIn",
@@ -77,24 +109,34 @@ loginForm.addEventListener(
             );
 
 
-            alert(
-                "Login successful."
+            localStorage.setItem(
+                "username",
+                username
             );
+
+
+            alert("Login successful.");
 
 
             window.location.href =
                 "Dashboard.html";
 
-        } else {
 
-            alert(
-                "Invalid email or password."
+        } catch (error) {
+
+            console.error(
+                "Login error:",
+                error
             );
 
+            alert(
+                "Unable to connect to the SkillQuest server."
+            );
         }
 
     }
 );
+
 
 const showLoginPassword =
     document.getElementById(

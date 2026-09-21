@@ -1,13 +1,9 @@
 if (
-    localStorage.getItem(
-        "isLoggedIn"
-    ) === "true"
+    localStorage.getItem("isLoggedIn") === "true"
 ) {
-
-    window.location.href =
-        "Dashboard.html";
-
+    window.location.href = "Dashboard.html";
 }
+
 
 const registerForm =
     document.getElementById("register-form");
@@ -15,7 +11,7 @@ const registerForm =
 
 registerForm.addEventListener(
     "submit",
-    (event) => {
+    async (event) => {
 
         event.preventDefault();
 
@@ -52,10 +48,7 @@ registerForm.addEventListener(
             confirmPassword === ""
         ) {
 
-            alert(
-                "Please fill in all fields."
-            );
-
+            alert("Please fill in all fields.");
             return;
         }
 
@@ -70,66 +63,89 @@ registerForm.addEventListener(
         }
 
 
-        if (
-            password !== confirmPassword
-        ) {
+        if (password !== confirmPassword) {
 
-            alert(
-                "Passwords do not match."
-            );
-
+            alert("Passwords do not match.");
             return;
         }
 
-const existingUser =
-    localStorage.getItem(
-        "skillQuestUser"
-    );
-
-
-if (existingUser) {
-
-    const storedUser =
-        JSON.parse(existingUser);
-
-
-    if (
-        storedUser.email === email
-    ) {
-
-        alert(
-            "An account with this email already exists."
-        );
-
-        return;
-    }
-
-}
-
 
         const user = {
-            name: name,
+            username: name,
             email: email,
             password: password
         };
 
 
-        localStorage.setItem(
-            "skillQuestUser",
-            JSON.stringify(user)
-        );
+        try {
+
+            const response = await fetch(
+                `${API_BASE_URL}/users/register`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(user)
+                }
+            );
 
 
-        alert(
-            "Registration successful."
-        );
+            if (!response.ok) {
+
+                let errorMessage =
+                    "Registration failed.";
+
+                try {
+
+                    const errorData =
+                        await response.json();
+
+                    if (errorData.message) {
+                        errorMessage =
+                            errorData.message;
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Could not read error response:",
+                        error
+                    );
+                }
 
 
-        window.location.href =
-            "login.html";
+                alert(errorMessage);
+                return;
+            }
+
+
+            alert(
+                "Registration successful."
+            );
+
+
+            window.location.href =
+                "login.html";
+
+
+        } catch (error) {
+
+            console.error(
+                "Registration error:",
+                error
+            );
+
+            alert(
+                "Unable to connect to the SkillQuest server."
+            );
+        }
 
     }
 );
+
 
 const showRegisterPassword =
     document.getElementById(
@@ -159,7 +175,6 @@ showRegisterPassword.addEventListener(
 
 
         passwordInput.type = type;
-
         confirmPasswordInput.type = type;
 
     }

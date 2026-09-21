@@ -112,18 +112,39 @@ public class ProgrammingAssessmentService {
             String expectedAnswer) {
 
         String normalizedSubmittedAnswer =
-                submittedAnswer.trim()
-                        .replaceAll("\\s+", " ");
+                normalizeCode(submittedAnswer);
 
         String normalizedExpectedAnswer =
-                expectedAnswer.trim()
-                        .replaceAll("\\s+", " ");
+                normalizeCode(expectedAnswer);
 
-        if (normalizedSubmittedAnswer.equals(normalizedExpectedAnswer)) {
+        if (normalizedSubmittedAnswer.equals(
+                normalizedExpectedAnswer)) {
+
             return 100;
         }
 
         return 0;
+    }
+
+
+    private String normalizeCode(String code) {
+
+        if (code == null) {
+            return "";
+        }
+
+        return code
+                .trim()
+
+                // Normalize spaces/newlines/tabs
+                .replaceAll("\\s+", " ")
+
+                // Ignore spaces around Java punctuation
+                .replaceAll("\\s*([{}();])\\s*", "$1")
+
+                // Remove remaining spaces outside
+                // string literals for this simple assessment
+                .replaceAll(" +", " ");
     }
 
     public AssessmentAttemptResponseDTO submitAssessment(

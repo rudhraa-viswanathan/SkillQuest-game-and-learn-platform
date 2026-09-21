@@ -1,151 +1,255 @@
-function getSavedProgress(courseId, defaultProgress) {
-    const savedProgress = localStorage.getItem(courseId + "Progress");
+const coursesContainer =
+    document.getElementById(
+        "courses-container"
+    );
 
-    if (savedProgress !== null) {
-        return Number(savedProgress);
-    }
+const searchInput =
+    document.getElementById(
+        "course-search"
+    );
 
-    return defaultProgress;
-}
-
-const courses = [
-    {
-        id: "java",
-        name: "Java Development",
-        description: "Learn Java from fundamentals to advanced concepts.",
-        progress: 72,
-        lessonsCompleted: 18,
-        totalLessons: 25,
-        xp: 850
-    },
-    {
-        id: "web",
-        name: "Web Development",
-        description: "Learn HTML, CSS and JavaScript to build websites.",
-        progress: 48,
-        lessonsCompleted: 12,
-        totalLessons: 25,
-        xp: 620
-    },
-    {
-        id: "sql",
-        name: "SQL & Database",
-        description: "Learn SQL queries and database concepts.",
-        progress: 35,
-        lessonsCompleted: 9,
-        totalLessons: 25,
-        xp: 430
-    }
-];
+const noCoursesMessage =
+    document.getElementById(
+        "no-courses-message"
+    );
 
 
-const coursesContainer = document.getElementById("courses-container");
+let loadedCourses = [];
 
 
-courses.forEach(course => {
+// ========================================
+// Load Courses From Backend
+// ========================================
 
-    const currentProgress = getSavedProgress(
-    course.id,
-    course.progress
-);
+async function loadCourses() {
 
-    let courseStatus;
+coursesContainer.innerHTML = `
+    <p class="loading-message">
+        Loading courses...
+    </p>
+`;
 
-if (currentProgress === 0) {
-    courseStatus = "Not Started";
-} else if (currentProgress === 100) {
-    courseStatus = "Completed";
-} else {
-    courseStatus = "In Progress";
-}
+noCoursesMessage.style.display =
+    "none";
 
-    const courseCard = document.createElement("div");
+    try {
 
-    courseCard.classList.add("course-card");
+        const response =
+            await authenticatedFetch(
+                "/courses"
+            );
 
-    courseCard.innerHTML = `
-        <h2>${course.name}</h2>
 
-        <p>${course.description}</p>
-        <p class="course-status">
-         Status: ${courseStatus}
+        if (!response.ok) {
+
+    const errorMessage =
+        await getApiErrorMessage(
+            response,
+            "Unable to load courses."
+        );
+
+
+    coursesContainer.innerHTML = `
+        <p class="error-message">
+            ${errorMessage}
         </p>
-        <p class="lesson-count">
-            ${course.lessonsCompleted} / ${course.totalLessons} lessons completed
-        </p>
-        <p class="course-xp">
-            XP: ${course.xp}
-        </p>
-        <div class="course-progress">
-            <span>Progress: ${currentProgress}%</span>
-
-            <div class="progress-bar">
-                <div
-                    class="progress-fill"
-                    style="width: ${currentProgress}%;"
-                </div>
-            </div>
-        </div>
-
-        <button class="course-btn" data-course="${course.id}">
-            Continue Course
-        </button>
     `;
 
-    coursesContainer.appendChild(courseCard);
-});
 
-const courseButtons = document.querySelectorAll(".course-btn");
-
-courseButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const courseId = button.dataset.course;
-
-        if (courseId === "java") {
-            window.location.href = "java-course.html";
-        }
-
-        if (courseId === "web") {
-            window.location.href = "web-course.html";
-        }
-
-        if (courseId === "sql") {
-            window.location.href = "sql-course.html";
-        }
-    });
-});
-
-const searchInput = document.getElementById("course-search");
-const noCoursesMessage = document.getElementById("no-courses-message");
-
-if (searchInput && noCoursesMessage) {
-
-    searchInput.addEventListener("input", () => {
-
-        const searchText = searchInput.value.toLowerCase();
-
-        const courseCards = document.querySelectorAll(".course-card");
-
-        let visibleCourses = 0;
-
-        courseCards.forEach(card => {
-
-            const courseName = card.querySelector("h2").textContent.toLowerCase();
-
-            if (courseName.includes(searchText)) {
-                card.style.display = "flex";
-                visibleCourses++;
-            } else {
-                card.style.display = "none";
-            }
-        });
-
-        if (visibleCourses === 0) {
-            noCoursesMessage.style.display = "block";
-        } else {
-            noCoursesMessage.style.display = "none";
-        }
-    });
+    return;
 }
+
+
+        loadedCourses =
+            await response.json();
+
+
+        displayCourses(
+            loadedCourses
+        );
+
+
+    } catch (error) {
+
+    console.error(
+        "Course loading error:",
+        error
+    );
+
+
+    coursesContainer.innerHTML = `
+        <p class="error-message">
+            Unable to connect to SkillQuest.
+            Please try again.
+        </p>
+    `;
+
+}
+
+}
+
+
+// ========================================
+// Display Courses
+// ========================================
+
+function displayCourses(courses) {
+
+    coursesContainer.innerHTML = "";
+
+
+    if (courses.length === 0) {
+
+        noCoursesMessage.style.display =
+            "block";
+
+        return;
+    }
+
+
+    noCoursesMessage.style.display =
+        "none";
+
+
+    courses.forEach(course => {
+
+        const courseCard =
+            document.createElement(
+                "div"
+            );
+
+
+        courseCard.classList.add(
+            "course-card"
+        );
+
+
+        courseCard.innerHTML = `
+            <h2>${course.name}</h2>
+
+            <p>${course.description}</p>
+
+            <button
+                class="course-btn"
+                data-course-id="${course.id}"
+                data-course-name="${course.name}"
+            >
+                Continue Course
+            </button>
+        `;
+
+
+        coursesContainer.appendChild(
+            courseCard
+        );
+
+    });
+
+
+    addCourseButtonEvents();
+
+}
+
+
+// ========================================
+// Course Button Navigation
+// ========================================
+
+function addCourseButtonEvents() {
+
+    const courseButtons =
+        document.querySelectorAll(
+            ".course-btn"
+        );
+
+
+    courseButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const courseName =
+                    button.dataset.courseName
+                        .toLowerCase();
+
+
+                if (
+                    courseName.includes(
+                        "java"
+                    )
+                ) {
+
+                    window.location.href =
+                        "java-course.html";
+
+                } else if (
+                    courseName.includes(
+                        "web"
+                    )
+                ) {
+
+                    window.location.href =
+                        "web-course.html";
+
+                } else if (
+                    courseName.includes(
+                        "sql"
+                    )
+                ) {
+
+                    window.location.href =
+                        "sql-course.html";
+
+                }
+
+            }
+        );
+
+    });
+
+}
+
+
+// ========================================
+// Search Courses
+// ========================================
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            const searchText =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filteredCourses =
+                loadedCourses.filter(
+                    course =>
+                        course.name
+                            .toLowerCase()
+                            .includes(
+                                searchText
+                            )
+                );
+
+
+            displayCourses(
+                filteredCourses
+            );
+
+        }
+    );
+
+}
+
+
+// ========================================
+// Start
+// ========================================
+
+loadCourses();

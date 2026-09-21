@@ -126,7 +126,7 @@
 
                             <th>XP</th>
 
-                            <th>Progress</th>
+                            <th>Status</th>
 
                         </tr>
 
@@ -167,6 +167,13 @@
 
     </footer>
 
+<script>
+    if (!localStorage.getItem("jwtToken")) {
+        window.location.href = "login.html";
+    }
+</script>
+
+<script src="../js/api.js"></script>
 <script src="../js/leaderboard.js"></script>
 
 </body>

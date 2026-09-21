@@ -22,6 +22,18 @@ const currentActivityName =
     params.get("activity");
 
 
+const currentActivityId =
+    Number(
+        params.get("activityId")
+    );
+
+const currentActivityType =
+    params.get("type");
+
+
+let activityAttemptStarted =
+    false;
+
 // =====================================================
 // 2. PAGE ELEMENTS
 // =====================================================
@@ -90,20 +102,124 @@ function isCurrentActivityCompleted() {
 
 function markCurrentActivityCompleted() {
 
-    if (!currentActivityName) {
+    if (!currentActivityId) {
+
+        console.error(
+            "Activity ID is missing."
+        );
+
         return;
     }
 
-    localStorage.setItem(
-        "completed-" +
-        currentActivityName,
-        "true"
-    );
 
-    updateCompleteButton();
+    completeButton.disabled =
+        false;
+
+    completeButton.textContent =
+        "Activity Completed ✓";
+
+    completeButton.classList.add(
+        "activity-completed-btn"
+    );
 
 }
 
+
+async function submitActivityResult(
+    scorePercentage
+) {
+
+    if (!currentActivityId) {
+
+        console.error(
+            "Activity ID is missing."
+        );
+
+        return null;
+    }
+
+
+    const resultData = {
+        activityId: currentActivityId,
+        scorePercentage: scorePercentage
+    };
+
+
+    try {
+
+        const response =
+            await authenticatedFetch(
+                "/game-stats/result",
+                {
+                    method: "POST",
+                    body: JSON.stringify(
+                        resultData
+                    )
+                }
+            );
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to submit activity result.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                if (errorData.message) {
+                    errorMessage =
+                        errorData.message;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Could not read result error:",
+                    error
+                );
+            }
+
+
+            alert(errorMessage);
+
+            return null;
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "Activity result:",
+            result
+        );
+
+
+        if (scorePercentage >= 60) {
+
+            markCurrentActivityCompleted();
+
+        }
+
+
+        return result;
+
+
+    } catch (error) {
+
+        console.error(
+            "Result submission error:",
+            error
+        );
+
+        return null;
+    }
+
+}
 
 // =====================================================
 // 5. COMPLETE ACTIVITY BUTTON
@@ -1830,7 +1946,7 @@ if (nextQuestionButton) {
 }
 
 
-function finishQuiz() {
+async function finishQuiz() {
 
     if (
         quizQuestions.length === 0
@@ -1860,19 +1976,37 @@ function finishQuiz() {
     quizFeedback.textContent =
         `Your score: ${quizScore} / ${quizQuestions.length} (${percentage}%)`;
 
-    if (percentage >= 50) {
+    const backendResult =
+    await submitActivityResult(
+        percentage
+    );
 
-        markCurrentActivityCompleted();
 
-        quizFeedback.textContent +=
-            " — Activity completed!";
+if (!backendResult) {
 
-    } else {
+    quizFeedback.textContent +=
+        " — Result could not be saved.";
 
-        quizFeedback.textContent +=
-            " — You need at least 50% to complete this activity.";
+    return;
+}
 
-    }
+
+if (percentage >= 60) {
+
+    quizFeedback.textContent +=
+        " — Activity completed!";
+
+} else if (percentage >= 51) {
+
+    quizFeedback.textContent +=
+        " — Not passed. Half reward earned.";
+
+} else {
+
+    quizFeedback.textContent +=
+        " — Not passed. Try again.";
+
+}
 
 }
 
@@ -8436,6 +8570,97 @@ else if (
 // 18. INITIALIZE PAGE
 // =====================================================
 
-updateCompleteButton();
+async function startActivityAttempt() {
 
-loadActivityGame();
+    if (!currentActivityId) {
+
+        alert(
+            "Unable to start activity. Activity ID is missing."
+        );
+
+        return;
+    }
+
+
+    if (activityAttemptStarted) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await authenticatedFetch(
+                "/game-stats/attempt",
+                {
+                    method: "POST"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to start activity.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                if (errorData.message) {
+                    errorMessage =
+                        errorData.message;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Could not read attempt error:",
+                    error
+                );
+            }
+
+
+            alert(errorMessage);
+
+            return;
+        }
+
+
+        const gameStats =
+            await response.json();
+
+
+        activityAttemptStarted =
+            true;
+
+
+        console.log(
+            "Activity attempt started."
+        );
+
+        console.log(
+            "Remaining energy:",
+            gameStats.energy
+        );
+
+
+        updateCompleteButton();
+
+        loadActivityGame();
+
+
+    } catch (error) {
+
+        console.error(
+            "Attempt start error:",
+            error
+        );
+
+    }
+
+}
+
+
+startActivityAttempt();

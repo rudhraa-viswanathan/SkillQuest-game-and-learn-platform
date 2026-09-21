@@ -382,7 +382,14 @@
     </footer>
 
 
-    <script src="../js/activity.js"></script>
+    <script>
+    if (!localStorage.getItem("jwtToken")) {
+        window.location.href = "login.html";
+    }
+</script>
+
+<script src="../js/api.js"></script>
+<script src="../js/activity.js"></script>
 
 </body>
 

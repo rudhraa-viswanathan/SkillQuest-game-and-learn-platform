@@ -79,20 +79,19 @@
     </footer>
 
     <script>
-        if (
-            localStorage.getItem("isLoggedIn") !== "true"
-        ) {
+    if (!localStorage.getItem("jwtToken")) {
 
-            alert(
-                "Please login to access SkillQuest courses."
-            );
+        alert(
+            "Please login to access SkillQuest courses."
+        );
 
-            window.location.href =
-                "login.html";
-        }
-    </script>
+        window.location.href =
+            "login.html";
+    }
+</script>
 
-    <script src="../js/courses.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/courses.js"></script>
 
 </body>
 

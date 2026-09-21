@@ -1,329 +1,440 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    // ========================================
-    // ELEMENTS
-    // ========================================
 
-    const leaderboardBody =
-        document.getElementById("leaderboard-body");
+        // ========================================
+        // ELEMENTS
+        // ========================================
 
-    const filterButtons =
-        document.querySelectorAll(".leaderboard-filter");
+        const leaderboardBody =
+            document.getElementById(
+                "leaderboard-body"
+            );
+
+        const filterButtons =
+            document.querySelectorAll(
+                ".leaderboard-filter"
+            );
 
         const currentRank =
-    document.getElementById("current-rank");
+            document.getElementById(
+                "current-rank"
+            );
 
-    // ========================================
-    // SAMPLE LEADERBOARD DATA
-    // ========================================
 
-    const leaderboardData = {
+        // ========================================
+        // COURSE IDS
+        // ========================================
 
-        Java: [
+        const courseIds = {
 
-            {
-                name: "Arun",
-                xp: 1450,
-                progress: 92
-            },
+            Java: 1,
 
-            {
-                name: "Priya",
-                xp: 1320,
-                progress: 86
-            },
+            SQL: null,
 
-            {
-                name: "Kavin",
-                xp: 1100,
-                progress: 78
-            },
+            "Web Development": null
 
-            {
-                name: "Meena",
-                xp: 980,
-                progress: 70
+        };
+
+
+        // ========================================
+        // LOAD LEADERBOARD
+        // ========================================
+
+        async function loadLeaderboard(
+            course
+        ) {
+
+            const courseId =
+                courseIds[course];
+
+
+            leaderboardBody.innerHTML = `
+    <tr>
+        <td colspan="4">
+            Loading ${course} leaderboard...
+        </td>
+    </tr>
+`;
+
+
+currentRank.textContent =
+    `Loading ${course} rank...`;
+
+
+            if (!courseId) {
+
+                leaderboardBody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            ${course} leaderboard
+                            will be available after
+                            backend course migration.
+                        </td>
+                    </tr>
+                `;
+
+
+                currentRank.textContent =
+                    "Your Rank: -";
+
+
+                return;
+
             }
 
-        ],
+
+            try {
+
+                const response =
+                    await authenticatedFetch(
+                        `/leaderboard/courses/${courseId}`
+                    );
 
 
-        SQL: [
+                if (!response.ok) {
 
-            {
-                name: "Priya",
-                xp: 1380,
-                progress: 90
-            },
-
-            {
-                name: "Meena",
-                xp: 1200,
-                progress: 82
-            },
-
-            {
-                name: "Arun",
-                xp: 1050,
-                progress: 74
-            },
-
-            {
-                name: "Kavin",
-                xp: 900,
-                progress: 65
-            }
-
-        ],
+    const errorMessage =
+        await getApiErrorMessage(
+            response,
+            "Unable to load leaderboard."
+        );
 
 
-        "Web Development": [
+    leaderboardBody.innerHTML = `
+        <tr>
+            <td colspan="4">
+                ${errorMessage}
+            </td>
+        </tr>
+    `;
 
-            {
-                name: "Kavin",
-                xp: 1500,
-                progress: 95
-            },
-
-            {
-                name: "Arun",
-                xp: 1250,
-                progress: 84
-            },
-
-            {
-                name: "Meena",
-                xp: 1080,
-                progress: 76
-            },
-
-            {
-                name: "Priya",
-                xp: 950,
-                progress: 68
-            }
-
-        ]
-
-    };
-
-    // ========================================
-// CURRENT USER
-// ========================================
-
-const loggedInUser =
-    JSON.parse(localStorage.getItem("loggedInUser"));
-
-const currentUserName =
-    loggedInUser?.name || "You";
-
-const javaProgress =
-    Number(localStorage.getItem("javaProgress")) || 0;
-
-const sqlProgress =
-    Number(localStorage.getItem("sqlProgress")) || 0;
-
-const webProgress =
-    Number(localStorage.getItem("webProgress")) || 0;
-
-const totalXp =
-    Number(localStorage.getItem("xp")) || 0;
-
-
-// Add current user to Java leaderboard
-
-leaderboardData.Java.push({
-
-    name: currentUserName,
-    xp: totalXp,
-    progress: javaProgress,
-    isCurrentUser: true
-
-});
-
-
-// Add current user to SQL leaderboard
-
-leaderboardData.SQL.push({
-
-    name: currentUserName,
-    xp: totalXp,
-    progress: sqlProgress,
-    isCurrentUser: true
-
-});
-
-
-// Add current user to Web Development leaderboard
-
-leaderboardData["Web Development"].push({
-
-    name: currentUserName,
-    xp: totalXp,
-    progress: webProgress,
-    isCurrentUser: true
-
-});
-
-    // ========================================
-    // RENDER LEADERBOARD
-    // ========================================
-
-    function renderLeaderboard(course) {
-
-        leaderboardBody.innerHTML = "";
-
-        const learners =
-            [...leaderboardData[course]];
-
-
-        // Highest XP should appear first
-
-        learners.sort(function (a, b) {
-
-            return b.xp - a.xp;
-
-        });
-
-        const currentUserIndex =
-    learners.findIndex(function (learner) {
-
-        return learner.isCurrentUser;
-
-    });
-
-
-if (currentUserIndex !== -1) {
 
     currentRank.textContent =
-        "Your " +
-        course +
-        " Rank: #" +
-        (currentUserIndex + 1);
+        `Your ${course} Rank: -`;
 
-} else {
 
-    currentRank.textContent =
-        "Your Rank: -";
+    return;
 
 }
 
 
-        learners.forEach(function (learner, index) {
+                const learners =
+                    await response.json();
 
-            const row =
-                document.createElement("tr");
 
-                if (learner.isCurrentUser) {
+                displayLeaderboard(
+                    learners
+                );
 
-    row.classList.add(
-        "current-user-row"
+
+                await loadCurrentRank(
+                    course,
+                    courseId
+                );
+
+
+            } catch (error) {
+
+    console.error(
+        "Leaderboard error:",
+        error
     );
 
-}
 
-            const rankCell =
-                document.createElement("td");
-
-            const learnerCell =
-                document.createElement("td");
-
-            const xpCell =
-                document.createElement("td");
-
-            const progressCell =
-                document.createElement("td");
+    leaderboardBody.innerHTML = `
+        <tr>
+            <td colspan="4">
+                Unable to connect to SkillQuest.
+                Please try again.
+            </td>
+        </tr>
+    `;
 
 
-            if (index === 0) {
-
-    rankCell.textContent = "🥇 1";
-
-} else if (index === 1) {
-
-    rankCell.textContent = "🥈 2";
-
-} else if (index === 2) {
-
-    rankCell.textContent = "🥉 3";
-
-} else {
-
-    rankCell.textContent =
-        index + 1;
+    currentRank.textContent =
+        `Your ${course} Rank: -`;
 
 }
 
-            learnerCell.textContent =
-    learner.isCurrentUser
-        ? learner.name + " (You)"
-        : learner.name;
-
-            xpCell.textContent =
-                learner.xp + " XP";
-
-            progressCell.textContent =
-                learner.progress + "%";
+        }
 
 
-            row.appendChild(rankCell);
+        // ========================================
+        // DISPLAY LEADERBOARD
+        // ========================================
 
-            row.appendChild(learnerCell);
+        function displayLeaderboard(
+            learners
+        ) {
 
-            row.appendChild(xpCell);
+            leaderboardBody.innerHTML =
+                "";
 
-            row.appendChild(progressCell);
+
+            if (learners.length === 0) {
+
+                leaderboardBody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            No leaderboard data yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
 
 
-            leaderboardBody.appendChild(row);
+            const currentUsername =
+                localStorage.getItem(
+                    "username"
+                );
 
-        });
 
-    }
+            learners.forEach(
+                learner => {
 
-    // ========================================
-// COURSE FILTER
-// ========================================
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
 
-filterButtons.forEach(function (button) {
 
-    button.addEventListener(
-        "click",
-        function () {
+                    const isCurrentUser =
+                        learner.username ===
+                        currentUsername;
 
-            filterButtons.forEach(
-                function (filterButton) {
 
-                    filterButton.classList.remove(
-                        "active"
+                    if (isCurrentUser) {
+
+                        row.classList.add(
+                            "current-user-row"
+                        );
+
+                    }
+
+
+                    const rankCell =
+                        document.createElement(
+                            "td"
+                        );
+
+
+                    const learnerCell =
+                        document.createElement(
+                            "td"
+                        );
+
+
+                    const xpCell =
+                        document.createElement(
+                            "td"
+                        );
+
+
+                    const statusCell =
+                        document.createElement(
+                            "td"
+                        );
+
+
+                    if (learner.rank === 1) {
+
+                        rankCell.textContent =
+                            "🥇 1";
+
+                    } else if (
+                        learner.rank === 2
+                    ) {
+
+                        rankCell.textContent =
+                            "🥈 2";
+
+                    } else if (
+                        learner.rank === 3
+                    ) {
+
+                        rankCell.textContent =
+                            "🥉 3";
+
+                    } else {
+
+                        rankCell.textContent =
+                            learner.rank;
+
+                    }
+
+
+                    learnerCell.textContent =
+                        isCurrentUser
+                            ? learner.username +
+                              " (You)"
+                            : learner.username;
+
+
+                    xpCell.textContent =
+                        learner.xp + " XP";
+
+
+                    statusCell.textContent =
+                        isCurrentUser
+                            ? "You"
+                            : "Learner";
+
+
+                    row.appendChild(
+                        rankCell
+                    );
+
+                    row.appendChild(
+                        learnerCell
+                    );
+
+                    row.appendChild(
+                        xpCell
+                    );
+
+                    row.appendChild(
+                        statusCell
+                    );
+
+
+                    leaderboardBody.appendChild(
+                        row
                     );
 
                 }
             );
 
-
-            button.classList.add(
-                "active"
-            );
-
-
-            const selectedCourse =
-                button.dataset.course;
-
-
-            renderLeaderboard(
-                selectedCourse
-            );
-
         }
+
+
+        // ========================================
+        // CURRENT USER RANK
+        // ========================================
+
+        async function loadCurrentRank(
+            course,
+            courseId
+        ) {
+
+            try {
+
+                const response =
+                    await authenticatedFetch(
+                        `/leaderboard/courses/${courseId}/me`
+                    );
+
+
+                if (
+                    response.status === 204
+                ) {
+
+                    currentRank.textContent =
+                        `Your ${course} Rank: -`;
+
+                    return;
+
+                }
+
+
+                if (!response.ok) {
+
+    const errorMessage =
+        await getApiErrorMessage(
+            response,
+            "Unable to load your rank."
+        );
+
+
+    console.error(
+        errorMessage
     );
 
-});
 
-    // ========================================
-    // INITIAL LEADERBOARD
-    // ========================================
+    currentRank.textContent =
+        `Your ${course} Rank: -`;
 
-    renderLeaderboard("Java");
 
-});
+    return;
+
+}
+
+
+                const userRank =
+                    await response.json();
+
+
+                currentRank.textContent =
+                    `Your ${course} Rank: #${userRank.rank}`;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Current rank error:",
+                    error
+                );
+
+
+                currentRank.textContent =
+                    `Your ${course} Rank: -`;
+
+            }
+
+        }
+
+
+        // ========================================
+        // COURSE FILTER
+        // ========================================
+
+        filterButtons.forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        filterButtons.forEach(
+                            filterButton => {
+
+                                filterButton
+                                    .classList
+                                    .remove(
+                                        "active"
+                                    );
+
+                            }
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        loadLeaderboard(
+                            button.dataset.course
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        // ========================================
+        // INITIAL LEADERBOARD
+        // ========================================
+
+        loadLeaderboard(
+            "Java"
+        );
+
+    }
+);

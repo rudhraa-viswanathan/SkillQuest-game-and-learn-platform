@@ -144,6 +144,44 @@
 
         </section>
 
+        <!-- ================================= -->
+<!-- PROGRAMMING ASSESSMENT -->
+<!-- ================================= -->
+
+<section
+    class="assessment-section"
+    id="assessment-section"
+>
+
+    <h2>
+        Programming Assessment
+    </h2>
+
+    <div
+        class="assessment-card"
+        id="assessment-card"
+    >
+
+        <h3>
+            Java Programming Assessment
+        </h3>
+
+        <p id="assessment-status">
+            Checking assessment availability...
+        </p>
+
+        <button
+            type="button"
+            id="assessment-button"
+            disabled
+        >
+            🔒 Assessment Locked
+        </button>
+
+    </div>
+
+</section>
+
 
     </main>
 
@@ -170,7 +208,14 @@
     <!-- JAVASCRIPT -->
     <!-- ================================= -->
 
-    <script src="../js/java-course.js"></script>
+    <script>
+    if (!localStorage.getItem("jwtToken")) {
+        window.location.href = "login.html";
+    }
+</script>
+
+<script src="../js/api.js"></script>
+<script src="../js/java-course.js"></script>
 
 
 </body>
