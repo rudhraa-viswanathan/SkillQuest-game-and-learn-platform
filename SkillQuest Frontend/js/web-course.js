@@ -18,25 +18,10 @@ const webTopics = [
 
         activities: [
 
-            {
-                name: "HTML Structure",
-                type: "quiz"
-            },
-
-            {
-                name: "Text & Headings",
-                type: "fill"
-            },
-
-            {
-                name: "Links & Images",
-                type: "code-output"
-            },
-
-            {
-                name: "HTML Fundamentals Challenge",
-                type: "true-false"
-            }
+            { id: 60, name: "HTML Structure", type: "quiz" },
+{ id: 61, name: "Text & Headings", type: "fill" },
+{ id: 62, name: "Links & Images", type: "code-output" },
+{ id: 63, name: "HTML Fundamentals Challenge", type: "true-false" }
 
         ]
     },
@@ -51,25 +36,10 @@ const webTopics = [
 
         activities: [
 
-            {
-                name: "Lists & Tables",
-                type: "code-ordering"
-            },
-
-            {
-                name: "Forms & Inputs",
-                type: "matching"
-            },
-
-            {
-                name: "Semantic HTML",
-                type: "quiz"
-            },
-
-            {
-                name: "HTML Debugging Challenge",
-                type: "debugging"
-            }
+            { id: 64, name: "Lists & Tables", type: "code-ordering" },
+{ id: 65, name: "Forms & Inputs", type: "matching" },
+{ id: 66, name: "Semantic HTML", type: "quiz" },
+{ id: 67, name: "HTML Debugging Challenge", type: "debugging" }
 
         ]
     },
@@ -84,25 +54,10 @@ const webTopics = [
 
         activities: [
 
-            {
-                name: "CSS Selectors",
-                type: "quiz"
-            },
-
-            {
-                name: "Colors & Typography",
-                type: "matching"
-            },
-
-            {
-                name: "Box Model",
-                type: "fill"
-            },
-
-            {
-                name: "CSS Fundamentals Challenge",
-                type: "true-false"
-            }
+           { id: 68, name: "CSS Selectors", type: "quiz" },
+{ id: 69, name: "Colors & Typography", type: "matching" },
+{ id: 70, name: "Box Model", type: "fill" },
+{ id: 71, name: "CSS Fundamentals Challenge", type: "true-false" }
 
         ]
     },
@@ -117,30 +72,11 @@ const webTopics = [
 
         activities: [
 
-            {
-                name: "Flexbox",
-                type: "matching"
-            },
-
-            {
-                name: "CSS Grid",
-                type: "code-output"
-            },
-
-            {
-                name: "Positioning",
-                type: "quiz"
-            },
-
-            {
-                name: "Media Queries",
-                type: "fill"
-            },
-
-            {
-                name: "Responsive CSS Challenge",
-                type: "debugging"
-            }
+            { id: 72, name: "Flexbox", type: "matching" },
+{ id: 73, name: "CSS Grid", type: "code-output" },
+{ id: 74, name: "Positioning", type: "quiz" },
+{ id: 75, name: "Media Queries", type: "fill" },
+{ id: 76, name: "Responsive CSS Challenge", type: "debugging" }
 
         ]
     },
@@ -155,30 +91,11 @@ const webTopics = [
 
         activities: [
 
-            {
-                name: "JavaScript Variables & Data Types",
-                type: "quiz"
-            },
-
-            {
-                name: "Operators & Conditions",
-                type: "code-output"
-            },
-
-            {
-                name: "Loops",
-                type: "code-ordering"
-            },
-
-            {
-                name: "Functions",
-                type: "fill"
-            },
-
-            {
-                name: "JavaScript Fundamentals Challenge",
-                type: "debugging"
-            }
+            { id: 77, name: "JavaScript Variables & Data Types", type: "quiz" },
+{ id: 78, name: "Operators & Conditions", type: "code-output" },
+{ id: 79, name: "Loops", type: "code-ordering" },
+{ id: 80, name: "Functions", type: "fill" },
+{ id: 81, name: "JavaScript Fundamentals Challenge", type: "debugging" }
 
         ]
     },
@@ -193,30 +110,11 @@ const webTopics = [
 
         activities: [
 
-            {
-                name: "DOM Selection",
-                type: "quiz"
-            },
-
-            {
-                name: "Changing DOM Content",
-                type: "code-output"
-            },
-
-            {
-                name: "Event Listeners",
-                type: "code-ordering"
-            },
-
-            {
-                name: "Creating Elements",
-                type: "matching"
-            },
-
-            {
-                name: "DOM Challenge",
-                type: "code-challenge"
-            }
+           { id: 82, name: "DOM Selection", type: "quiz" },
+{ id: 83, name: "Changing DOM Content", type: "code-output" },
+{ id: 84, name: "Event Listeners", type: "code-ordering" },
+{ id: 85, name: "Creating Elements", type: "matching" },
+{ id: 86, name: "DOM Challenge", type: "code-challenge" }
 
         ]
     }
@@ -452,9 +350,10 @@ function createActivityItem(
             () => {
 
                 openActivity(
-                    topic.title,
-                    activity.name
-                );
+    activity.id,
+    topic.title,
+    activity.name
+);
 
             }
         );
@@ -618,31 +517,25 @@ function renderTopics() {
 // =====================================================
 
 function openActivity(
+    activityId,
     topicName,
     activityName
 ) {
 
     const url =
         "activity.html" +
-        "?course=" +
-        encodeURIComponent(
-            "Web Development"
-        ) +
+        "?activityId=" +
+        encodeURIComponent(activityId) +
+        "&course=" +
+        encodeURIComponent("Web Development") +
         "&topic=" +
-        encodeURIComponent(
-            topicName
-        ) +
+        encodeURIComponent(topicName) +
         "&activity=" +
-        encodeURIComponent(
-            activityName
-        );
+        encodeURIComponent(activityName);
 
 
-    window.location.href =
-        url;
-
+    window.location.href = url;
 }
-
 
 // =====================================================
 // 12. UPDATE COURSE PROGRESS

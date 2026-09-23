@@ -50,4 +50,29 @@ public class UserProgressController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/admin/users/{userId}")
+    public ResponseEntity<List<UserProgressResponseDTO>>
+    getUserProgressForAdmin(
+            @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                userProgressService
+                        .getUserProgressForAdmin(userId)
+        );
+    }
+
+
+    @DeleteMapping("/admin/users/{userId}/courses/{courseId}")
+    public ResponseEntity<Void> resetUserCourseProgress(
+            @PathVariable Long userId,
+            @PathVariable Long courseId) {
+
+        userProgressService.resetUserCourseProgress(
+                userId,
+                courseId
+        );
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

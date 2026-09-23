@@ -3,23 +3,14 @@ package com.rudhraa.skillquest.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "activities")
-public class Activity {
+@Table(name = "activity_questions")
+public class ActivityQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
-
-    private String description;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ActivityType type;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String question;
 
     @Column(columnDefinition = "TEXT")
@@ -34,23 +25,14 @@ public class Activity {
     @Column(columnDefinition = "TEXT")
     private String explanation;
 
+    @Column(nullable = false)
     private Integer orderIndex;
 
-    @ManyToOne
-    @JoinColumn(name = "topic_id", nullable = false)
-    private Topic topic;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_id", nullable = false)
+    private Activity activity;
 
-    public Activity() {
-    }
-
-    public Activity(
-            String title,
-            String description,
-            ActivityType type) {
-
-        this.title = title;
-        this.description = description;
-        this.type = type;
+    public ActivityQuestion() {
     }
 
     public Long getId() {
@@ -59,30 +41,6 @@ public class Activity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ActivityType getType() {
-        return type;
-    }
-
-    public void setType(ActivityType type) {
-        this.type = type;
     }
 
     public String getQuestion() {
@@ -133,11 +91,11 @@ public class Activity {
         this.orderIndex = orderIndex;
     }
 
-    public Topic getTopic() {
-        return topic;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }

@@ -1,15 +1,15 @@
 package com.rudhraa.skillquest.service;
-import com.rudhraa.skillquest.entity.Topic;
-import com.rudhraa.skillquest.repository.TopicRepository;
-import com.rudhraa.skillquest.entity.Activity;
-import com.rudhraa.skillquest.repository.ActivityRepository;
-import org.springframework.stereotype.Service;
+
 import com.rudhraa.skillquest.dto.ActivityRequestDTO;
 import com.rudhraa.skillquest.dto.ActivityResponseDTO;
+import com.rudhraa.skillquest.entity.Activity;
+import com.rudhraa.skillquest.entity.Topic;
 import com.rudhraa.skillquest.exception.ResourceNotFoundException;
+import com.rudhraa.skillquest.repository.ActivityRepository;
+import com.rudhraa.skillquest.repository.TopicRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ActivityService {
@@ -25,6 +25,10 @@ public class ActivityService {
         this.topicRepository = topicRepository;
     }
 
+    // =====================================================
+    // CREATE ACTIVITY
+    // =====================================================
+
     public ActivityResponseDTO saveActivity(
             Long topicId,
             ActivityRequestDTO activityRequestDTO) {
@@ -36,13 +40,21 @@ public class ActivityService {
                         )
                 );
 
-        Activity activity = mapToEntity(activityRequestDTO);
+        Activity activity =
+                mapToEntity(activityRequestDTO);
+
         activity.setTopic(topic);
 
-        Activity savedActivity = activityRepository.save(activity);
+        Activity savedActivity =
+                activityRepository.save(activity);
 
         return mapToResponseDTO(savedActivity);
     }
+
+
+    // =====================================================
+    // GET ALL ACTIVITIES
+    // =====================================================
 
     public List<ActivityResponseDTO> getAllActivities() {
 
@@ -52,32 +64,66 @@ public class ActivityService {
                 .toList();
     }
 
+
+    // =====================================================
+    // GET ACTIVITY BY ID
+    // =====================================================
+
     public ActivityResponseDTO getActivityById(Long id) {
 
-        Activity activity = activityRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Activity not found with id: " + id
-                        )
-                );
+        Activity activity =
+                activityRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Activity not found with id: " + id
+                                )
+                        );
 
         return mapToResponseDTO(activity);
     }
+
+
+    // =====================================================
+    // GET ACTIVITIES BY TOPIC
+    // =====================================================
+
+    public List<ActivityResponseDTO> getActivitiesByTopic(
+            Long topicId) {
+
+        if (!topicRepository.existsById(topicId)) {
+            throw new ResourceNotFoundException(
+                    "Topic not found with id: " + topicId
+            );
+        }
+
+        return activityRepository
+                .findByTopicIdOrderByOrderIndexAsc(topicId)
+                .stream()
+                .map(this::mapToResponseDTO)
+                .toList();
+    }
+
+
+    // =====================================================
+    // UPDATE ACTIVITY
+    // =====================================================
 
     public ActivityResponseDTO updateActivity(
             Long id,
             ActivityRequestDTO activityRequestDTO) {
 
-        Activity existingActivity = activityRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Activity not found with id: " + id
-                        )
-                );
+        Activity existingActivity =
+                activityRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Activity not found with id: " + id
+                                )
+                        );
 
-        existingActivity.setTitle(activityRequestDTO.getTitle());
-        existingActivity.setDescription(activityRequestDTO.getDescription());
-        existingActivity.setType(activityRequestDTO.getType());
+        updateEntity(
+                existingActivity,
+                activityRequestDTO
+        );
 
         Activity updatedActivity =
                 activityRepository.save(existingActivity);
@@ -85,36 +131,117 @@ public class ActivityService {
         return mapToResponseDTO(updatedActivity);
     }
 
+
+    // =====================================================
+    // DELETE ACTIVITY
+    // =====================================================
+
     public void deleteActivity(Long id) {
-        activityRepository.deleteById(id);
+
+        Activity activity =
+                activityRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Activity not found with id: " + id
+                                )
+                        );
+
+        activityRepository.delete(activity);
     }
 
-    private Activity mapToEntity(ActivityRequestDTO activityRequestDTO) {
+
+    // =====================================================
+    // REQUEST DTO -> ENTITY
+    // =====================================================
+
+    private Activity mapToEntity(
+            ActivityRequestDTO dto) {
 
         Activity activity = new Activity();
 
-        activity.setTitle(activityRequestDTO.getTitle());
-        activity.setDescription(activityRequestDTO.getDescription());
-        activity.setType(activityRequestDTO.getType());
+        updateEntity(activity, dto);
 
         return activity;
     }
 
-    private ActivityResponseDTO mapToResponseDTO(Activity activity) {
 
-        ActivityResponseDTO activityResponseDTO =
-                new ActivityResponseDTO();
+    // =====================================================
+    // UPDATE ENTITY FIELDS
+    // =====================================================
 
-        activityResponseDTO.setId(activity.getId());
-        activityResponseDTO.setTitle(activity.getTitle());
-        activityResponseDTO.setDescription(activity.getDescription());
-        activityResponseDTO.setType(activity.getType());
+    private void updateEntity(
+            Activity activity,
+            ActivityRequestDTO dto) {
 
-        if (activity.getTopic() != null) {
-            activityResponseDTO.setTopicId(activity.getTopic().getId());
-        }
+        activity.setTitle(dto.getTitle());
+        activity.setDescription(dto.getDescription());
+        activity.setType(dto.getType());
 
-        return activityResponseDTO;
+        activity.setQuestion(dto.getQuestion());
+        activity.setOptions(dto.getOptions());
+        activity.setCorrectAnswer(dto.getCorrectAnswer());
+        activity.setCodeSnippet(dto.getCodeSnippet());
+        activity.setExplanation(dto.getExplanation());
+
+        activity.setOrderIndex(dto.getOrderIndex());
     }
 
+
+    // =====================================================
+    // ENTITY -> RESPONSE DTO
+    // =====================================================
+
+    private ActivityResponseDTO mapToResponseDTO(
+            Activity activity) {
+
+        ActivityResponseDTO dto =
+                new ActivityResponseDTO();
+
+        dto.setId(activity.getId());
+
+        dto.setTitle(
+                activity.getTitle()
+        );
+
+        dto.setDescription(
+                activity.getDescription()
+        );
+
+        dto.setType(
+                activity.getType()
+        );
+
+        dto.setQuestion(
+                activity.getQuestion()
+        );
+
+        dto.setOptions(
+                activity.getOptions()
+        );
+
+        dto.setCorrectAnswer(
+                activity.getCorrectAnswer()
+        );
+
+        dto.setCodeSnippet(
+                activity.getCodeSnippet()
+        );
+
+        dto.setExplanation(
+                activity.getExplanation()
+        );
+
+        dto.setOrderIndex(
+                activity.getOrderIndex()
+        );
+
+        if (activity.getTopic() != null) {
+
+            dto.setTopicId(
+                    activity.getTopic().getId()
+            );
+        }
+
+        return dto;
+    }
 }

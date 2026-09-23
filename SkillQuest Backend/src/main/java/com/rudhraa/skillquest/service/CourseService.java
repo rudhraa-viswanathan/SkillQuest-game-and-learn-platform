@@ -64,7 +64,15 @@ public class CourseService {
     }
 
     public void deleteCourse(Long id) {
-        courseRepository.deleteById(id);
+
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Course not found with id: " + id
+                        )
+                );
+
+        courseRepository.delete(course);
     }
 
     private Course mapToEntity(CourseRequestDTO courseRequestDTO) {

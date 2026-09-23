@@ -17,25 +17,10 @@ const sqlTopics = [
 
         activities: [
 
-            {
-                name: "Introduction to SQL",
-                type: "quiz"
-            },
-
-            {
-                name: "Data Types",
-                type: "matching"
-            },
-
-            {
-                name: "Constraints",
-                type: "fill"
-            },
-
-            {
-                name: "SQL Fundamentals Challenge",
-                type: "true-false"
-            }
+           { id: 33, name: "Introduction to SQL", type: "quiz" },
+{ id: 34, name: "Data Types", type: "matching" },
+{ id: 35, name: "Constraints", type: "fill" },
+{ id: 36, name: "SQL Fundamentals Challenge", type: "true-false" }
 
         ]
     },
@@ -49,25 +34,10 @@ const sqlTopics = [
 
         activities: [
 
-            {
-                name: "INSERT",
-                type: "fill"
-            },
-
-            {
-                name: "SELECT",
-                type: "quiz"
-            },
-
-            {
-                name: "UPDATE",
-                type: "code-output"
-            },
-
-            {
-                name: "DELETE & CRUD Challenge",
-                type: "debugging"
-            }
+           { id: 37, name: "INSERT", type: "fill" },
+{ id: 38, name: "SELECT", type: "quiz" },
+{ id: 39, name: "UPDATE", type: "code-output" },
+{ id: 40, name: "DELETE & CRUD Challenge", type: "debugging" }
 
         ]
     },
@@ -81,25 +51,10 @@ const sqlTopics = [
 
         activities: [
 
-            {
-                name: "WHERE & Comparison Operators",
-                type: "quiz"
-            },
-
-            {
-                name: "AND, OR & NOT",
-                type: "code-output"
-            },
-
-            {
-                name: "LIKE, IN & BETWEEN",
-                type: "fill"
-            },
-
-            {
-                name: "SQL Functions Challenge",
-                type: "matching"
-            }
+           { id: 41, name: "WHERE & Comparison Operators", type: "quiz" },
+{ id: 42, name: "AND, OR & NOT", type: "code-output" },
+{ id: 43, name: "LIKE, IN & BETWEEN", type: "fill" },
+{ id: 44, name: "SQL Functions Challenge", type: "matching" }
 
         ]
     },
@@ -113,30 +68,11 @@ const sqlTopics = [
 
         activities: [
 
-            {
-                name: "INNER JOIN",
-                type: "quiz"
-            },
-
-            {
-                name: "LEFT JOIN",
-                type: "code-output"
-            },
-
-            {
-                name: "RIGHT JOIN",
-                type: "matching"
-            },
-
-            {
-                name: "Multiple Table Joins",
-                type: "code-ordering"
-            },
-
-            {
-                name: "Join Debugging Challenge",
-                type: "debugging"
-            }
+            { id: 45, name: "INNER JOIN", type: "quiz" },
+{ id: 46, name: "LEFT JOIN", type: "code-output" },
+{ id: 47, name: "RIGHT JOIN", type: "matching" },
+{ id: 48, name: "Multiple Table Joins", type: "code-ordering" },
+{ id: 49, name: "Join Debugging Challenge", type: "debugging" }
 
         ]
     },
@@ -150,31 +86,11 @@ const sqlTopics = [
 
         activities: [
 
-            {
-                name: "Aggregate Functions",
-                type: "matching"
-            },
-
-            {
-                name: "GROUP BY",
-                type: "code-output"
-            },
-
-            {
-                name: "HAVING",
-                type: "fill"
-            },
-
-            {
-                name: "Subqueries",
-                type: "code-ordering"
-            },
-
-            {
-                name: "Aggregation Challenge",
-                type: "debugging"
-            }
-
+           { id: 50, name: "Aggregate Functions", type: "matching" },
+{ id: 51, name: "GROUP BY", type: "code-output" },
+{ id: 52, name: "HAVING", type: "fill" },
+{ id: 53, name: "Subqueries", type: "code-ordering" },
+{ id: 54, name: "Aggregation Challenge", type: "debugging" }
         ]
     },
 
@@ -187,30 +103,11 @@ const sqlTopics = [
 
         activities: [
 
-            {
-                name: "Primary & Foreign Keys",
-                type: "quiz"
-            },
-
-            {
-                name: "Views",
-                type: "true-false"
-            },
-
-            {
-                name: "Indexes",
-                type: "matching"
-            },
-
-            {
-                name: "Window Functions",
-                type: "code-output"
-            },
-
-            {
-                name: "Advanced SQL Challenge",
-                type: "code-challenge"
-            }
+            { id: 55, name: "Primary & Foreign Keys", type: "quiz" },
+{ id: 56, name: "Views", type: "true-false" },
+{ id: 57, name: "Indexes", type: "matching" },
+{ id: 58, name: "Window Functions", type: "code-output" },
+{ id: 59, name: "Advanced SQL Challenge", type: "code-challenge" }
 
         ]
     }
@@ -421,9 +318,10 @@ function createActivityCard(
             () => {
 
                 openActivity(
-                    topic.title,
-                    activity.name
-                );
+    activity.id,
+    topic.title,
+    activity.name
+);
 
             }
         );
@@ -623,13 +521,16 @@ function renderTopics() {
 // =====================================================
 
 function openActivity(
+    activityId,
     topicName,
     activityName
 ) {
 
     const url =
         "activity.html" +
-        "?course=" +
+        "?activityId=" +
+        encodeURIComponent(activityId) +
+        "&course=" +
         encodeURIComponent("SQL") +
         "&topic=" +
         encodeURIComponent(topicName) +
@@ -637,7 +538,6 @@ function openActivity(
         encodeURIComponent(activityName);
 
     window.location.href = url;
-
 }
 
 

@@ -66,6 +66,12 @@
         placeholder="Course name"
     >
 
+    <input
+    type="text"
+    id="course-description-input"
+    placeholder="Course description"
+>
+
     <button id="save-course-btn">
         Save Course
     </button>
@@ -112,6 +118,19 @@
             placeholder="Topic name"
         >
 
+        <input
+    type="text"
+    id="topic-description-input"
+    placeholder="Topic description"
+>
+
+<input
+    type="number"
+    id="topic-order-input"
+    placeholder="Topic order"
+    min="1"
+>
+
         <button id="save-topic-btn">
             Save Topic
         </button>
@@ -127,7 +146,7 @@
         <!-- Topics will appear here -->
 
     </div>
-
+</section>
 <section class="admin-section">
 
     <div class="section-header">
@@ -163,6 +182,57 @@
             placeholder="Activity name"
         >
 
+        <input
+    type="text"
+    id="activity-description-input"
+    placeholder="Activity description"
+>
+
+<select id="activity-type-select">
+
+    <option value="">
+        Select Activity Type
+    </option>
+
+    <option value="QUIZ">Quiz</option>
+
+    <option value="FILL_IN_THE_BLANK">
+        Fill in the Blank
+    </option>
+
+    <option value="MATCHING">
+        Matching
+    </option>
+
+    <option value="TRUE_FALSE">
+        True / False
+    </option>
+
+    <option value="CODE_OUTPUT">
+        Code Output
+    </option>
+
+    <option value="DEBUGGING">
+        Debugging
+    </option>
+
+    <option value="CODE_ORDERING">
+        Code Ordering
+    </option>
+
+    <option value="CODE_CHALLENGE">
+        Code Challenge
+    </option>
+
+</select>
+
+<input
+    type="number"
+    id="activity-order-input"
+    placeholder="Activity order"
+    min="1"
+>
+
         <button id="save-activity-btn">
             Save Activity
         </button>
@@ -181,6 +251,48 @@
 
 </section>
 
+<!-- User Management -->
+<section class="admin-section">
+
+    <div class="section-header">
+        <h2>User Management</h2>
+    </div>
+
+    <div id="user-management">
+        <!-- Users loaded from backend -->
+    </div>
+
+</section>
+
+
+<!-- User Progress Management -->
+<section class="admin-section">
+
+    <div class="section-header">
+        <h2>User Progress Management</h2>
+    </div>
+
+    <div class="course-form-container">
+
+        <select id="progress-user-select">
+            <option value="">
+                Select User
+            </option>
+        </select>
+
+        <button id="view-progress-btn">
+            View Progress
+        </button>
+
+    </div>
+
+    <div id="user-progress-management">
+        <!-- Progress loaded from backend -->
+    </div>
+
+</section>
+
+
     </main>
 
 
@@ -194,7 +306,8 @@
     </footer>
 
 
-    <script src="../js/admin.js"></script>
+    <script src="../js/api.js"></script>
+<script src="../js/admin.js"></script>
 
 </body>
 

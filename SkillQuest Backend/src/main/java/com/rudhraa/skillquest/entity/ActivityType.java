@@ -3,9 +3,11 @@ package com.rudhraa.skillquest.entity;
 public enum ActivityType {
 
     QUIZ,
-    PUZZLE,
     FILL_IN_THE_BLANK,
     MATCHING,
-    MEMORY,
+    TRUE_FALSE,
+    CODE_OUTPUT,
+    DEBUGGING,
+    CODE_ORDERING,
     CODE_CHALLENGE
 }

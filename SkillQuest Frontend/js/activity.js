@@ -27,12 +27,118 @@ const currentActivityId =
         params.get("activityId")
     );
 
-const currentActivityType =
-    params.get("type");
+
 
 
 let activityAttemptStarted =
     false;
+
+
+    let backendActivity = null;
+let backendQuestions = [];
+
+async function loadActivityFromBackend() {
+
+    if (!currentActivityId) {
+        console.error("Activity ID is missing from URL.");
+        return false;
+    }
+
+    try {
+
+        const activityResponse =
+            await authenticatedFetch(
+                `/activities/${currentActivityId}`
+            );
+
+        if (!activityResponse.ok) {
+            throw new Error(
+                "Unable to load activity."
+            );
+        }
+
+        backendActivity =
+            await activityResponse.json();
+
+
+        const questionsResponse =
+            await authenticatedFetch(
+                `/activity-questions/activity/${currentActivityId}`
+            );
+
+        if (!questionsResponse.ok) {
+            throw new Error(
+                "Unable to load activity questions."
+            );
+        }
+
+        backendQuestions =
+            await questionsResponse.json();
+
+
+        console.log(
+            "Backend Activity:",
+            backendActivity
+        );
+
+        console.log(
+            "Backend Questions:",
+            backendQuestions
+        );
+
+
+        displayBackendActivity();
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Activity loading error:",
+            error
+        );
+
+        if (activityTitle) {
+            activityTitle.textContent =
+                "Unable to load activity";
+        }
+
+        return false;
+    }
+}
+
+function displayBackendActivity() {
+
+    if (!backendActivity) {
+        return;
+    }
+
+    if (activityTitle) {
+        activityTitle.textContent =
+            backendActivity.title;
+    }
+
+    const description =
+        document.getElementById(
+            "activity-description"
+        );
+
+    if (description) {
+        description.textContent =
+            backendActivity.description ||
+            "Complete this activity.";
+    }
+
+    console.log(
+        "Activity Type:",
+        backendActivity.type
+    );
+
+    console.log(
+        "Questions Loaded:",
+        backendQuestions.length
+    );
+}
 
 // =====================================================
 // 2. PAGE ELEMENTS
@@ -116,7 +222,7 @@ function markCurrentActivityCompleted() {
         false;
 
     completeButton.textContent =
-        "Activity Completed ✓";
+        "Complete Activity";
 
     completeButton.classList.add(
         "activity-completed-btn"
@@ -263,42 +369,130 @@ function updateCompleteButton() {
 if (completeButton) {
 
     completeButton.addEventListener(
-        "click",
-        function () {
+    "click",
+    async function () {
 
-            if (
-                isCurrentActivityCompleted()
-            ) {
+        if (!currentActivityId) {
+            alert("Activity ID is missing.");
+            return;
+        }
 
-                if (
-    currentCourseName === "SQL"
-) {
+        completeButton.disabled = true;
 
-    window.location.assign(
-        "sql-course.html"
-    );
+        try {
 
-} else if (
-    currentCourseName ===
-    "Web Development"
-) {
-
-    window.location.assign(
-        "web-course.html"
-    );
-
-} else {
-
-    window.location.assign(
-        "java-course.html"
-    );
-
-}
-
-            }
-
+           const response =
+    await authenticatedFetch(
+        `/progress/activities/${currentActivityId}/complete`,
+        {
+            method: "POST"
         }
     );
+
+let responseData = null;
+
+try {
+    responseData = await response.json();
+} catch (error) {
+    // Response may not contain JSON
+}
+
+if (!response.ok) {
+
+    const message =
+        responseData?.message ||
+        "Unable to complete activity.";
+
+    if (
+        !message
+            .toLowerCase()
+            .includes("already completed")
+    ) {
+
+        alert(message);
+
+        completeButton.disabled = false;
+
+        return;
+    }
+}
+
+completeButton.textContent =
+    "Activity Completed ✓";
+
+completeButton.classList.add(
+    "activity-completed-btn"
+);
+
+            setTimeout(() => {
+
+                if (
+                    backendActivity &&
+                    backendActivity.topicId
+                ) {
+
+                    const topicId =
+                        Number(
+                            backendActivity.topicId
+                        );
+
+                    // Java topics: 6 - 11
+                    if (
+                        topicId >= 6 &&
+                        topicId <= 11
+                    ) {
+
+                        window.location.assign(
+                            "java-course.html"
+                        );
+
+                    }
+
+                    // SQL topics: 12 - 17
+                    else if (
+                        topicId >= 12 &&
+                        topicId <= 17
+                    ) {
+
+                        window.location.assign(
+                            "sql-course.html"
+                        );
+
+                    }
+
+                    // Web topics: 18 - 23
+                    else if (
+                        topicId >= 18 &&
+                        topicId <= 23
+                    ) {
+
+                        window.location.assign(
+                            "web-course.html"
+                        );
+
+                    }
+
+                }
+
+            }, 800);
+
+
+        } catch (error) {
+
+            console.error(
+                "Activity completion error:",
+                error
+            );
+
+            alert(
+                "Unable to complete activity."
+            );
+
+            completeButton.disabled =
+                false;
+        }
+    }
+);
 
 }
 
@@ -306,7 +500,6 @@ if (completeButton) {
 // =====================================================
 // 6. BACK TO COURSE BUTTON
 // =====================================================
-
 if (backToCourseButton) {
 
     backToCourseButton.disabled = false;
@@ -316,26 +509,50 @@ if (backToCourseButton) {
         function () {
 
             if (
-                currentCourseName === "SQL"
+                !backendActivity ||
+                !backendActivity.topicId
+            ) {
+                console.error(
+                    "Unable to determine activity topic."
+                );
+                return;
+            }
+
+            const topicId =
+                Number(backendActivity.topicId);
+
+            // Java
+            if (
+                topicId >= 6 &&
+                topicId <= 11
+            ) {
+
+                window.location.assign(
+                    "java-course.html"
+                );
+
+            }
+
+            // SQL
+            else if (
+                topicId >= 12 &&
+                topicId <= 17
             ) {
 
                 window.location.assign(
                     "sql-course.html"
                 );
 
-            } else if (
-                currentCourseName ===
-                "Web Development"
+            }
+
+            // Web Development
+            else if (
+                topicId >= 18 &&
+                topicId <= 23
             ) {
 
                 window.location.assign(
                     "web-course.html"
-                );
-
-            } else {
-
-                window.location.assign(
-                    "java-course.html"
                 );
 
             }
@@ -1775,10 +1992,7 @@ const nextQuestionButton =
         "next-question-btn"
     );
 
-const quizQuestions =
-    quizData[
-        currentActivityName
-    ] || [];
+let quizQuestions = [];
 
 let currentQuizIndex = 0;
 
@@ -1788,6 +2002,16 @@ let quizAnswered = false;
 
 
 function loadQuizQuestion() {
+
+    if (quizQuestions.length === 0) {
+    quizQuestions = backendQuestions.map(q => ({
+        question: q.question,
+        options: q.options
+            ? q.options.split("|")
+            : [],
+        answer: q.correctAnswer
+    }));
+}
 
     if (
         quizQuestions.length === 0 ||
@@ -2546,10 +2770,7 @@ const fillBlankFeedback =
         "fill-blank-feedback"
     );
 
-const fillBlankQuestions =
-    fillBlankQuestionBanks[
-        currentActivityName
-    ] || [];
+let fillBlankQuestions = [];
 
 let currentFillIndex = 0;
 
@@ -2557,6 +2778,15 @@ let fillBlankScore = 0;
 
 
 function loadFillBlankQuestion() {
+
+if (fillBlankQuestions.length === 0) {
+
+    fillBlankQuestions =
+        backendQuestions.map(q => ({
+            question: q.question,
+            answer: q.correctAnswer
+        }));
+}
 
     if (
         fillBlankQuestions.length === 0 ||
@@ -3423,10 +3653,7 @@ const matchingFeedback =
         "matching-feedback"
     );
 
-const matchingPairs =
-    matchingData[
-        currentActivityName
-    ] || [];
+let matchingPairs = [];
 
 let selectedLeft = null;
 
@@ -3436,6 +3663,48 @@ let matchedCount = 0;
 
 
 function loadMatchingGame() {
+
+    if (matchingPairs.length === 0) {
+
+        backendQuestions.forEach(q => {
+
+            if (!q.correctAnswer) {
+                return;
+            }
+
+            const pairs =
+                q.correctAnswer.split("|");
+
+            pairs.forEach(pair => {
+
+                const separatorIndex =
+                    pair.indexOf("=");
+
+                if (separatorIndex === -1) {
+                    return;
+                }
+
+                const left =
+                    pair.substring(
+                        0,
+                        separatorIndex
+                    ).trim();
+
+                const right =
+                    pair.substring(
+                        separatorIndex + 1
+                    ).trim();
+
+                matchingPairs.push({
+                    left: left,
+                    right: right
+                });
+
+            });
+
+        });
+
+    }
 
     if (
         matchingPairs.length === 0 ||
@@ -3970,7 +4239,7 @@ const nextTrueFalseButton =
         "next-true-false-btn"
     );
 
-const trueFalseQuestions =
+let trueFalseQuestions =
     trueFalseData[
         currentActivityName
     ] || [];
@@ -3981,6 +4250,16 @@ let trueFalseScore = 0;
 
 
 function loadTrueFalseQuestion() {
+
+if (trueFalseQuestions.length === 0) {
+    trueFalseQuestions = backendQuestions.map(q => ({
+        question: q.question,
+        answer:
+            String(q.correctAnswer)
+                .trim()
+                .toLowerCase() === "true"
+    }));
+}
 
     if (
         trueFalseQuestions.length === 0 ||
@@ -5621,7 +5900,7 @@ const nextCodeOutputButton =
         "next-code-output-btn"
     );
 
-const codeOutputQuestions =
+let codeOutputQuestions =
     codeOutputData[
         currentActivityName
     ] || [];
@@ -5632,6 +5911,19 @@ let codeOutputAnswered = false;
 
 
 function loadCodeOutputQuestion() {
+
+if (codeOutputQuestions.length === 0) {
+
+    codeOutputQuestions =
+        backendQuestions.map(q => ({
+            question: q.question,
+            code: q.codeSnippet || q.question,
+            options: q.options
+                ? q.options.split("|")
+                : [],
+            answer: q.correctAnswer
+        }));
+}
 
     if (
         codeOutputQuestions.length === 0 ||
@@ -6804,7 +7096,7 @@ const nextDebuggingButton =
         "next-debugging-btn"
     );
 
-const debuggingQuestions =
+let debuggingQuestions =
     debuggingData[
         currentActivityName
     ] || [];
@@ -6815,6 +7107,19 @@ let debuggingAnswered = false;
 
 
 function loadDebuggingQuestion() {
+
+if (debuggingQuestions.length === 0) {
+
+    debuggingQuestions =
+        backendQuestions.map(q => ({
+            question: q.question,
+            code: q.codeSnippet || "",
+            options: q.options
+                ? q.options.split("|")
+                : [],
+            answer: q.correctAnswer
+        }));
+}
 
     if (
         debuggingQuestions.length === 0 ||
@@ -7503,7 +7808,7 @@ const nextCodeOrderButton =
         "next-code-order-btn"
     );
 
-const codeOrderingQuestions =
+let codeOrderingQuestions =
     codeOrderingData[
         currentActivityName
     ] || [];
@@ -7547,6 +7852,32 @@ function shuffleArray(array) {
 
 
 function loadCodeOrderingQuestion() {
+
+if (codeOrderingQuestions.length === 0) {
+
+    codeOrderingQuestions =
+        backendQuestions.map(q => {
+
+            const correctCode =
+                q.correctAnswer || "";
+
+            return {
+                question: q.question,
+
+                lines:
+                    correctCode
+                        .split("\n")
+                        .map(line => line.trim())
+                        .filter(line => line !== ""),
+
+                answer:
+                    correctCode
+                        .split("\n")
+                        .map(line => line.trim())
+                        .filter(line => line !== "")
+            };
+        });
+}
 
     if (
         codeOrderingQuestions.length === 0 ||
@@ -8153,7 +8484,7 @@ const nextCodeChallengeButton =
         "next-code-challenge-btn"
     );
 
-const codeChallengeQuestions =
+let codeChallengeQuestions =
     codeChallengeData[
         currentActivityName
     ] || [];
@@ -8176,6 +8507,17 @@ function normalizeCode(code) {
 
 
 function loadCodeChallenge() {
+
+if (codeChallengeQuestions.length === 0) {
+
+    codeChallengeQuestions =
+        backendQuestions.map(q => ({
+            question: q.question,
+            starter: q.codeSnippet || "",
+            answer: q.correctAnswer
+        }));
+}
+
 
     if (
         codeChallengeQuestions.length === 0 ||
@@ -8648,7 +8990,6 @@ async function startActivityAttempt() {
 
         updateCompleteButton();
 
-        loadActivityGame();
 
 
     } catch (error) {
@@ -8664,3 +9005,125 @@ async function startActivityAttempt() {
 
 
 startActivityAttempt();
+
+async function initializeActivityPage() {
+
+    const loaded =
+        await loadActivityFromBackend();
+
+    if (!loaded) {
+        return;
+    }
+
+    console.log(
+        "Ready to start game:",
+        backendActivity.type
+    );
+
+    switch (backendActivity.type) {
+
+    case "QUIZ":
+
+        quizContainer.classList.remove("hidden");
+
+        quizQuestions = [];
+
+        loadQuizQuestion();
+
+        break;
+
+
+    case "TRUE_FALSE":
+
+        trueFalseContainer.classList.remove("hidden");
+
+        trueFalseQuestions = [];
+
+        loadTrueFalseQuestion();
+
+        break;
+
+
+    case "FILL_IN_THE_BLANK":
+
+        fillBlankContainer.classList.remove("hidden");
+
+        fillBlankQuestions = [];
+
+        loadFillBlankQuestion();
+
+        break;
+
+
+    case "MATCHING":
+
+        matchingContainer.classList.remove("hidden");
+
+        matchingPairs = [];
+
+        loadMatchingGame();
+
+        break;
+
+
+    case "CODE_OUTPUT":
+
+    codeOutputContainer.classList.remove(
+        "hidden"
+    );
+
+    codeOutputQuestions = [];
+
+    loadCodeOutputQuestion();
+
+    break;
+
+
+case "CODE_ORDERING":
+
+    codeOrderingContainer.classList.remove(
+        "hidden"
+    );
+
+    codeOrderingQuestions = [];
+
+    loadCodeOrderingQuestion();
+
+    break;
+
+
+case "DEBUGGING":
+
+    debuggingContainer.classList.remove(
+        "hidden"
+    );
+
+    debuggingQuestions = [];
+
+    loadDebuggingQuestion();
+
+    break;
+
+
+case "CODE_CHALLENGE":
+
+    codeChallengeContainer.classList.remove(
+        "hidden"
+    );
+
+    codeChallengeQuestions = [];
+
+    loadCodeChallenge();
+
+    break;
+
+    default:
+
+        console.log(
+            "Backend game engine not connected yet:",
+            backendActivity.type
+        );
+}
+}
+
+initializeActivityPage();

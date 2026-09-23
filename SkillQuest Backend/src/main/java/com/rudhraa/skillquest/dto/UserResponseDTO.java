@@ -8,6 +8,7 @@ public class UserResponseDTO {
     private String username;
     private String email;
     private Role role;
+    private boolean restricted;
 
     public UserResponseDTO() {
     }
@@ -16,12 +17,14 @@ public class UserResponseDTO {
             Long id,
             String username,
             String email,
-            Role role) {
+            Role role,
+            boolean restricted) {
 
         this.id = id;
         this.username = username;
         this.email = email;
         this.role = role;
+        this.restricted = restricted;
     }
 
     public Long getId() {
@@ -54,5 +57,13 @@ public class UserResponseDTO {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isRestricted() {
+        return restricted;
+    }
+
+    public void setRestricted(boolean restricted) {
+        this.restricted = restricted;
     }
 }

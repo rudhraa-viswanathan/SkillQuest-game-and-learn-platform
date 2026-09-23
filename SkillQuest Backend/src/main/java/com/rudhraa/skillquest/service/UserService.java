@@ -47,6 +47,7 @@ public class UserService {
         userResponseDTO.setUsername(user.getUsername());
         userResponseDTO.setEmail(user.getEmail());
         userResponseDTO.setRole(user.getRole());
+        userResponseDTO.setRestricted(user.isRestricted());
 
         return userResponseDTO;
     }
@@ -88,5 +89,65 @@ public class UserService {
         return mapToResponseDTO(user);
     }
 
+    public UserResponseDTO updateUser(
+            Long id,
+            UserRequestDTO userRequestDTO) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found with id: " + id
+                        )
+                );
+
+        user.setUsername(userRequestDTO.getUsername());
+        user.setEmail(userRequestDTO.getEmail());
+
+        // Only change password if a new password was provided
+        if (userRequestDTO.getPassword() != null &&
+                !userRequestDTO.getPassword().isBlank()) {
+
+            user.setPassword(
+                    passwordEncoder.encode(
+                            userRequestDTO.getPassword()
+                    )
+            );
+        }
+
+        User updatedUser = userRepository.save(user);
+
+        return mapToResponseDTO(updatedUser);
+    }
+
+
+    public void deleteUser(Long id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found with id: " + id
+                        )
+                );
+
+        userRepository.delete(user);
+    }
+
+    public UserResponseDTO setUserRestriction(
+            Long id,
+            boolean restricted) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found with id: " + id
+                        )
+                );
+
+        user.setRestricted(restricted);
+
+        User updatedUser = userRepository.save(user);
+
+        return mapToResponseDTO(updatedUser);
+    }
 
 }

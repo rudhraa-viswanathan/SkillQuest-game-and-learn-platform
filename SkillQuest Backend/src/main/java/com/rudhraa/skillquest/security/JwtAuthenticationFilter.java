@@ -11,7 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import com.rudhraa.skillquest.entity.User;
+import com.rudhraa.skillquest.repository.UserRepository;
 import java.io.IOException;
 
 @Component
@@ -19,13 +20,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final UserRepository userRepository;
 
     public JwtAuthenticationFilter(
             JwtService jwtService,
-            CustomUserDetailsService customUserDetailsService) {
+            CustomUserDetailsService customUserDetailsService, UserRepository userRepository) {
 
         this.jwtService = jwtService;
         this.customUserDetailsService = customUserDetailsService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -59,6 +62,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtService.isTokenValid(
                     jwtToken,
                     userDetails.getUsername())) {
+
+                User user = userRepository
+                        .findByUsername(username)
+                        .orElse(null);
+
+                if (user != null && user.isRestricted()) {
+
+                    response.setStatus(
+                            HttpServletResponse.SC_FORBIDDEN
+                    );
+
+                    response.setContentType(
+                            "application/json"
+                    );
+
+                    response.getWriter().write(
+                            "{\"message\":\"Your account has been restricted\"}"
+                    );
+
+                    return;
+                }
 
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(

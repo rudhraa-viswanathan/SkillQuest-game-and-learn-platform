@@ -23,14 +23,18 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = false)
+    private boolean restricted = false;
+
     public User() {
     }
 
-    public User(String username, String email, String password, Role role) {
+    public User(String username, String email, String password, Role role, boolean restricted) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.restricted = restricted;
     }
 
     public Long getId() {
@@ -71,5 +75,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isRestricted() {
+        return restricted;
+    }
+
+    public void setRestricted(boolean restricted) {
+        this.restricted = restricted;
     }
 }

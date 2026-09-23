@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import com.rudhraa.skillquest.dto.UserProgressResponseDTO;
 import com.rudhraa.skillquest.dto.TopicProgressResponseDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserProgressService {
@@ -315,5 +316,69 @@ public class UserProgressService {
                 savedProgress.isCompleted(),
                 savedProgress.getCompletedAt()
         );
+    }
+
+    public List<UserProgressResponseDTO> getUserProgressForAdmin(
+            Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found with id: " + userId
+                        )
+                );
+
+        return userProgressRepository.findByUser(user)
+                .stream()
+                .map(progress -> {
+
+                    Course course = progress.getCourse();
+
+                    // Recalculate from actual activity progress
+                    UserProgress updatedProgress =
+                            updateCourseProgress(user, course);
+
+                    return new UserProgressResponseDTO(
+                            course.getId(),
+                            course.getName(),
+                            updatedProgress.getCompletedActivities(),
+                            updatedProgress.getTotalActivities(),
+                            updatedProgress.getProgressPercentage()
+                    );
+                })
+                .toList();
+    }
+
+
+    @Transactional
+    public void resetUserCourseProgress(
+            Long userId,
+            Long courseId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User not found with id: " + userId
+                        )
+                );
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Course not found with id: " + courseId
+                        )
+                );
+
+        activityProgressRepository
+                .deleteByUserAndActivity_Topic_Course(
+                        user,
+                        course
+                );
+
+        userProgressRepository
+                .deleteByUserAndCourse(
+                        user,
+                        course
+                );
     }
 }

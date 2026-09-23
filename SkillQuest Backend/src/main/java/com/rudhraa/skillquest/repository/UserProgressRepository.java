@@ -5,6 +5,7 @@ import com.rudhraa.skillquest.entity.User;
 import com.rudhraa.skillquest.entity.UserProgress;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserProgressRepository
@@ -14,4 +15,10 @@ public interface UserProgressRepository
             User user,
             Course course
     );
+
+
+    List<UserProgress> findByUser(User user);
+
+    void deleteByUserAndCourse(User user, Course course);
+
 }

@@ -33,4 +33,37 @@ public class UserController {
     public UserResponseDTO getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
+
+    @PutMapping("/{id}")
+    public UserResponseDTO updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UserRequestDTO userRequestDTO) {
+
+        return userService.updateUser(
+                id,
+                userRequestDTO
+        );
+    }
+
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(
+            @PathVariable Long id) {
+
+        userService.deleteUser(id);
+
+        return "User deleted successfully";
+    }
+
+    @PutMapping("/{id}/restriction")
+    public UserResponseDTO setUserRestriction(
+            @PathVariable Long id,
+            @RequestParam boolean restricted) {
+
+        return userService.setUserRestriction(
+                id,
+                restricted
+        );
+    }
+
 }

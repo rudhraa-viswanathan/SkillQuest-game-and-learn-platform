@@ -126,11 +126,32 @@ public class SecurityConfig {
                         ).hasRole("ADMIN")
 
                         // Activity deletion - ADMIN only
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/api/activities/**"
-                        ).hasRole("ADMIN")
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/api/activities/**"
+                                ).hasRole("ADMIN")
 
+                                // Activity Question creation - ADMIN only
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/activity-questions/**"
+                                ).hasRole("ADMIN")
+
+// Activity Question update - ADMIN only
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/activity-questions/**"
+                                ).hasRole("ADMIN")
+
+// Activity Question deletion - ADMIN only
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/api/activity-questions/**"
+                                ).hasRole("ADMIN")
+
+                                .requestMatchers(
+                                        "/api/progress/admin/**"
+                                ).hasRole("ADMIN")
                         // All remaining APIs require login
                         .anyRequest().authenticated()
                 )

@@ -72,8 +72,6 @@ public class TopicService {
 
         existingTopic.setName(topicRequestDTO.getName());
         existingTopic.setDescription(topicRequestDTO.getDescription());
-        existingTopic.setName(topicRequestDTO.getName());
-        existingTopic.setDescription(topicRequestDTO.getDescription());
         existingTopic.setOrderIndex(topicRequestDTO.getOrderIndex());
         Topic updatedTopic = topicRepository.save(existingTopic);
 
@@ -81,7 +79,15 @@ public class TopicService {
     }
 
     public void deleteTopic(Long id) {
-        topicRepository.deleteById(id);
+
+        Topic topic = topicRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Topic not found with id: " + id
+                        )
+                );
+
+        topicRepository.delete(topic);
     }
 
     private Topic mapToEntity(TopicRequestDTO topicRequestDTO) {

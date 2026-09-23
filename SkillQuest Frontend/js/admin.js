@@ -1,54 +1,21 @@
-const defaultCourses = [
-    {
-        name: "Java Development",
-        status: "Active"
-    },
-    {
-        name: "Web Development",
-        status: "Active"
-    },
-    {
-        name: "SQL & Database",
-        status: "Active"
-    }
-];
+// =====================================================
+// ADMIN - BACKEND CONNECTED CONTENT MANAGEMENT
+// =====================================================
+
+let courses = [];
+let topics = [];
+let activities = [];
+
+let editingCourseId = null;
+let editingTopicId = null;
+let editingActivityId = null;
 
 
-// ==============================
-// LOAD DATA
-// ==============================
+// =====================================================
+// ELEMENTS
+// =====================================================
 
-const savedCourses =
-    localStorage.getItem("adminCourses");
-
-const courses =
-    savedCourses
-        ? JSON.parse(savedCourses)
-        : [...defaultCourses];
-
-
-const savedTopics =
-    localStorage.getItem("adminTopics");
-
-const topics =
-    savedTopics
-        ? JSON.parse(savedTopics)
-        : [];
-
-
-const savedActivities =
-    localStorage.getItem("adminActivities");
-
-const activities =
-    savedActivities
-        ? JSON.parse(savedActivities)
-        : [];
-
-
-// ==============================
-// COURSE ELEMENTS
-// ==============================
-
+// Course
 const courseManagement =
     document.getElementById("course-management");
 
@@ -58,22 +25,22 @@ const addCourseButton =
 const courseFormContainer =
     document.getElementById("course-form-container");
 
-const cancelCourseButton =
-    document.getElementById("cancel-course-btn");
+const courseNameInput =
+    document.getElementById("course-name-input");
+
+const courseDescriptionInput =
+    document.getElementById("course-description-input");
 
 const saveCourseButton =
     document.getElementById("save-course-btn");
 
-const courseNameInput =
-    document.getElementById("course-name-input");
+const cancelCourseButton =
+    document.getElementById("cancel-course-btn");
 
 
-// ==============================
-// TOPIC ELEMENTS
-// ==============================
-
-const topicCourseSelect =
-    document.getElementById("topic-course-select");
+// Topic
+const topicManagement =
+    document.getElementById("topic-management");
 
 const addTopicButton =
     document.getElementById("add-topic-btn");
@@ -81,34 +48,34 @@ const addTopicButton =
 const topicFormContainer =
     document.getElementById("topic-form-container");
 
-const cancelTopicButton =
-    document.getElementById("cancel-topic-btn");
-
-const saveTopicButton =
-    document.getElementById("save-topic-btn");
+const topicCourseSelect =
+    document.getElementById("topic-course-select");
 
 const topicNameInput =
     document.getElementById("topic-name-input");
 
-const topicManagement =
-    document.getElementById("topic-management");
+const topicDescriptionInput =
+    document.getElementById("topic-description-input");
+
+const topicOrderInput =
+    document.getElementById("topic-order-input");
+
+const saveTopicButton =
+    document.getElementById("save-topic-btn");
+
+const cancelTopicButton =
+    document.getElementById("cancel-topic-btn");
 
 
-// ==============================
-// ACTIVITY ELEMENTS
-// ==============================
+// Activity
+const activityManagement =
+    document.getElementById("activity-management");
 
 const addActivityButton =
     document.getElementById("add-activity-btn");
 
 const activityFormContainer =
     document.getElementById("activity-form-container");
-
-const cancelActivityButton =
-    document.getElementById("cancel-activity-btn");
-
-const saveActivityButton =
-    document.getElementById("save-activity-btn");
 
 const activityCourseSelect =
     document.getElementById("activity-course-select");
@@ -119,194 +86,254 @@ const activityTopicSelect =
 const activityNameInput =
     document.getElementById("activity-name-input");
 
-const activityManagement =
-    document.getElementById("activity-management");
+const activityDescriptionInput =
+    document.getElementById("activity-description-input");
+
+const activityTypeSelect =
+    document.getElementById("activity-type-select");
+
+const activityOrderInput =
+    document.getElementById("activity-order-input");
+
+const saveActivityButton =
+    document.getElementById("save-activity-btn");
+
+const cancelActivityButton =
+    document.getElementById("cancel-activity-btn");
 
 
-// ==============================
-// EDITING STATE
-// ==============================
+// =====================================================
+// RESPONSE HELPER
+// =====================================================
 
-let editingCourseIndex = null;
+async function readResponse(response) {
 
-let editingTopicIndex = null;
+    const contentType =
+        response.headers.get("content-type");
 
-let editingActivityIndex = null;
+    if (
+        contentType &&
+        contentType.includes("application/json")
+    ) {
+        return await response.json();
+    }
 
-
-// ==============================
-// SAVE FUNCTIONS
-// ==============================
-
-function saveCourses() {
-
-    localStorage.setItem(
-        "adminCourses",
-        JSON.stringify(courses)
-    );
-
+    return await response.text();
 }
 
 
-function saveTopics() {
+async function getErrorMessage(response) {
 
-    localStorage.setItem(
-        "adminTopics",
-        JSON.stringify(topics)
-    );
+    try {
 
-}
-
-
-function saveActivities() {
-
-    localStorage.setItem(
-        "adminActivities",
-        JSON.stringify(activities)
-    );
-
-}
-
-
-// ==============================
-// COURSE DROPDOWNS
-// ==============================
-
-function populateCourseSelect() {
-
-    topicCourseSelect.innerHTML = `
-        <option value="">
-            Select Course
-        </option>
-    `;
-
-
-    courses.forEach((course, index) => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = index;
-
-        option.textContent =
-            course.name;
-
-        topicCourseSelect.appendChild(option);
-
-    });
-
-}
-
-
-function populateActivityCourseSelect() {
-
-    activityCourseSelect.innerHTML = `
-        <option value="">
-            Select Course
-        </option>
-    `;
-
-
-    courses.forEach((course, index) => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = index;
-
-        option.textContent =
-            course.name;
-
-        activityCourseSelect.appendChild(option);
-
-    });
-
-}
-
-
-// ==============================
-// ACTIVITY TOPIC DROPDOWN
-// ==============================
-
-function populateActivityTopicSelect(courseIndex) {
-
-    activityTopicSelect.innerHTML = `
-        <option value="">
-            Select Topic
-        </option>
-    `;
-
-
-    topics.forEach((topic, index) => {
+        const data =
+            await readResponse(response);
 
         if (
-            topic.courseIndex ===
-            Number(courseIndex)
+            typeof data === "object" &&
+            data !== null
         ) {
+            return (
+                data.message ||
+                JSON.stringify(data)
+            );
+        }
+
+        return data ||
+            "Request failed.";
+
+    } catch (error) {
+
+        return "Request failed.";
+    }
+}
+
+
+// =====================================================
+// LOAD BACKEND DATA
+// =====================================================
+
+async function loadAdminData() {
+
+    try {
+
+        const [
+            courseResponse,
+            topicResponse,
+            activityResponse
+        ] = await Promise.all([
+
+            authenticatedFetch("/courses"),
+
+            authenticatedFetch("/topics"),
+
+            authenticatedFetch("/activities")
+        ]);
+
+
+        if (
+            !courseResponse.ok ||
+            !topicResponse.ok ||
+            !activityResponse.ok
+        ) {
+            throw new Error(
+                "Unable to load admin data."
+            );
+        }
+
+
+        courses =
+            await courseResponse.json();
+
+        topics =
+            await topicResponse.json();
+
+        activities =
+            await activityResponse.json();
+
+
+        renderCourses();
+
+        renderTopics();
+
+        renderActivities();
+
+        populateCourseSelects();
+
+    } catch (error) {
+
+        console.error(
+            "Admin loading error:",
+            error
+        );
+
+        alert(
+            "Unable to load admin data."
+        );
+    }
+}
+
+
+// =====================================================
+// COURSE DROPDOWNS
+// =====================================================
+
+function populateCourseSelects() {
+
+    topicCourseSelect.innerHTML =
+        `<option value="">
+            Select Course
+        </option>`;
+
+    activityCourseSelect.innerHTML =
+        `<option value="">
+            Select Course
+        </option>`;
+
+
+    courses.forEach(course => {
+
+        const topicOption =
+            document.createElement("option");
+
+        topicOption.value =
+            course.id;
+
+        topicOption.textContent =
+            course.name;
+
+        topicCourseSelect.appendChild(
+            topicOption
+        );
+
+
+        const activityOption =
+            document.createElement("option");
+
+        activityOption.value =
+            course.id;
+
+        activityOption.textContent =
+            course.name;
+
+        activityCourseSelect.appendChild(
+            activityOption
+        );
+    });
+}
+
+
+// =====================================================
+// TOPIC DROPDOWN FOR ACTIVITY
+// =====================================================
+
+function populateActivityTopics(courseId) {
+
+    activityTopicSelect.innerHTML =
+        `<option value="">
+            Select Topic
+        </option>`;
+
+
+    topics
+        .filter(
+            topic =>
+                Number(topic.courseId) ===
+                Number(courseId)
+        )
+        .forEach(topic => {
 
             const option =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
-            option.value = index;
+            option.value =
+                topic.id;
 
             option.textContent =
                 topic.name;
 
             activityTopicSelect
                 .appendChild(option);
-
-        }
-
-    });
-
+        });
 }
 
 
-// ==============================
+// =====================================================
 // RENDER COURSES
-// ==============================
+// =====================================================
 
 function renderCourses() {
 
     courseManagement.innerHTML = "";
 
+    courses.forEach(course => {
 
-    courses.forEach((course, index) => {
-
-        const courseCard =
+        const card =
             document.createElement("div");
 
-        courseCard.classList.add(
+        card.classList.add(
             "admin-course-card"
         );
 
-
-        courseCard.innerHTML = `
+        card.innerHTML = `
             <div>
-
-                <h3>
-                    ${course.name}
-                </h3>
-
+                <h3>${course.name}</h3>
                 <p>
-                    ${course.status}
+                    ${course.description || ""}
                 </p>
-
             </div>
 
             <div class="course-actions">
 
                 <button
-                    class="edit-course-btn"
-                    data-index="${index}"
-                >
+                    class="edit-course-btn">
                     Edit
                 </button>
 
                 <button
-                    class="delete-course-btn"
-                    data-index="${index}"
-                >
+                    class="delete-course-btn">
                     Delete
                 </button>
 
@@ -314,132 +341,924 @@ function renderCourses() {
         `;
 
 
-        courseManagement
-            .appendChild(courseCard);
-
-
-        // EDIT COURSE
-
-        const editButton =
-            courseCard.querySelector(
-                ".edit-course-btn"
-            );
-
-
-        editButton.addEventListener(
+        card.querySelector(
+            ".edit-course-btn"
+        ).addEventListener(
             "click",
-            () => {
-
-                editingCourseIndex =
-                    index;
-
-                courseNameInput.value =
-                    courses[index].name;
-
-                courseFormContainer
-                    .classList
-                    .remove("hidden");
-
-            }
+            () => editCourse(course)
         );
 
 
-        // DELETE COURSE
-
-        const deleteButton =
-            courseCard.querySelector(
-                ".delete-course-btn"
-            );
-
-
-        deleteButton.addEventListener(
-    "click",
-    () => {
-
-        const hasTopics =
-            topics.some(
-                topic =>
-                    topic.courseIndex === index
-            );
-
-
-        const hasActivities =
-            activities.some(
-                activity =>
-                    activity.courseIndex === index
-            );
-
-
-        if (
-            hasTopics ||
-            hasActivities
-        ) {
-
-            alert(
-                "Delete the related topics and activities before deleting this course."
-            );
-
-            return;
-        }
-
-
-        courses.splice(
-            index,
-            1
+        card.querySelector(
+            ".delete-course-btn"
+        ).addEventListener(
+            "click",
+            () => deleteCourse(course.id)
         );
 
 
-        saveCourses();
-
-        renderCourses();
-
-        populateCourseSelect();
-
-        populateActivityCourseSelect();
-
-    }
-);
-
+        courseManagement.appendChild(
+            card
+        );
     });
-
 }
 
 
-// ==============================
+// =====================================================
 // RENDER TOPICS
-// ==============================
+// =====================================================
 
 function renderTopics() {
 
     topicManagement.innerHTML = "";
 
-
-    topics.forEach((topic, index) => {
+    topics.forEach(topic => {
 
         const course =
-            courses[topic.courseIndex];
+            courses.find(
+                item =>
+                    Number(item.id) ===
+                    Number(topic.courseId)
+            );
 
-
-        const topicCard =
+        const card =
             document.createElement("div");
 
-        topicCard.classList.add(
+        card.classList.add(
+            "admin-course-card"
+        );
+
+        card.innerHTML = `
+            <div>
+
+                <h3>${topic.name}</h3>
+
+                <p>
+                    ${course
+                        ? course.name
+                        : "Unknown Course"}
+                    • Order ${topic.orderIndex}
+                </p>
+
+                <p>
+                    ${topic.description || ""}
+                </p>
+
+            </div>
+
+            <div class="course-actions">
+
+                <button
+                    class="edit-topic-btn">
+                    Edit
+                </button>
+
+                <button
+                    class="delete-topic-btn">
+                    Delete
+                </button>
+
+            </div>
+        `;
+
+
+        card.querySelector(
+            ".edit-topic-btn"
+        ).addEventListener(
+            "click",
+            () => editTopic(topic)
+        );
+
+
+        card.querySelector(
+            ".delete-topic-btn"
+        ).addEventListener(
+            "click",
+            () => deleteTopic(topic.id)
+        );
+
+
+        topicManagement.appendChild(
+            card
+        );
+    });
+}
+
+
+// =====================================================
+// RENDER ACTIVITIES
+// =====================================================
+
+function renderActivities() {
+
+    activityManagement.innerHTML = "";
+
+    activities.forEach(activity => {
+
+        const topic =
+            topics.find(
+                item =>
+                    Number(item.id) ===
+                    Number(activity.topicId)
+            );
+
+        const course =
+            topic
+                ? courses.find(
+                    item =>
+                        Number(item.id) ===
+                        Number(topic.courseId)
+                )
+                : null;
+
+
+        const card =
+            document.createElement("div");
+
+        card.classList.add(
+            "admin-course-card"
+        );
+
+        card.innerHTML = `
+            <div>
+
+                <h3>
+                    ${activity.title}
+                </h3>
+
+                <p>
+                    ${course
+                        ? course.name
+                        : "Unknown Course"}
+                    -
+                    ${topic
+                        ? topic.name
+                        : "Unknown Topic"}
+                </p>
+
+                <p>
+                    ${activity.type}
+                    • Order
+                    ${activity.orderIndex ?? "-"}
+                </p>
+
+            </div>
+
+            <div class="course-actions">
+
+                <button
+                    class="edit-activity-btn">
+                    Edit
+                </button>
+
+                <button
+                    class="delete-activity-btn">
+                    Delete
+                </button>
+
+            </div>
+        `;
+
+
+        card.querySelector(
+            ".edit-activity-btn"
+        ).addEventListener(
+            "click",
+            () => editActivity(activity)
+        );
+
+
+        card.querySelector(
+            ".delete-activity-btn"
+        ).addEventListener(
+            "click",
+            () =>
+                deleteActivity(activity.id)
+        );
+
+
+        activityManagement.appendChild(
+            card
+        );
+    });
+}
+
+
+// =====================================================
+// COURSE FORM
+// =====================================================
+
+addCourseButton.addEventListener(
+    "click",
+    () => {
+
+        editingCourseId = null;
+
+        courseNameInput.value = "";
+
+        courseDescriptionInput.value = "";
+
+        courseFormContainer.classList
+            .remove("hidden");
+    }
+);
+
+
+cancelCourseButton.addEventListener(
+    "click",
+    () => {
+
+        editingCourseId = null;
+
+        courseFormContainer.classList
+            .add("hidden");
+    }
+);
+
+
+function editCourse(course) {
+
+    editingCourseId =
+        course.id;
+
+    courseNameInput.value =
+        course.name;
+
+    courseDescriptionInput.value =
+        course.description || "";
+
+    courseFormContainer.classList
+        .remove("hidden");
+}
+
+
+saveCourseButton.addEventListener(
+    "click",
+    async () => {
+
+        const name =
+            courseNameInput.value.trim();
+
+        const description =
+            courseDescriptionInput
+                .value
+                .trim();
+
+
+        if (
+            !name ||
+            !description
+        ) {
+
+            alert(
+                "Enter course name and description."
+            );
+
+            return;
+        }
+
+
+        const body = {
+            name,
+            description
+        };
+
+
+        const url =
+            editingCourseId
+                ? `/courses/${editingCourseId}`
+                : "/courses";
+
+        const method =
+            editingCourseId
+                ? "PUT"
+                : "POST";
+
+
+        try {
+
+            const response =
+                await authenticatedFetch(
+                    url,
+                    {
+                        method,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(body)
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                alert(
+                    await getErrorMessage(
+                        response
+                    )
+                );
+
+                return;
+            }
+
+
+            editingCourseId = null;
+
+            courseFormContainer.classList
+                .add("hidden");
+
+            await loadAdminData();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to save course."
+            );
+        }
+    }
+);
+
+
+async function deleteCourse(id) {
+
+    if (
+        !confirm(
+            "Delete this course?"
+        )
+    ) {
+        return;
+    }
+
+
+    const response =
+        await authenticatedFetch(
+            `/courses/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        alert(
+            await getErrorMessage(
+                response
+            )
+        );
+
+        return;
+    }
+
+
+    await loadAdminData();
+}
+
+
+// =====================================================
+// TOPIC FORM
+// =====================================================
+
+addTopicButton.addEventListener(
+    "click",
+    () => {
+
+        editingTopicId = null;
+
+        topicCourseSelect.value = "";
+
+        topicNameInput.value = "";
+
+        topicDescriptionInput.value = "";
+
+        topicOrderInput.value = "";
+
+        topicFormContainer.classList
+            .remove("hidden");
+    }
+);
+
+
+cancelTopicButton.addEventListener(
+    "click",
+    () => {
+
+        editingTopicId = null;
+
+        topicFormContainer.classList
+            .add("hidden");
+    }
+);
+
+
+function editTopic(topic) {
+
+    editingTopicId =
+        topic.id;
+
+    topicCourseSelect.value =
+        topic.courseId;
+
+    topicNameInput.value =
+        topic.name;
+
+    topicDescriptionInput.value =
+        topic.description || "";
+
+    topicOrderInput.value =
+        topic.orderIndex;
+
+    topicFormContainer.classList
+        .remove("hidden");
+}
+
+
+saveTopicButton.addEventListener(
+    "click",
+    async () => {
+
+        const courseId =
+            topicCourseSelect.value;
+
+        const name =
+            topicNameInput.value.trim();
+
+        const description =
+            topicDescriptionInput
+                .value
+                .trim();
+
+        const orderIndex =
+            Number(topicOrderInput.value);
+
+
+        if (
+            !courseId ||
+            !name ||
+            !description ||
+            !orderIndex
+        ) {
+
+            alert(
+                "Complete all topic fields."
+            );
+
+            return;
+        }
+
+
+        const body = {
+            name,
+            description,
+            orderIndex
+        };
+
+
+        const url =
+            editingTopicId
+                ? `/topics/${editingTopicId}`
+                : `/topics/course/${courseId}`;
+
+        const method =
+            editingTopicId
+                ? "PUT"
+                : "POST";
+
+
+        const response =
+            await authenticatedFetch(
+                url,
+                {
+                    method,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(body)
+                }
+            );
+
+
+        if (!response.ok) {
+
+            alert(
+                await getErrorMessage(
+                    response
+                )
+            );
+
+            return;
+        }
+
+
+        editingTopicId = null;
+
+        topicFormContainer.classList
+            .add("hidden");
+
+        await loadAdminData();
+    }
+);
+
+
+async function deleteTopic(id) {
+
+    if (
+        !confirm(
+            "Delete this topic?"
+        )
+    ) {
+        return;
+    }
+
+
+    const response =
+        await authenticatedFetch(
+            `/topics/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        alert(
+            await getErrorMessage(
+                response
+            )
+        );
+
+        return;
+    }
+
+
+    await loadAdminData();
+}
+
+
+// =====================================================
+// ACTIVITY FORM
+// =====================================================
+
+activityCourseSelect.addEventListener(
+    "change",
+    () => {
+
+        populateActivityTopics(
+            activityCourseSelect.value
+        );
+    }
+);
+
+
+addActivityButton.addEventListener(
+    "click",
+    () => {
+
+        editingActivityId = null;
+
+        activityCourseSelect.value = "";
+
+        activityTopicSelect.innerHTML =
+            `<option value="">
+                Select Topic
+            </option>`;
+
+        activityNameInput.value = "";
+
+        activityDescriptionInput.value = "";
+
+        activityTypeSelect.value = "";
+
+        activityOrderInput.value = "";
+
+        activityFormContainer.classList
+            .remove("hidden");
+    }
+);
+
+
+cancelActivityButton.addEventListener(
+    "click",
+    () => {
+
+        editingActivityId = null;
+
+        activityFormContainer.classList
+            .add("hidden");
+    }
+);
+
+
+function editActivity(activity) {
+
+    editingActivityId =
+        activity.id;
+
+    const topic =
+        topics.find(
+            item =>
+                Number(item.id) ===
+                Number(activity.topicId)
+        );
+
+
+    if (topic) {
+
+        activityCourseSelect.value =
+            topic.courseId;
+
+        populateActivityTopics(
+            topic.courseId
+        );
+
+        activityTopicSelect.value =
+            topic.id;
+    }
+
+
+    activityNameInput.value =
+        activity.title;
+
+    activityDescriptionInput.value =
+        activity.description || "";
+
+    activityTypeSelect.value =
+        activity.type;
+
+    activityOrderInput.value =
+        activity.orderIndex ?? "";
+
+    activityFormContainer.classList
+        .remove("hidden");
+}
+
+
+saveActivityButton.addEventListener(
+    "click",
+    async () => {
+
+        const topicId =
+            activityTopicSelect.value;
+
+        const title =
+            activityNameInput.value.trim();
+
+        const description =
+            activityDescriptionInput
+                .value
+                .trim();
+
+        const type =
+            activityTypeSelect.value;
+
+        const orderValue =
+            activityOrderInput.value;
+
+        const orderIndex =
+            orderValue === ""
+                ? null
+                : Number(orderValue);
+
+
+        if (
+            !topicId ||
+            !title ||
+            !description ||
+            !type
+        ) {
+
+            alert(
+                "Complete all required activity fields."
+            );
+
+            return;
+        }
+
+
+        const body = {
+            title,
+            description,
+            type,
+            question: null,
+            options: null,
+            correctAnswer: null,
+            codeSnippet: null,
+            explanation: null,
+            orderIndex
+        };
+
+
+        const url =
+            editingActivityId
+                ? `/activities/${editingActivityId}`
+                : `/activities/topic/${topicId}`;
+
+        const method =
+            editingActivityId
+                ? "PUT"
+                : "POST";
+
+
+        const response =
+            await authenticatedFetch(
+                url,
+                {
+                    method,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(body)
+                }
+            );
+
+
+        if (!response.ok) {
+
+            alert(
+                await getErrorMessage(
+                    response
+                )
+            );
+
+            return;
+        }
+
+
+        editingActivityId = null;
+
+        activityFormContainer.classList
+            .add("hidden");
+
+        await loadAdminData();
+    }
+);
+
+
+async function deleteActivity(id) {
+
+    if (
+        !confirm(
+            "Delete this activity?"
+        )
+    ) {
+        return;
+    }
+
+
+    const response =
+        await authenticatedFetch(
+            `/activities/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        alert(
+            await getErrorMessage(
+                response
+            )
+        );
+
+        return;
+    }
+
+
+    await loadAdminData();
+}
+
+// =====================================================
+// USER + PROGRESS MANAGEMENT
+// =====================================================
+
+const userManagement =
+    document.getElementById(
+        "user-management"
+    );
+
+const progressUserSelect =
+    document.getElementById(
+        "progress-user-select"
+    );
+
+const viewProgressButton =
+    document.getElementById(
+        "view-progress-btn"
+    );
+
+const userProgressManagement =
+    document.getElementById(
+        "user-progress-management"
+    );
+
+
+let adminUsers = [];
+
+
+// =====================================================
+// LOAD USERS
+// =====================================================
+
+async function loadAdminUsers() {
+
+    try {
+
+        const response =
+            await authenticatedFetch(
+                "/users"
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                await getErrorMessage(
+                    response
+                )
+            );
+        }
+
+
+        adminUsers =
+            await response.json();
+
+
+        renderAdminUsers();
+
+        populateProgressUsers();
+
+
+    } catch (error) {
+
+        console.error(
+            "User loading error:",
+            error
+        );
+
+        userManagement.innerHTML =
+            "<p>Unable to load users.</p>";
+    }
+}
+
+
+// =====================================================
+// RENDER USERS
+// =====================================================
+
+function renderAdminUsers() {
+
+    userManagement.innerHTML = "";
+
+
+    adminUsers.forEach(user => {
+
+        const card =
+            document.createElement("div");
+
+        card.classList.add(
             "admin-course-card"
         );
 
 
-        topicCard.innerHTML = `
+        card.innerHTML = `
             <div>
 
                 <h3>
-                    ${topic.name}
+                    ${user.username}
                 </h3>
 
                 <p>
+                    ${user.email || ""}
+                </p>
+
+                <p>
+                    Role:
+                    ${user.role || "USER"}
+                </p>
+
+                <p>
+                    Status:
                     ${
-                        course
-                            ? course.name
-                            : "Unknown Course"
+                        user.restricted
+                            ? "Restricted"
+                            : "Active"
                     }
                 </p>
 
@@ -448,726 +1267,305 @@ function renderTopics() {
             <div class="course-actions">
 
                 <button
-                    class="edit-topic-btn"
-                    data-index="${index}"
-                >
-                    Edit
-                </button>
+                    class="restriction-btn">
 
-                <button
-                    class="delete-topic-btn"
-                    data-index="${index}"
-                >
-                    Delete
+                    ${
+                        user.restricted
+                            ? "Unrestrict"
+                            : "Restrict"
+                    }
+
                 </button>
 
             </div>
         `;
 
 
-        topicManagement
-            .appendChild(topicCard);
-
-
-        // EDIT TOPIC
-
-        const editTopicButton =
-            topicCard.querySelector(
-                ".edit-topic-btn"
-            );
-
-
-        editTopicButton.addEventListener(
+        card.querySelector(
+            ".restriction-btn"
+        ).addEventListener(
             "click",
             () => {
 
-                editingTopicIndex =
-                    index;
-
-
-                topicNameInput.value =
-                    topics[index].name;
-
-
-                topicCourseSelect.value =
-                    String(
-                        topics[index].courseIndex
-                    );
-
-
-                topicFormContainer
-                    .classList
-                    .remove("hidden");
-
-            }
-        );
-
-
-        // DELETE TOPIC
-
-        const deleteTopicButton =
-            topicCard.querySelector(
-                ".delete-topic-btn"
-            );
-
-
-        deleteTopicButton.addEventListener(
-            "click",
-            () => {
-
-                topics.splice(
-                    index,
-                    1
+                setRestriction(
+                    user.id,
+                    !user.restricted
                 );
-
-
-                saveTopics();
-
-                renderTopics();
-
             }
         );
 
+
+        userManagement.appendChild(
+            card
+        );
     });
-
 }
 
 
-// ==============================
-// RENDER ACTIVITIES
-// ==============================
-
-function renderActivities() {
-
-    activityManagement.innerHTML = "";
-
-
-    activities.forEach(
-        (activity, index) => {
-
-            const course =
-                courses[
-                    activity.courseIndex
-                ];
-
-            const topic =
-                topics[
-                    activity.topicIndex
-                ];
-
-
-            const activityCard =
-                document.createElement("div");
-
-
-            activityCard.classList.add(
-                "admin-course-card"
-            );
-
-
-            activityCard.innerHTML = `
-                <div>
-
-                    <h3>
-                        ${activity.name}
-                    </h3>
-
-                    <p>
-
-                        ${
-                            course
-                                ? course.name
-                                : "Unknown Course"
-                        }
-
-                        -
-
-                        ${
-                            topic
-                                ? topic.name
-                                : "Unknown Topic"
-                        }
-
-                    </p>
-
-                </div>
-
-                <div class="course-actions">
-
-                    <button
-                        class="edit-activity-btn"
-                        data-index="${index}"
-                    >
-                        Edit
-                    </button>
-
-                    <button
-                        class="delete-activity-btn"
-                        data-index="${index}"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-            `;
-
-
-            activityManagement
-                .appendChild(activityCard);
-
-
-            // EDIT ACTIVITY
-
-            const editActivityButton =
-                activityCard.querySelector(
-                    ".edit-activity-btn"
-                );
-
-
-            editActivityButton
-                .addEventListener(
-                    "click",
-                    () => {
-
-                        editingActivityIndex =
-                            index;
-
-
-                        activityNameInput.value =
-                            activities[index].name;
-
-
-                        activityCourseSelect.value =
-                            String(
-                                activities[index]
-                                    .courseIndex
-                            );
-
-
-                        populateActivityTopicSelect(
-                            activities[index]
-                                .courseIndex
-                        );
-
-
-                        activityTopicSelect.value =
-                            String(
-                                activities[index]
-                                    .topicIndex
-                            );
-
-
-                        activityFormContainer
-                            .classList
-                            .remove("hidden");
-
-                    }
-                );
-
-
-            // DELETE ACTIVITY
-
-            const deleteActivityButton =
-                activityCard.querySelector(
-                    ".delete-activity-btn"
-                );
-
-
-            deleteActivityButton
-                .addEventListener(
-                    "click",
-                    () => {
-
-                        activities.splice(
-                            index,
-                            1
-                        );
-
-
-                        saveActivities();
-
-                        renderActivities();
-
-                    }
-                );
-
-        }
-    );
-
-}
-
-
-// ==============================
-// ADD COURSE
-// ==============================
-
-addCourseButton.addEventListener(
-    "click",
-    () => {
-
-        editingCourseIndex = null;
-
-        courseNameInput.value = "";
-
-        courseFormContainer
-            .classList
-            .remove("hidden");
-
-    }
-);
-
-
-// ==============================
-// CANCEL COURSE
-// ==============================
-
-cancelCourseButton.addEventListener(
-    "click",
-    () => {
-
-        courseFormContainer
-            .classList
-            .add("hidden");
-
-        courseNameInput.value = "";
-
-        editingCourseIndex = null;
-
-    }
-);
-
-
-// ==============================
-// SAVE COURSE
-// ==============================
-
-saveCourseButton.addEventListener(
-    "click",
-    () => {
-
-        const courseName =
-            courseNameInput
-                .value
-                .trim();
-
-
-        if (courseName === "") {
-            return;
-        }
-
-
-        if (
-            editingCourseIndex !== null
-        ) {
-
-            courses[
-                editingCourseIndex
-            ].name = courseName;
-
-
-            editingCourseIndex =
-                null;
-
-        } else {
-
-            const newCourse = {
-
-                name: courseName,
-
-                status: "Active"
-
-            };
-
-
-            courses.push(
-                newCourse
-            );
-
-        }
-
-
-        saveCourses();
-
-        renderCourses();
-
-        populateCourseSelect();
-
-        populateActivityCourseSelect();
-
-
-        courseNameInput.value = "";
-
-
-        courseFormContainer
-            .classList
-            .add("hidden");
-
-    }
-);
-
-
-// ==============================
-// ADD TOPIC
-// ==============================
-
-addTopicButton.addEventListener(
-    "click",
-    () => {
-
-        editingTopicIndex = null;
-
-        topicNameInput.value = "";
-
-        topicCourseSelect.value = "";
-
-
-        topicFormContainer
-            .classList
-            .remove("hidden");
-
-    }
-);
-
-
-// ==============================
-// CANCEL TOPIC
-// ==============================
-
-cancelTopicButton.addEventListener(
-    "click",
-    () => {
-
-        topicFormContainer
-            .classList
-            .add("hidden");
-
-
-        topicNameInput.value = "";
-
-        topicCourseSelect.value = "";
-
-        editingTopicIndex = null;
-
-    }
-);
-
-
-// ==============================
-// SAVE TOPIC
-// ==============================
-
-saveTopicButton.addEventListener(
-    "click",
-    () => {
-
-        const topicName =
-            topicNameInput
-                .value
-                .trim();
-
-
-        const selectedCourse =
-            topicCourseSelect.value;
-
-
-        if (
-            topicName === "" ||
-            selectedCourse === ""
-        ) {
-            return;
-        }
-
-
-        if (
-            editingTopicIndex !== null
-        ) {
-
-            topics[
-                editingTopicIndex
-            ].name =
-                topicName;
-
-
-            topics[
-                editingTopicIndex
-            ].courseIndex =
-                Number(
-                    selectedCourse
-                );
-
-
-            editingTopicIndex =
-                null;
-
-        } else {
-
-            const newTopic = {
-
-                name: topicName,
-
-                courseIndex:
-                    Number(
-                        selectedCourse
-                    )
-
-            };
-
-
-            topics.push(
-                newTopic
-            );
-
-        }
-
-
-        saveTopics();
-
-        renderTopics();
-
-
-        topicNameInput.value = "";
-
-        topicCourseSelect.value = "";
-
-
-        topicFormContainer
-            .classList
-            .add("hidden");
-
-    }
-);
-
-
-// ==============================
-// ADD ACTIVITY
-// ==============================
-
-addActivityButton.addEventListener(
-    "click",
-    () => {
-
-        editingActivityIndex =
-            null;
-
-
-        activityNameInput.value =
-            "";
-
-
-        activityCourseSelect.value =
-            "";
-
-
-        activityTopicSelect.innerHTML = `
-            <option value="">
-                Select Topic
-            </option>
-        `;
-
-
-        activityFormContainer
-            .classList
-            .remove("hidden");
-
-    }
-);
-
-
-// ==============================
-// COURSE CHANGE FOR ACTIVITY
-// ==============================
-
-activityCourseSelect
-    .addEventListener(
-        "change",
-        () => {
-
-            const selectedCourse =
-                activityCourseSelect.value;
-
-
-            if (
-                selectedCourse === ""
-            ) {
-
-                activityTopicSelect.innerHTML = `
-                    <option value="">
-                        Select Topic
-                    </option>
-                `;
-
-                return;
+// =====================================================
+// RESTRICT / UNRESTRICT USER
+// =====================================================
+
+async function setRestriction(
+    userId,
+    restricted
+) {
+
+    const response =
+        await authenticatedFetch(
+            `/users/${userId}/restriction?restricted=${restricted}`,
+            {
+                method: "PUT"
             }
+        );
 
 
-            populateActivityTopicSelect(
-                selectedCourse
+    if (!response.ok) {
+
+        alert(
+            await getErrorMessage(
+                response
+            )
+        );
+
+        return;
+    }
+
+
+    await loadAdminUsers();
+}
+
+
+// =====================================================
+// PROGRESS USER DROPDOWN
+// =====================================================
+
+function populateProgressUsers() {
+
+    progressUserSelect.innerHTML =
+        `<option value="">
+            Select User
+        </option>`;
+
+
+    adminUsers.forEach(user => {
+
+        const option =
+            document.createElement(
+                "option"
             );
 
-        }
-    );
+        option.value =
+            user.id;
+
+        option.textContent =
+            `${user.username} (ID ${user.id})`;
+
+        progressUserSelect.appendChild(
+            option
+        );
+    });
+}
 
 
-// ==============================
-// CANCEL ACTIVITY
-// ==============================
+// =====================================================
+// VIEW USER PROGRESS
+// =====================================================
 
-cancelActivityButton.addEventListener(
+viewProgressButton.addEventListener(
     "click",
-    () => {
+    async () => {
 
-        activityFormContainer
-            .classList
-            .add("hidden");
-
-
-        activityNameInput.value =
-            "";
+        const userId =
+            progressUserSelect.value;
 
 
-        activityCourseSelect.value =
-            "";
+        if (!userId) {
 
+            alert(
+                "Select a user."
+            );
 
-        activityTopicSelect.innerHTML = `
-            <option value="">
-                Select Topic
-            </option>
-        `;
-
-
-        editingActivityIndex =
-            null;
-
-    }
-);
-
-
-// ==============================
-// SAVE ACTIVITY
-// ==============================
-
-saveActivityButton.addEventListener(
-    "click",
-    () => {
-
-        const activityName =
-            activityNameInput
-                .value
-                .trim();
-
-
-        const selectedCourse =
-            activityCourseSelect.value;
-
-
-        const selectedTopic =
-            activityTopicSelect.value;
-
-
-        if (
-            activityName === "" ||
-            selectedCourse === "" ||
-            selectedTopic === ""
-        ) {
             return;
         }
 
 
-        if (
-            editingActivityIndex !== null
-        ) {
-
-            activities[
-                editingActivityIndex
-            ].name =
-                activityName;
-
-
-            activities[
-                editingActivityIndex
-            ].courseIndex =
-                Number(
-                    selectedCourse
-                );
-
-
-            activities[
-                editingActivityIndex
-            ].topicIndex =
-                Number(
-                    selectedTopic
-                );
-
-
-            editingActivityIndex =
-                null;
-
-        } else {
-
-            const newActivity = {
-
-                name:
-                    activityName,
-
-                courseIndex:
-                    Number(
-                        selectedCourse
-                    ),
-
-                topicIndex:
-                    Number(
-                        selectedTopic
-                    )
-
-            };
-
-
-            activities.push(
-                newActivity
+        const response =
+            await authenticatedFetch(
+                `/progress/admin/users/${userId}`
             );
 
+
+        if (!response.ok) {
+
+            alert(
+                await getErrorMessage(
+                    response
+                )
+            );
+
+            return;
         }
 
 
-        saveActivities();
-
-        renderActivities();
-
-
-        activityNameInput.value =
-            "";
+        const progressList =
+            await response.json();
 
 
-        activityCourseSelect.value =
-            "";
-
-
-        activityTopicSelect.innerHTML = `
-            <option value="">
-                Select Topic
-            </option>
-        `;
-
-
-        activityFormContainer
-            .classList
-            .add("hidden");
-
+        renderUserProgress(
+            userId,
+            progressList
+        );
     }
 );
 
 
-// ==============================
-// INITIAL PAGE LOAD
-// ==============================
+// =====================================================
+// RENDER USER PROGRESS
+// =====================================================
 
-renderCourses();
+function renderUserProgress(
+    userId,
+    progressList
+) {
 
-populateCourseSelect();
+    userProgressManagement.innerHTML =
+        "";
 
-populateActivityCourseSelect();
 
-renderTopics();
+    if (
+        !progressList ||
+        progressList.length === 0
+    ) {
 
-renderActivities();
+        userProgressManagement.innerHTML =
+            "<p>No course progress found.</p>";
+
+        return;
+    }
+
+
+    progressList.forEach(progress => {
+
+        const card =
+            document.createElement("div");
+
+        card.classList.add(
+            "admin-course-card"
+        );
+
+
+        card.innerHTML = `
+            <div>
+
+                <h3>
+                    ${progress.courseName}
+                </h3>
+
+                <p>
+                    Completed:
+                    ${progress.completedActivities}
+                    /
+                    ${progress.totalActivities}
+                </p>
+
+                <p>
+                    Progress:
+                   ${Math.round(progress.progressPercentage)}%
+                </p>
+
+            </div>
+
+            <div class="course-actions">
+
+                <button
+                    class="reset-progress-btn">
+
+                    Reset Progress
+
+                </button>
+
+            </div>
+        `;
+
+
+        card.querySelector(
+            ".reset-progress-btn"
+        ).addEventListener(
+            "click",
+            () => {
+
+                resetUserProgress(
+                    userId,
+                    progress.courseId
+                );
+            }
+        );
+
+
+        userProgressManagement
+            .appendChild(card);
+    });
+}
+
+
+// =====================================================
+// RESET USER COURSE PROGRESS
+// =====================================================
+
+async function resetUserProgress(
+    userId,
+    courseId
+) {
+
+    if (
+        !confirm(
+            "Reset this user's course progress?"
+        )
+    ) {
+        return;
+    }
+
+
+    const response =
+        await authenticatedFetch(
+            `/progress/admin/users/${userId}/courses/${courseId}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        alert(
+            await getErrorMessage(
+                response
+            )
+        );
+
+        return;
+    }
+
+
+    alert(
+        "Progress reset successfully."
+    );
+
+
+    viewProgressButton.click();
+}
+
+
+// =====================================================
+// LOAD ADMIN USERS
+// =====================================================
+
+loadAdminUsers();
+
+
+// =====================================================
+// START ADMIN PAGE
+// =====================================================
+
+loadAdminData();
