@@ -21,6 +21,7 @@ import java.util.List;
 import com.rudhraa.skillquest.dto.UserProgressResponseDTO;
 import com.rudhraa.skillquest.dto.TopicProgressResponseDTO;
 import org.springframework.transaction.annotation.Transactional;
+import com.rudhraa.skillquest.dto.ActivityStatusResponseDTO;
 
 @Service
 public class UserProgressService {
@@ -316,6 +317,109 @@ public class UserProgressService {
                 savedProgress.isCompleted(),
                 savedProgress.getCompletedAt()
         );
+    }
+
+    public List<ActivityStatusResponseDTO> getActivityStatus(
+            Long topicId) {
+
+        User user = getCurrentUser();
+
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Topic not found with id: " + topicId
+                        )
+                );
+
+
+        List<Activity> activities =
+                activityRepository.findByTopicIdOrderByOrderIndexAsc(
+                        topicId
+                );
+
+
+        List<ActivityProgress> progressRecords =
+                activityProgressRepository
+                        .findByUserAndActivity_Topic(
+                                user,
+                                topic
+                        );
+
+
+        boolean topicUnlocked =
+                isTopicUnlocked(
+                        user,
+                        topic
+                );
+
+
+        return java.util.stream.IntStream
+                .range(0, activities.size())
+                .mapToObj(index -> {
+
+                    Activity activity =
+                            activities.get(index);
+
+
+                    boolean completed =
+                            progressRecords.stream()
+                                    .anyMatch(progress ->
+                                            progress.getActivity()
+                                                    .getId()
+                                                    .equals(
+                                                            activity.getId()
+                                                    )
+                                                    &&
+                                                    progress.isCompleted()
+                                    );
+
+
+                    boolean unlocked;
+
+                    if (!topicUnlocked) {
+
+                        unlocked = false;
+
+                    } else if (completed) {
+
+                        unlocked = true;
+
+                    } else if (index == 0) {
+
+                        unlocked = true;
+
+                    } else {
+
+                        Activity previousActivity =
+                                activities.get(
+                                        index - 1
+                                );
+
+
+                        unlocked =
+                                progressRecords.stream()
+                                        .anyMatch(progress ->
+                                                progress.getActivity()
+                                                        .getId()
+                                                        .equals(
+                                                                previousActivity.getId()
+                                                        )
+                                                        &&
+                                                        progress.isCompleted()
+                                        );
+                    }
+
+
+                    return new ActivityStatusResponseDTO(
+                            activity.getId(),
+                            activity.getTitle(),
+                            activity.getOrderIndex(),
+                            completed,
+                            unlocked
+                    );
+
+                })
+                .toList();
     }
 
     public List<UserProgressResponseDTO> getUserProgressForAdmin(

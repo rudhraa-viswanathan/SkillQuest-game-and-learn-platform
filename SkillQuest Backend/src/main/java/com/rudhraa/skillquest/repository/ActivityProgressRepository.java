@@ -32,9 +32,16 @@ public interface ActivityProgressRepository
             Topic topic
     );
 
+
+
     List<ActivityProgress> findByUserAndActivity_Topic_Course(
             User user,
             Course course
+    );
+
+    List<ActivityProgress> findByUserAndActivity_Topic(
+            User user,
+            Topic topic
     );
 
     void deleteByUserAndActivity_Topic_Course(

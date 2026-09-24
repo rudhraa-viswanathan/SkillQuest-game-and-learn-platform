@@ -56,8 +56,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers(
                                 "/api/users/register",
-                                "/api/auth/login",
-                                "/api/test"
+                                "/api/auth/login"
                         ).permitAll()
 
                         // User management - ADMIN only
@@ -133,6 +132,16 @@ public class SecurityConfig {
 
                                 // Activity Question creation - ADMIN only
                                 .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/activity-questions/activity/**"
+                                ).hasRole("ADMIN")
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/activity-questions/validate"
+                                ).authenticated()
+
+                                .requestMatchers(
                                         HttpMethod.POST,
                                         "/api/activity-questions/**"
                                 ).hasRole("ADMIN")
@@ -170,8 +179,11 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(
-                List.of("*")
+        configuration.setAllowedOrigins(
+                List.of(
+                        "http://localhost:5500",
+                        "http://127.0.0.1:5500"
+                )
         );
 
         configuration.setAllowedMethods(

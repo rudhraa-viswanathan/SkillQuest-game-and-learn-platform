@@ -1,12 +1,14 @@
 package com.rudhraa.skillquest.controller;
 
 import com.rudhraa.skillquest.dto.ActivityProgressResponseDTO;
+import com.rudhraa.skillquest.dto.ActivityStatusResponseDTO;
 import com.rudhraa.skillquest.service.UserProgressService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.rudhraa.skillquest.dto.UserProgressResponseDTO;
 import com.rudhraa.skillquest.dto.TopicProgressResponseDTO;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/progress")
@@ -61,6 +63,19 @@ public class UserProgressController {
         );
     }
 
+
+    @GetMapping("/topics/{topicId}/activities")
+    public ResponseEntity<List<ActivityStatusResponseDTO>>
+    getActivityStatus(
+            @PathVariable Long topicId) {
+
+        return ResponseEntity.ok(
+                userProgressService
+                        .getActivityStatus(
+                                topicId
+                        )
+        );
+    }
 
     @DeleteMapping("/admin/users/{userId}/courses/{courseId}")
     public ResponseEntity<Void> resetUserCourseProgress(

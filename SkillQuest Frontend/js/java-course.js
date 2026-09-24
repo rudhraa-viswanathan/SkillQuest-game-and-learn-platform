@@ -9,7 +9,10 @@
 // -----------------------------------------------------
 
 const JAVA_COURSE_ID = 1;
+
 let javaTopicProgress = [];
+
+let javaActivityProgress = {};
 
 
 // -----------------------------------------------------
@@ -137,8 +140,36 @@ topicsContainer.innerHTML = `
         );
 
 
-        javaTopicProgress =
+       javaTopicProgress =
     await loadTopicProgress();
+
+
+javaActivityProgress = {};
+
+
+for (const topic of javaTopics) {
+
+    const response =
+        await authenticatedFetch(
+            `/progress/topics/${topic.id}/activities`
+        );
+
+
+    if (response.ok) {
+
+        javaActivityProgress[
+            topic.id
+        ] = await response.json();
+
+    } else {
+
+        javaActivityProgress[
+            topic.id
+        ] = [];
+
+    }
+
+}
 
 
 displayJavaTopics(
@@ -353,19 +384,33 @@ if (isCompleted) {
     // Create activities
     // -------------------------------------------------
 
-    topic.activities.forEach(
-        (activity, activityIndex) => {
+    const activityStatuses =
+    javaActivityProgress[
+        topic.id
+    ] || [];
 
-            createActivityItem(
-    activity,
-    topic,
-    activityIndex,
-    activitiesContainer,
-    isUnlocked
+
+topic.activities.forEach(
+    (activity, activityIndex) => {
+
+        const activityStatus =
+            activityStatuses.find(
+                status =>
+                    status.activityId ===
+                    activity.id
+            );
+
+
+        createActivityItem(
+            activity,
+            topic,
+            activityIndex,
+            activitiesContainer,
+            activityStatus
+        );
+
+    }
 );
-
-        }
-    );
 
 
     topicsContainer.appendChild(
@@ -384,7 +429,7 @@ function createActivityItem(
     topic,
     activityIndex,
     activitiesContainer,
-    isTopicUnlocked
+    activityStatus
 ) {
 
     const activityItem =
@@ -397,19 +442,42 @@ function createActivityItem(
         "activity-item"
     );
 
-   if (isTopicUnlocked) {
 
-    activityItem.classList.add(
-        "activity-unlocked"
-    );
+    const isCompleted =
+        activityStatus
+            ? activityStatus.completed
+            : false;
 
-} else {
 
-    activityItem.classList.add(
-        "activity-locked"
-    );
+    const isUnlocked =
+        activityStatus
+            ? activityStatus.unlocked
+            : false;
 
-}
+
+    // ---------------------------------------------
+    // ACTIVITY VISUAL STATE
+    // ---------------------------------------------
+
+    if (isCompleted) {
+
+        activityItem.classList.add(
+            "activity-completed"
+        );
+
+    } else if (isUnlocked) {
+
+        activityItem.classList.add(
+            "activity-unlocked"
+        );
+
+    } else {
+
+        activityItem.classList.add(
+            "activity-locked"
+        );
+
+    }
 
 
     activityItem.dataset.activityId =
@@ -436,33 +504,51 @@ function createActivityItem(
         </span>
 
         <span class="activity-status">
-    ${isTopicUnlocked ? "🔓" : "🔒"}
-</span>
+            ${
+                isCompleted
+                    ? "✅ Completed"
+                    : isUnlocked
+                        ? "🔓"
+                        : "🔒"
+            }
+        </span>
 
     `;
 
 
     activityItem.addEventListener(
-    "click",
-    () => {
+        "click",
+        () => {
 
-        if (!isTopicUnlocked) {
+            // Completed activity cannot restart
+            if (isCompleted) {
 
-            alert(
-                "Complete the previous topic to unlock this activity."
+                alert(
+                    "You have already completed this activity."
+                );
+
+                return;
+            }
+
+
+            // Locked activity cannot start
+            if (!isUnlocked) {
+
+                alert(
+                    "Complete the previous activity first."
+                );
+
+                return;
+            }
+
+
+            openActivity(
+                activity,
+                topic
             );
 
-            return;
         }
-
-
-        openActivity(
-            activity,
-            topic
-        );
-
-    }
-);
+    );
 
 
     activitiesContainer.appendChild(

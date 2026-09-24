@@ -1,7 +1,5 @@
 package com.rudhraa.skillquest.controller;
-import com.rudhraa.skillquest.dto.ActivityQuestionRequestDTO;
-
-import com.rudhraa.skillquest.dto.ActivityQuestionResponseDTO;
+import com.rudhraa.skillquest.dto.*;
 import com.rudhraa.skillquest.service.ActivityQuestionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -70,4 +68,31 @@ public class ActivityQuestionController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/validate")
+    public ResponseEntity<ActivityAnswerResponseDTO>
+    validateAnswer(
+            @RequestBody ActivityAnswerRequestDTO requestDTO) {
+
+        return ResponseEntity.ok(
+                activityQuestionService
+                        .validateAnswer(
+                                requestDTO
+                        )
+        );
+    }
+
+    @GetMapping("/public/activity/{activityId}")
+    public ResponseEntity<List<ActivityQuestionPublicResponseDTO>>
+    getPublicQuestionsByActivity(
+            @PathVariable Long activityId) {
+
+        return ResponseEntity.ok(
+                activityQuestionService
+                        .getPublicQuestionsByActivity(
+                                activityId
+                        )
+        );
+    }
+
 }
