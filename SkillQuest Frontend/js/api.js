@@ -1,5 +1,5 @@
-const API_BASE_URL = "http://localhost:8080/api";
-
+const API_BASE_URL =
+    "https://skillquest-game-and-learn-platform-production.up.railway.app/api";
 
 function getJwtToken() {
     return localStorage.getItem("jwtToken");
