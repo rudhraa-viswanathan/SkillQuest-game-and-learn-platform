@@ -92,10 +92,6 @@ loginForm.addEventListener(
                 await response.json();
 
 
-            console.log(
-    "Login response:",
-    data
-);
 
             localStorage.setItem(
                 "jwtToken",

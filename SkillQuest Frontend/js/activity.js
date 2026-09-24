@@ -153,18 +153,6 @@ async function loadActivityFromBackend() {
             await questionsResponse.json();
 
 
-        console.log(
-            "Backend Activity:",
-            backendActivity
-        );
-
-
-        console.log(
-            "Questions Loaded:",
-            backendQuestions.length
-        );
-
-
         displayBackendActivity();
 
 
@@ -216,11 +204,6 @@ function displayBackendActivity() {
             "Complete this activity.";
     }
 
-
-    console.log(
-        "Activity Type:",
-        backendActivity.type
-    );
 }
 
 
@@ -503,16 +486,6 @@ async function startActivityAttempt() {
             true;
 
 
-        console.log(
-            "Activity attempt started."
-        );
-
-
-        console.log(
-            "Remaining energy:",
-            gameStats.energy
-        );
-
 
         return true;
 
@@ -738,12 +711,6 @@ async function submitActivityResult(
 
         const result =
             await response.json();
-
-
-        console.log(
-            "Activity result:",
-            result
-        );
 
 
         if (
@@ -4312,13 +4279,6 @@ async function initializeActivityPage() {
     // ---------------------------------------------
 
     resetActivityEngineState();
-
-
-    console.log(
-        "Ready to start game:",
-        backendActivity.type
-    );
-
 
     // ---------------------------------------------
     // STEP 6

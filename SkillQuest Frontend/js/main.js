@@ -24,9 +24,6 @@ feedbackForm.addEventListener("submit", function(event) {
 
     feedbackForm.reset();
 
-    console.log(name);
-    console.log(email);
-    console.log(message);
 });
 const courseCards = document.querySelectorAll(".course-card");
 const selectedcourse = document.getElementById("selectedCourse");

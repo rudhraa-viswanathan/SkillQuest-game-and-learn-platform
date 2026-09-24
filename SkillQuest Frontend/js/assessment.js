@@ -123,12 +123,7 @@ let currentAssessment = null;
                 currentAssessment =
                 assessment;
 
-            console.log(
-                "Assessment loaded:",
-                assessment
-            );
-
-
+           
             /*
              * Only display fields returned by
              * the backend response DTO.
@@ -346,12 +341,6 @@ submitButton.addEventListener(
 
             const result =
                 await response.json();
-
-
-            console.log(
-                "Assessment result:",
-                result
-            );
 
 
             assessmentResult.hidden =

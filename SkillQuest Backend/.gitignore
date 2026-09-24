@@ -56,3 +56,25 @@ node_modules/
 
 # Build output
 dist/
+
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build output
+target/
+**/target/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

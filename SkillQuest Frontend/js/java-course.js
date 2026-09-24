@@ -717,12 +717,6 @@ async function loadJavaBadges() {
             await response.json();
 
 
-        console.log(
-            "Java badges:",
-            badges
-        );
-
-
         return badges;
 
 
@@ -780,13 +774,6 @@ async function loadProgrammingAssessment() {
 
             const assessment =
                 await response.json();
-
-
-            console.log(
-                "Java assessment:",
-                assessment
-            );
-
 
             assessmentStatus.textContent =
                 "You have unlocked the Java Programming Assessment.";
